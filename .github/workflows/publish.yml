@@ -1,4 +1,4 @@
-name: 发布vue3-admin-multiple
+name: 发布vite-admin-multiple
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
 
 jobs:
   publish:
-    name: 发布vue3-admin-multiple
+    name: 发布vite-admin-multiple
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -39,4 +39,4 @@ jobs:
           draft: false
           prerelease: false
           body: |
-            请点击查看 [更新日志](https://github.com/bzlab-cli/vue3-admin-multiple/blob/master/README.md).
+            请点击查看 [更新日志](https://github.com/bzlab-cli/vite-admin-multiple/blob/master/README.md).
