@@ -19,7 +19,7 @@ jobs:
       - name: delete-release
         uses: liudonghua123/delete-release-action@v1
         with:
-          release_name: 'v0.0.1'
+          release_name: 'Release v0.0.1'
 
       # - name: 初始化node环境
       #   uses: actions/setup-node@v1
