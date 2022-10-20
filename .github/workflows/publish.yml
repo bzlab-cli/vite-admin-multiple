@@ -16,40 +16,35 @@ jobs:
     steps:
       - uses: actions/checkout@v1
 
+      - name: 初始化node环境
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+          registry-url: https://registry.npmjs.org/
+
+      - name: Read package.json
+        uses: tyankatsu0105/read-package-version-actions@v1
+        with:
+          path: './'
+        id: package-version
+      
       - name: delete-release
         uses: dev-drprasad/delete-tag-and-release@v0.2.0
         with:
           delete_release: true # default: false
-          tag_name: v0.0.1 # tag name to delete
+          tag_name: v${{ steps.package-version.outputs.version }} # tag name to delete
         env:
           GITHUB_TOKEN: ${{ secrets.PERSONAL_TOKEN }}
 
-      # - name: delete-release
-      #   uses: liudonghua123/delete-release-action@v1
-      #   with:
-      #     release_name: 'Release v0.0.1'
-
-      # - name: 初始化node环境
-      #   uses: actions/setup-node@v1
-      #   with:
-      #     node-version: ${{ matrix.node-version }}
-      #     registry-url: https://registry.npmjs.org/
-
-      # - name: Read package.json
-      #   uses: tyankatsu0105/read-package-version-actions@v1
-      #   with:
-      #     path: './'
-      #   id: package-version
-
-      # - name: Create Release for Tag
-      #   id: release_tag
-      #   uses: actions/create-release@v1
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.PERSONAL_TOKEN }}
-      #   with:
-      #     tag_name: v${{ steps.package-version.outputs.version }}
-      #     release_name: Release v${{ steps.package-version.outputs.version }}
-      #     draft: false
-      #     prerelease: false
-      #     body: |
-      #       请点击查看 [更新日志](https://github.com/bzlab-cli/vite-admin-multiple/blob/master/README.md).
+      - name: Create Release for Tag
+        id: release_tag
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.PERSONAL_TOKEN }}
+        with:
+          tag_name: v${{ steps.package-version.outputs.version }}
+          release_name: Release v${{ steps.package-version.outputs.version }}
+          draft: false
+          prerelease: false
+          body: |
+            请点击查看 [更新日志](https://github.com/bzlab-cli/vite-admin-multiple/blob/master/README.md).
