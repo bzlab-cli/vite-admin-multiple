@@ -19,7 +19,7 @@ jobs:
       - name: initial labeling
         uses: andymckay/labeler@master
         with:
-          remove-labels: "v0.0.2"
+          remove-labels: "v0.0.1"
 
       # - name: 初始化node环境
       #   uses: actions/setup-node@v1
