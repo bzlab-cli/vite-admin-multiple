@@ -16,11 +16,10 @@ jobs:
     steps:
       - uses: actions/checkout@v1
 
-      - name: initial labeling
-        uses: andymckay/labeler@master
+      - name: delete-release
+        uses: liudonghua123/delete-release-action@v1
         with:
-          remove-labels: "v0.0.1"
-          repo-token: ${{ secrets.PERSONAL_TOKEN }}
+          release_name: 'latest'
 
       # - name: 初始化node环境
       #   uses: actions/setup-node@v1
