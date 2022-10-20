@@ -31,8 +31,8 @@ jobs:
       - name: delete-release
         uses: dev-drprasad/delete-tag-and-release@v0.2.0
         with:
-          delete_release: true # default: false
-          tag_name: v${{ steps.package-version.outputs.version }} # tag name to delete
+          delete_release: true
+          tag_name: v${{ steps.package-version.outputs.version }}
         env:
           GITHUB_TOKEN: ${{ secrets.PERSONAL_TOKEN }}
 
