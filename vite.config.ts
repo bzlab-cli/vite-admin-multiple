@@ -3,10 +3,11 @@ import vue from '@vitejs/plugin-vue'
 import path from 'path'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import eslintPlugin from 'vite-plugin-eslint'
-import { loadEnv } from 'vite'
+// import { loadEnv } from 'vite'
 import shell from 'shelljs'
 import mpa from '@bzlab/bz-vite-mpa'
 
+const dynamicProxy = require('./build/proxy/index.ts')
 const resolve = (p: string) => path.resolve(__dirname, p)
 const mpaOptions = {
   open: false,
@@ -32,9 +33,9 @@ function mpaPlugin(mode) {
 }
 
 export default ({ command, mode }: ConfigEnv): UserConfig => {
-  const root = process.cwd()
-  const env = loadEnv(mode, root)
-  console.log('command', command, mode, env)
+  // const root = process.cwd()
+  // const env = loadEnv(mode, root)
+  console.log('command', command, mode)
 
   return {
     resolve: {
@@ -77,24 +78,11 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
     },
     server: {
       host: '0.0.0.0',
-      port: 8440,
+      port: 8445,
       open: false,
       https: false,
       cors: true, // 允许跨域
-      proxy: {
-        '/business-web': {
-          target: 'http://nzf.qimiaowa.com:30356', //正式开发/
-          changeOrigin: true
-        },
-        '/ftp': {
-          target: 'http://imgserver.qimiaowa.com:30358',
-          changeOrigin: true
-        },
-        '/img': {
-          target: 'http://img.qimiaowa.com:30359',
-          changeOrigin: true
-        }
-      }
+      proxy: dynamicProxy.proxy
     }
   }
 }
