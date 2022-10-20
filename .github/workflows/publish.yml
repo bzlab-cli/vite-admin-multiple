@@ -20,6 +20,7 @@ jobs:
         uses: andymckay/labeler@master
         with:
           remove-labels: "v0.0.1"
+          repo-token: ${{ secrets.PERSONAL_TOKEN }}
 
       # - name: 初始化node环境
       #   uses: actions/setup-node@v1
