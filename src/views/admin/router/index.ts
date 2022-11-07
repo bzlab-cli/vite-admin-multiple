@@ -3,10 +3,10 @@
  * @Author: jrucker
  * @Date: 2021/10/21 14:13:07
  * @LastEditors: jrucker
- * @LastEditTime: 2022/08/24 18:10:58
+ * @LastEditTime: 2022/11/07 10:00:22
  */
 
-import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
+import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 const constantFiles = import.meta.globEager('./constant-modules/*.ts')
 let constantModules: Array<RouteRecordRaw> = []
 
@@ -30,7 +30,7 @@ export const asyncRoutes: Array<RouteRecordRaw> = [
 ]
 
 export const router = createRouter({
-  history: createWebHashHistory('/admin'),
+  history: createWebHistory(),
   routes: constantRoutes
 })
 
