@@ -3,7 +3,7 @@
  * @Description:
  * @Date: 2021/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2022/01/28 14:08:57
+ * @LastEditTime: 2022/11/15 10:02:39
  */
 
 import { UserInfoModel } from '@/model/user'
@@ -13,7 +13,7 @@ import { LoginModel } from '@/model/login'
 export const login = (userInfo: any) => {
   return axios.request<IResponseModel<LoginModel>>({
     baseURL: import.meta.env.VITE_APP_MOCK_API,
-    url: 'thirdUser/loginIn',
+    url: 'user/login',
     method: 'post',
     data: userInfo
   })
@@ -22,7 +22,7 @@ export const login = (userInfo: any) => {
 export const userInfo = () => {
   return axios.request<IResponseModel<UserInfoModel>>({
     baseURL: import.meta.env.VITE_APP_MOCK_API,
-    url: 'thirdUser/getUserByToken',
+    url: 'user/getUserByToken',
     method: 'get'
   })
 }
