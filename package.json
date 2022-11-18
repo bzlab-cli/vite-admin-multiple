@@ -35,7 +35,7 @@
     "vuex": "^4.0.0-0"
   },
   "devDependencies": {
-    "@bzlab/bz-vite-mpa": "0.0.2",
+    "@bzlab/bz-vite-mpa": "0.0.3",
     "@bzlab/bz-vue-proxy": "0.0.2",
     "@types/file-saver": "^2.0.1",
     "@types/js-cookie": "^2.2.6",
