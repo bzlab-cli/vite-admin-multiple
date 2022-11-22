@@ -3,6 +3,7 @@ import vue from '@vitejs/plugin-vue'
 import path from 'path'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import eslintPlugin from 'vite-plugin-eslint'
+import viteCompression from "vite-plugin-compression";
 // import { loadEnv } from 'vite'
 import shell from 'shelljs'
 import mpa from '@bzlab/bz-vite-mpa'
@@ -67,6 +68,13 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
       eslintPlugin(),
       mpa(mpaOptions, options => {
         mpaPlugin(mode)(options)
+      }),
+      viteCompression({
+        verbose: true,
+        disable: false,
+        threshold: 102400,
+        algorithm: "gzip",
+        ext: ".gz"
       })
     ],
     css: {
