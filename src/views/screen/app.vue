@@ -5,11 +5,11 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from 'vue'
+import { defineComponent } from 'vue'
 import { ElConfigProvider } from 'element-plus'
 import zhCn from 'element-plus/lib/locale/lang/zh-cn'
 import '@/utils/flexible'
-import { useStore } from 'vuex'
+import { useStore } from '@/views/screen/store'
 
 export default defineComponent({
   components: {
@@ -18,13 +18,9 @@ export default defineComponent({
   setup() {
     const store = useStore()
     ;(window as any).store = store
-    const isRouterAlive = computed(() => {
-      return store.state.app.isRouterAlive
-    })
 
     return {
-      locale: zhCn,
-      isRouterAlive
+      locale: zhCn
     }
   }
 })

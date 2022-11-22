@@ -54,7 +54,8 @@ export default defineComponent({
     },
     basePath: {
       type: String,
-      required: true
+      required: true,
+      default: ''
     }
   },
   components: {

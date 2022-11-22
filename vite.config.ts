@@ -4,6 +4,7 @@ import path from 'path'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import eslintPlugin from 'vite-plugin-eslint'
 import viteCompression from "vite-plugin-compression";
+import VueSetupExtend from "vite-plugin-vue-setup-extend";
 // import { loadEnv } from 'vite'
 import shell from 'shelljs'
 import mpa from '@bzlab/bz-vite-mpa'
@@ -34,19 +35,19 @@ function mpaPlugin(mode) {
 }
 
 export default ({ command, mode }: ConfigEnv): UserConfig => {
-  // const root = process.cwd()
-  // const env = loadEnv(mode, root)
+  // const env = loadEnv(mode, process.cwd())
   console.log('command', command, mode)
 
   return {
     resolve: {
       alias: {
-        '@': path.join(__dirname, './src'),
+        '@': resolve('./src'),
         path: 'path-browserify'
       }
     },
     build: {
       minify: 'terser',
+      chunkSizeWarningLimit: 1500,
       terserOptions: {
         compress: {
           drop_console: true, //打包时删除console
@@ -66,6 +67,7 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
       vue(),
       vueJsx(),
       eslintPlugin(),
+      VueSetupExtend(),
       mpa(mpaOptions, options => {
         mpaPlugin(mode)(options)
       }),

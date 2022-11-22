@@ -6,53 +6,39 @@
 
 <script>
 import { computed, reactive, toRefs } from 'vue'
-import { useStore } from 'vuex'
-import { AppActionTypes } from '@/views/screen/store/modules/app/types'
-import { UserActionTypes } from '@/views/screen/store/modules/user/types'
 import { useRoute, useRouter } from 'vue-router'
+import { useAppStore } from '@/views/admin/store/modules/app'
+import { useUserStore } from '@/views/admin/store/modules/user'
 
 export default {
   setup() {
-    const store = useStore()
+    const appStore = useAppStore()
+    const userStore = useUserStore()
     const route = useRoute()
     const router = useRouter()
     const sidebar = computed(() => {
-      return store.state.app.sidebar
+      return appStore.sidebar
     })
     const device = computed(() => {
-      return store.state.app.device.toString()
+      return appStore.device.toString()
     })
     const name = computed(() => {
-      return store.state.user.name
+      return userStore.name
     })
     const avatar = computed(() => {
-      return store.state.user.avatar
+      return userStore.avatar
     })
     const state = reactive({
-      toggleSideBar: () => {
-        store.dispatch(AppActionTypes.ACTION_TOGGLE_SIDEBAR, false)
+      toggleSidebar: () => {
+        appStore.toggleSidebar(false)
       },
-      logout: () => {
-        store.dispatch(UserActionTypes.ACTION_LOGIN_OUT)
+      logOut: () => {
+        userStore.loginOut()
         router.push(`/login?redirect=${route.fullPath}`).catch(err => {
           console.warn(err)
         })
       }
     })
-
-    // const img = require('@/assets/images/head_bg.jpeg')
-    const img = ''
-    const isHome = computed(() => {
-      return store.state.settings.isHome
-      // console.log(999, sessionStorage.getItem('isHome') === null)
-      // if (sessionStorage.getItem('isHome') === null) {
-      //   return store.state.settings.isHome
-      // } else {
-      //   return JSON.parse(sessionStorage.getItem('isHome'))
-      // }
-    })
-
-    // console.log(7732, isHome.value)
 
     function goHome() {
       window.location.href = '/'
@@ -64,8 +50,6 @@ export default {
       name,
       avatar,
       ...toRefs(state),
-      img,
-      isHome,
       goHome
     }
   }

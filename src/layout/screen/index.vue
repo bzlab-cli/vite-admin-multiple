@@ -6,9 +6,8 @@
 </template>
 
 <script lang="ts">
-import { DeviceType } from '@/views/screen/store/modules/app/state'
 import { computed, defineComponent, onBeforeMount, onBeforeUnmount, onMounted } from 'vue'
-import { useStore } from 'vuex'
+import { DeviceType } from '@/views/screen/store/modules/app'
 import { AppMain, Navbar } from './components'
 import resize from './resize'
 import scaleBox from '@/components/scale-box/index.vue'
@@ -21,20 +20,12 @@ export default defineComponent({
     scaleBox
   },
   setup() {
-    const store = useStore()
     const { device, addEventListenerOnResize, resizeMounted, removeEventListenerResize } = resize()
 
     const classObj = computed(() => {
       return {
         mobile: device.value === DeviceType.Mobile
       }
-    })
-
-    const showTagsView = computed(() => {
-      return store.state.settings.showTagsView
-    })
-    const fixedHeader = computed(() => {
-      return store.state.settings.fixedHeader
     })
 
     onBeforeMount(() => {
@@ -49,9 +40,7 @@ export default defineComponent({
       removeEventListenerResize()
     })
     return {
-      classObj,
-      showTagsView,
-      fixedHeader
+      classObj
     }
   }
 })

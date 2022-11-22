@@ -3,23 +3,25 @@
  * @Author: jrucker
  * @Date: 2020-12-28 10:39:21
  * @LastEditors: jrucker
- * @LastEditTime: 2022/11/15 18:02:02
+ * @LastEditTime: 2022/11/22 15:45:27
  * @examples:
  * 单权限验证 v-permission="'权限名称'"
  * 单个验证 v-permission="[flag, '权限名称']"
  * 多权限验证 v-permission="[flag, ['权限名称']]"
  */
 
-import { useStore } from '@/views/admin/store'
+import { usePermissionStoreHook } from '@/views/admin/store/modules/permission'
 import { Directive } from 'vue'
 import { isArray, isString } from '@/utils'
+
+const permissionStore = usePermissionStoreHook()
 
 function removeNode(el) {
   el.parentNode && el.parentNode.removeChild(el)
 }
 
 function checkFlag(type, el, val) {
-  const perms = useStore().state.permission.accessedCodes
+  const perms = permissionStore.accessedCodes
   if (type === 'string' && !perms.includes(val)) {
     return removeNode(el)
   }

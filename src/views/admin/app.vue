@@ -8,7 +8,7 @@
 import { defineComponent } from 'vue'
 import { ElConfigProvider } from 'element-plus'
 import zhCn from 'element-plus/lib/locale/lang/zh-cn'
-import { useStore } from 'vuex'
+import { useStore } from '@/views/admin/store'
 
 export default defineComponent({
   components: {
