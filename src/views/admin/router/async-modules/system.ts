@@ -3,7 +3,7 @@
  * @Author: jrucker
  * @Date: 2021/11/08 11:32:52
  * @LastEditors: jrucker
- * @LastEditTime: 2022/01/27 18:47:49
+ * @LastEditTime: 2022/11/23 15:39:11
  */
 
 import { RouteRecordRaw } from 'vue-router'
@@ -16,7 +16,7 @@ const permissionRouter: Array<RouteRecordRaw> = [
     redirect: 'noredirect',
     meta: {
       title: '系统管理',
-      icon: 'el-icon-menu',
+      icon: 'Menu',
       alwaysShow: true
     },
     children: [
@@ -26,7 +26,7 @@ const permissionRouter: Array<RouteRecordRaw> = [
         name: 'user',
         meta: {
           title: '用户管理',
-          icon: 'el-icon-menu'
+          icon: 'Menu'
         }
       },
       {
@@ -35,7 +35,7 @@ const permissionRouter: Array<RouteRecordRaw> = [
         name: 'role',
         meta: {
           title: '角色管理',
-          icon: 'el-icon-menu'
+          icon: 'Menu'
         }
       },
       {
@@ -44,7 +44,7 @@ const permissionRouter: Array<RouteRecordRaw> = [
         name: 'menu',
         meta: {
           title: '菜单管理',
-          icon: 'el-icon-menu'
+          icon: 'Menu'
         }
       },
       {
@@ -53,7 +53,7 @@ const permissionRouter: Array<RouteRecordRaw> = [
         name: 'org',
         meta: {
           title: '组织管理',
-          icon: 'el-icon-menu'
+          icon: 'Menu'
         }
       }
     ]

@@ -3,7 +3,7 @@
  * @Author: jrucker
  * @Date: 2021-01-08 19:32:52
  * @LastEditors: jrucker
- * @LastEditTime: 2022/08/12 15:03:58
+ * @LastEditTime: 2022/11/23 15:39:47
  */
 
 import { RouteRecordRaw } from 'vue-router'
@@ -21,7 +21,7 @@ const HomeRouter: Array<RouteRecordRaw> = [
         name: 'home',
         meta: {
           title: '主页',
-          icon: 'el-icon-menu',
+          icon: 'Menu',
           affix: true
         }
       }

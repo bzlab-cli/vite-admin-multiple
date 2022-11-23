@@ -3,7 +3,7 @@
  * @Description:
  * @Date: 2021/11/15 21:54:50
  * @LastEditors: jrucker
- * @LastEditTime: 2022/08/12 15:19:14
+ * @LastEditTime: 2022/11/23 14:59:50
  */
 
 export const menuList = [
@@ -17,7 +17,7 @@ export const menuList = [
     menuCode: '',
     menuUrl: '/system',
     menuRoute: 'Layout',
-    menuIcon: 'el-icon-menu',
+    menuIcon: 'Menu',
     menuSource: 1,
     hiddenFlag: 1,
     remarks: '',
@@ -40,7 +40,7 @@ export const menuList = [
         menuCode: '',
         menuUrl: 'user',
         menuRoute: 'user',
-        menuIcon: 'el-icon-menu',
+        menuIcon: 'Menu',
         menuSource: 1,
         hiddenFlag: 1,
         remarks: '',
@@ -63,7 +63,7 @@ export const menuList = [
             menuCode: 'view',
             menuUrl: '',
             menuRoute: '',
-            menuIcon: 'el-icon-menu',
+            menuIcon: 'Menu',
             menuSource: 1,
             hiddenFlag: 1,
             remarks: '',
@@ -89,7 +89,7 @@ export const menuList = [
         menuCode: '',
         menuUrl: 'menu',
         menuRoute: 'menu',
-        menuIcon: 'el-icon-menu',
+        menuIcon: 'Menu',
         menuSource: 1,
         hiddenFlag: 1,
         remarks: '',
@@ -112,7 +112,7 @@ export const menuList = [
             menuCode: 'view',
             menuUrl: '',
             menuRoute: '',
-            menuIcon: 'el-icon-menu',
+            menuIcon: 'Menu',
             menuSource: 1,
             hiddenFlag: 1,
             remarks: '',
@@ -138,7 +138,7 @@ export const menuList = [
         menuCode: '',
         menuUrl: 'role',
         menuRoute: 'role',
-        menuIcon: 'el-icon-menu',
+        menuIcon: 'Menu',
         menuSource: 1,
         hiddenFlag: 1,
         remarks: '',
@@ -161,7 +161,7 @@ export const menuList = [
             menuCode: 'view',
             menuUrl: '',
             menuRoute: '',
-            menuIcon: 'el-icon-menu',
+            menuIcon: 'Menu',
             menuSource: 1,
             hiddenFlag: 1,
             remarks: '',
@@ -187,7 +187,7 @@ export const menuList = [
         menuCode: '',
         menuUrl: 'org',
         menuRoute: 'org',
-        menuIcon: 'el-icon-menu',
+        menuIcon: 'Menu',
         menuSource: 1,
         hiddenFlag: 1,
         remarks: '',
@@ -210,7 +210,7 @@ export const menuList = [
             menuCode: 'view',
             menuUrl: '',
             menuRoute: '',
-            menuIcon: 'el-icon-menu',
+            menuIcon: 'Menu',
             menuSource: 1,
             hiddenFlag: 1,
             remarks: '',
