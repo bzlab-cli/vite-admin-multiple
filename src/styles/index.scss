@@ -74,115 +74,115 @@ aside {
 
 /* 布局-横向 */
 
-/* r:row，x:flex，c:center，s:start，e:end，a:around，b:between，w:wrap */
-.rx-c {
+/* fx:flex，s:start，e:end，c:center，a:around，b:between，w:wrap */
+.fx-c {
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
 }
-.rx-cc {
+.fx-cc {
   display: flex;
   flex-flow: row nowrap;
   justify-content: center;
   align-items: center;
 }
-.rx-sc {
+.fx-sc {
   display: flex;
   flex-flow: row nowrap;
   justify-content: flex-start;
   align-items: center;
 }
-.rx-ss {
+.fx-ss {
   display: flex;
   flex-flow: row nowrap;
   justify-content: flex-start;
   align-items: flex-start;
 }
-.rx-se {
+.fx-se {
   display: flex;
   flex-flow: row nowrap;
   justify-content: flex-start;
   align-items: flex-end;
 }
-.rx-ec {
+.fx-ec {
   display: flex;
   flex-flow: row nowrap;
   justify-content: flex-end;
   align-items: center;
 }
-.rx-es {
+.fx-es {
   display: flex;
   flex-flow: row nowrap;
   justify-content: flex-end;
   align-items: flex-start;
 }
-.rx-ee {
+.fx-ee {
   display: flex;
   flex-flow: row nowrap;
   justify-content: flex-end;
   align-items: flex-end;
 }
-.rx-ac {
+.fx-ac {
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-around;
   align-items: center;
 }
-.rx-bc {
+.fx-bc {
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
   align-items: center;
 }
-.rx-bs {
+.fx-bs {
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
   align-items: flex-start;
 }
-.rx-be {
+.fx-be {
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
   align-items: flex-end;
 }
-.rx-vc {
+.fx-vc {
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-evenly;
   align-items: center;
 }
-.rx-cs {
+.fx-cs {
   display: flex;
   flex-flow: row nowrap;
   justify-content: center;
   align-items: flex-start;
 }
-.rx-wsc {
+.fx-wsc {
   display: flex;
   flex-flow: row wrap;
   justify-content: flex-start;
   align-items: center;
 }
-.rx-wcc {
+.fx-wcc {
   display: flex;
   flex-flow: row wrap;
   justify-content: center;
   align-items: center;
 }
-.rx-wcs {
+.fx-wcs {
   display: flex;
   flex-flow: row wrap;
   justify-content: center;
   align-items: flex-start;
 }
-.rx-wss {
+.fx-wss {
   display: flex;
   flex-flow: row wrap;
   justify-content: flex-start;
   align-content: flex-start;
 }
-.rx-wbs {
+.fx-wbs {
   display: flex;
   flex-flow: row wrap;
   justify-content: space-between;
@@ -1088,13 +1088,13 @@ aside {
   overflow: hidden;
 }
 
-.a-right {
+.t-right {
   text-align: right;
 }
-.a-left {
+.t-left {
   text-align: left;
 }
-.a-center {
+.t-center {
   text-align: center;
 }
 

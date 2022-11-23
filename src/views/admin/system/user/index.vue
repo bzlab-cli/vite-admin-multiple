@@ -96,7 +96,7 @@
       <el-pagination
         @size-change="onHandleSizeChange"
         @current-change="onHandleCurrentChange"
-        class="a-right mt15"
+        class="fx-ec mt15"
         :pager-count="5"
         :page-sizes="[10, 20, 30]"
         v-model:current-page="tableData.params.pageNum"
