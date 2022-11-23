@@ -3,7 +3,7 @@
  * @Description:
  * @Date: 2021/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2022/11/15 11:30:50
+ * @LastEditTime: 2022/11/23 18:23:34
  */
 
 module.exports = {
@@ -82,6 +82,8 @@ module.exports = {
     ],
     'no-param-reassign': ['off'],
     '@typescript-eslint/ban-types': 'off',
-    '@typescript-eslint/no-var-requires': 0
+    '@typescript-eslint/no-var-requires': 0,
+    "@typescript-eslint/no-non-null-assertion": "off",
+    "@typescript-eslint/no-namespace": "off",
   }
 }

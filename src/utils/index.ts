@@ -3,7 +3,7 @@
  * @Description:
  * @Date: 2021/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2022/07/12 16:04:45
+ * @LastEditTime: 2022/11/23 18:17:28
  */
 import type { App, Plugin } from 'vue'
 interface TreeHelperConfig {
@@ -297,4 +297,36 @@ export function isMobile() {
     }
   }
   return flag
+}
+
+/**
+ * @description 处理无数据情况
+ * @param {String} callValue 需要处理的值
+ * @return string
+ * */
+export function formatValue(callValue: any) {
+  // 如果当前值为数组,使用 / 拼接（根据需求自定义）
+  if (isArray(callValue)) return callValue.length ? callValue.join(' / ') : '--'
+  return callValue ?? '--'
+}
+
+/**
+ * @description 根据枚举列表查询当需要的数据
+ * @param {String} callValue 当前单元格值
+ * @param {Array} enumData 枚举列表
+ * @param {String} type 过滤类型
+ * @return string
+ * */
+export function filterEnum(
+  callValue: any,
+  enumData: { [key: string]: any } | undefined,
+  searchProps?: { [key: string]: any },
+  type?: string
+): string {
+  const value = searchProps?.value ?? 'value'
+  const label = searchProps?.label ?? 'label'
+  let filterData: any = {}
+  if (Array.isArray(enumData)) filterData = enumData.find((item: any) => item[value] === callValue)
+  if (type == 'tag') return filterData?.tagType ? filterData.tagType : ''
+  return filterData ? filterData[label] : '--'
 }
