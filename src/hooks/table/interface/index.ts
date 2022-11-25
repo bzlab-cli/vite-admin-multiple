@@ -16,9 +16,6 @@ export namespace Table {
     totalParam: {
       [key: string]: any
     }
-    icon?: {
-      [key: string]: any
-    }
   }
 }
 

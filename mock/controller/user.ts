@@ -3,7 +3,7 @@
  * @Description:
  * @Date: 2021/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2022/01/29 15:57:11
+ * @LastEditTime: 2022/11/25 16:58:09
  */
 
 import { Random } from 'mockjs'
@@ -106,7 +106,7 @@ export default class User {
   @get('/user/user')
   async getUserList() {
     return {
-      total: 15,
+      total: 2,
       list: [
         {
           userId: '1ee3d49b-aa78-4846-a1b7-76044d097c8e',
@@ -114,7 +114,31 @@ export default class User {
           roleId: 'ad',
           roleName: '系统管理员',
           orgId: 0,
-          orgName: null,
+          orgName: '组织',
+          headUrl: null,
+          phone: '13575356945',
+          account: null,
+          email: '',
+          state: null,
+          userType: null,
+          rtcAttributes: null,
+          jobNumber: null,
+          entryDate: null,
+          professional: null,
+          dateOfBirth: null,
+          education: null,
+          createTime: '2021-11-18 10:24:05',
+          remarks: '',
+          competenceIds: null,
+          forbiddenStatus: 1
+        },
+        {
+          userId: '1ee3d49b-aa78-4846-a1b7-76044d097c8e',
+          userName: 'admin2',
+          roleId: 'ad1',
+          roleName: '管理员2',
+          orgId: 0,
+          orgName: '组织2',
           headUrl: null,
           phone: '13575356945',
           account: null,

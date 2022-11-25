@@ -3,7 +3,7 @@
  * @Description:
  * @Date: 2021/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2022/11/23 18:23:34
+ * @LastEditTime: 2022/11/24 10:18:44
  */
 
 module.exports = {
@@ -24,6 +24,7 @@ module.exports = {
     IObjModel: true,
     IResponseModel: true,
     Recordable: true,
+    withDefaults: true
   },
   extends: [
     'plugin:vue/vue3-essential',
@@ -45,6 +46,7 @@ module.exports = {
     'import/no-extraneous-dependencies': 'off',
     'vue/no-multiple-template-root': 'off',
     'vue/html-self-closing': 'off',
+    'vue/no-mutating-props': 'off',
     'no-console': 'off',
     'no-plusplus': 'off',
     'no-useless-escape': 'off',

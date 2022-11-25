@@ -12,12 +12,9 @@
         <el-table-column prop="isShow" align="center" label="显示" v-slot="scope">
           <el-switch v-model="scope.row.isShow" />
         </el-table-column>
-        <el-table-column prop="sortable" align="center" label="排序" v-slot="scope">
-          <el-switch v-model="scope.row.sortable" />
-        </el-table-column>
         <template #empty>
           <div class="table-empty">
-            <img src="@/assets/images/notData.png" alt="notData" />
+            <img src="@/assets/images/error/not-data.png" alt="暂无数据" />
             <div>暂无可配置列</div>
           </div>
         </template>
@@ -33,7 +30,7 @@ import { ColumnProps } from '@/components/bz-table/interface'
 defineProps<{ colSetting: ColumnProps[] }>()
 
 const drawerVisible = ref<boolean>(false)
-// 打开列设置
+
 const openColSetting = () => {
   drawerVisible.value = true
 }
@@ -43,7 +40,7 @@ defineExpose({
 })
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .cursor-move {
   cursor: move;
 }

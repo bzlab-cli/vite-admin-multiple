@@ -76,3 +76,11 @@ export interface ColumnProps<T = any>
   render?: (scope: { row: T }) => any // 自定义单元格内容渲染（tsx语法）
   _children?: ColumnProps<T>[] // 多级表头
 }
+
+export interface SearchColumnProps {
+  label?: boolean // 标签名称
+  labelWidth?: boolean // 标签宽度
+  prop?: string // 属性名
+  enum?: any
+  search?: SearchProps | undefined // 搜索项配置
+}
