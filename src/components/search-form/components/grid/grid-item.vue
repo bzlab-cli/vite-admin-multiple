@@ -32,7 +32,6 @@ const props = withDefaults(defineProps<Props>(), {
 const attrs = useAttrs() as any
 const isShow = ref(true)
 
-// 注入断点
 const breakPoint = inject<Ref<BreakPoint>>('breakPoint', ref('xl'))
 const shouldHiddenIndex = inject<Ref<number>>('shouldHiddenIndex', ref(-1))
 watch(

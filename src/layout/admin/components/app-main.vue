@@ -33,25 +33,19 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .app-main {
-  min-height: calc(100vh - 50px);
+  height: calc(100vh - $navigationHeight);
   width: 100%;
   position: relative;
-  overflow: hidden;
-}
-
-.fixed-header + .app-main {
-  padding: 65px 15px 15px 15px;
-  height: 100vh;
+  top: $navigationHeight;
+  background-color: $bgColor;
+  padding: 10px;
   overflow: auto;
-}
-
-.hasTagsView {
-  .app-main {
-    min-height: calc(100vh - 84px);
-  }
-
-  .fixed-header + .app-main {
-    padding: 99px 15px 15px 15px;
+  .table-box {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
   }
 }
 </style>

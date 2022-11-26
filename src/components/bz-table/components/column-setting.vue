@@ -13,19 +13,16 @@
           <el-switch v-model="scope.row.isShow" />
         </el-table-column>
         <template #empty>
-          <div class="table-empty">
-            <img src="@/assets/images/error/not-data.png" alt="暂无数据" />
-            <div>暂无可配置列</div>
-          </div>
+          <el-empty :image-size="100" description="暂无数据" />
         </template>
       </el-table>
     </div>
   </el-drawer>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { ref } from 'vue'
-import { ColumnProps } from '@/components/bz-table/interface'
+import { ColumnProps } from '@/interface/table'
 
 defineProps<{ colSetting: ColumnProps[] }>()
 

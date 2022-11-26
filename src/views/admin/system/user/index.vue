@@ -34,7 +34,7 @@
 <script lang="tsx" setup name="user">
 import { ref, reactive } from 'vue'
 // import { ElMessage } from 'element-plus'
-import { ColumnProps } from '@/components/bz-table/interface'
+import { ColumnProps } from '@/interface/table'
 // import { useHandleData } from '@/hooks/table/use-handle-data'
 import bzTable from '@/components/bz-table/index.vue'
 import { IMajorSchema, majorList } from '@/constant/major'
@@ -50,7 +50,7 @@ const initParam = reactive({
 
 const dataCallback = (data: any) => {
   return {
-    list: data.list,
+    list: [],
     total: data.total
   }
 }

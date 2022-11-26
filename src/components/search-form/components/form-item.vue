@@ -24,8 +24,8 @@
   </component>
 </template>
 
-<script setup lang="ts" name="searchFormItem">
-import { SearchColumnProps } from '@/components/bz-table/interface'
+<script lang="ts" setup name="search-form-item">
+import { SearchColumnProps } from '@/interface/table'
 import { computed, inject, ref } from 'vue'
 
 interface SearchFormItem {

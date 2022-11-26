@@ -1,4 +1,4 @@
-import { Table } from './interface'
+import { Table } from '@/interface/table'
 import { reactive, onMounted, toRefs, computed } from 'vue'
 
 export const useTable = (
@@ -55,7 +55,7 @@ export const useTable = (
     Object.assign(state.totalParam, nowSearchParam, pagination ? pageParams.value : {})
   }
 
-  // 表格数据查询
+  // 查询
   const handleSearch = () => {
     state.pageTable.pageNum = 1
     updatedTotalParam()

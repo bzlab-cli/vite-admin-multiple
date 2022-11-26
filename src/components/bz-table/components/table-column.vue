@@ -6,7 +6,7 @@
 import { useSlots } from 'vue'
 import { ElTableColumn } from 'element-plus'
 import { formatValue } from '@/utils'
-import { ColumnProps } from '@/components/bz-table/interface'
+import { ColumnProps } from '@/interface/table'
 
 const slots = useSlots()
 

@@ -4,7 +4,7 @@
     :page-size="pageTable.pageSize"
     :page-sizes="[10, 25, 50, 100]"
     :background="true"
-    layout="total, sizes, prev, pager, next, jumper"
+    layout="total, prev, pager, next, jumper"
     :total="pageTable.total"
     @size-change="handleSizeChange"
     @current-change="handleCurrentChange"

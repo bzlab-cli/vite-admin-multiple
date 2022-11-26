@@ -12,7 +12,7 @@
             <el-button type="primary" icon="Search" @click="handleSearch">搜索</el-button>
             <el-button icon="RefreshRight" @click="handleReset">重置</el-button>
             <el-button v-if="showCollapse" type="primary" link class="search-toggle" @click="collapsed = !collapsed">
-              {{ collapsed ? '展开' : '合并' }}
+              {{ collapsed ? '展开' : '收起' }}
               <el-icon class="el-icon--right">
                 <component :is="collapsed ? 'ArrowDown' : 'ArrowUp'" />
               </el-icon>
@@ -23,19 +23,13 @@
     </el-form>
   </div>
 </template>
-<script setup lang="ts" name="SearchForm">
+<script lang="ts" setup name="search-form">
 import { computed, ref } from 'vue'
-import { ColumnProps, SearchColumnProps } from '@/components/bz-table/interface'
+import { ColumnProps, SearchColumnProps } from '@/interface/table'
 import searchFormItem from './components/form-item.vue'
 import grid from './components/grid/index.vue'
-import gridItem from './components/grid/components/grid-item.vue'
-
-export type BreakPoint = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
-
-export type Responsive = {
-  span?: number
-  offset?: number
-}
+import gridItem from './components/grid/grid-item.vue'
+import { BreakPoint } from '@/interface/grid'
 
 interface ProTableProps {
   columns?: SearchColumnProps[] // 搜索配置列
@@ -68,7 +62,7 @@ const collapsed = ref(true)
 const gridRef = ref()
 const breakPoint = computed<BreakPoint>(() => gridRef.value?.breakPoint)
 
-// 是否显示 展开/合并
+// 是否显示 展开/收起
 const showCollapse = computed(() => {
   let show = false
   props.columns.reduce((prev, current) => {
@@ -88,8 +82,32 @@ const showCollapse = computed(() => {
 
 <style lang="scss" scoped>
 .search {
+  padding: 15px 15px 0;
+  margin-bottom: 10px;
+  overflow-x: hidden;
+  background-color: var(--el-fill-color-blank);
+  border-radius: 4px;
+  .el-form {
+    .el-input,
+    .el-select,
+    .el-date-editor--timerange,
+    .el-date-editor--datetimerange,
+    .el-date-editor--daterange {
+      width: 100%;
+    }
+    .el-range-editor.el-input__wrapper {
+      padding: 0 10px;
+    }
+    .el-select__tags {
+      overflow: hidden;
+      white-space: nowrap;
+    }
+  }
   .operation {
     display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-bottom: 15px;
     .search-toggle {
       margin-left: 5px;
     }

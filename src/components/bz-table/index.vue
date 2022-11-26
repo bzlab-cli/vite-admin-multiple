@@ -7,7 +7,7 @@
     :colConfig="searchCol"
     v-show="!hideSearch"
   />
-  <div class="card table">
+  <div class="bz-table">
     <div class="table-header">
       <div class="header-button-lf">
         <slot
@@ -49,13 +49,11 @@
         </table-column>
       </template>
       <template #empty>
-        <div class="table-empty">
-          <img src="@/assets/images/error/not-data.png" alt="暂无数据" />
-          <div>暂无数据</div>
-        </div>
+        <el-empty :image-size="100" description="暂无数据" />
       </template>
     </el-table>
     <bz-pagination
+      class="pagination"
       v-if="pagination"
       :pageTable="pageTable"
       :handleSizeChange="handleSizeChange"
@@ -65,18 +63,17 @@
   <column-setting v-if="toolButton" ref="colRef" v-model:colSetting="colSetting" />
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { ref, watch, provide } from 'vue'
 import { useTable } from '@/hooks/table/use-table'
 import { useSelection } from '@/hooks/table/use-selection'
-import { ColumnProps, SearchColumnProps } from '@/components/bz-table/interface'
+import { ColumnProps, SearchColumnProps } from '@/interface/table'
 import { ElTable, TableProps } from 'element-plus'
 import searchForm from '@/components/search-form/index.vue'
 import bzPagination from './components/pagination.vue'
 import columnSetting from './components/column-setting.vue'
 import tableColumn from './components/table-column.vue'
-
-export type BreakPoint = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
+import type { BreakPoint } from '@/interface/grid'
 
 const tableRef = ref<InstanceType<typeof ElTable>>()
 
@@ -163,17 +160,6 @@ const flatSearchColumnsFunc = (columns: SearchColumnProps[]) => {
 const flatSearchColumns = ref<SearchColumnProps[]>()
 flatSearchColumns.value = flatSearchColumnsFunc(props.searchColumns as SearchColumnProps[])
 
-// 过滤需要搜索的配置项 && 处理搜索排序
-// const searchColumns11 = flatColumns.value
-//   .filter(item => item.search?.el)
-//   .sort((a, b) => (b.search?.order ?? 0) - (a.search?.order ?? 0))
-// const searchColumns11 = flatColumns.value.filter(item => item.search?.el)
-
-// console.log('searchColumns1', searchColumns11)
-// console.log('searchColumns2', props.searchColumns)
-
-// const formColumns = flatSearchColumns.value
-
 // 设置搜索默认值
 flatSearchColumns.value.forEach(column => {
   if (column.search?.defaultValue !== undefined && column.search?.defaultValue !== null) {
@@ -198,3 +184,28 @@ const openColSetting = () => {
 
 defineExpose({ element: tableRef, tableData, searchParam, pageTable, getTableList, clearSelection })
 </script>
+
+<style lang="scss" scoped>
+.bz-table {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  padding: 15px;
+  overflow-x: hidden;
+  background-color: var(--el-fill-color-blank);
+  border-radius: 4px;
+  .table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .pagination {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 15px;
+  }
+}
+</style>
