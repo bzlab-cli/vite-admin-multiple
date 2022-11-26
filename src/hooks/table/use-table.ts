@@ -12,10 +12,13 @@ export const useTable = (
     pageTable: {
       pageNum: 1,
       pageSize: 10,
-      total: 0
+      total: 0,
+      pageSizes: [10, 25, 50, 100],
+      background: true,
+      layout: 'total, prev, pager, next, jumper'
     },
-    searchParam: {},
-    searchInitParam: {},
+    searchParams: {},
+    searchInitParams: {},
     totalParam: {}
   })
 
@@ -46,13 +49,13 @@ export const useTable = (
   // 更新查询参数
   const updatedTotalParam = () => {
     state.totalParam = {}
-    const nowSearchParam: { [key: string]: any } = {}
-    for (const key in state.searchParam) {
-      if (state.searchParam[key] || state.searchParam[key] === false || state.searchParam[key] === 0) {
-        nowSearchParam[key] = state.searchParam[key]
+    const nowSearchParams: { [key: string]: any } = {}
+    for (const key in state.searchParams) {
+      if (state.searchParams[key] || state.searchParams[key] === false || state.searchParams[key] === 0) {
+        nowSearchParams[key] = state.searchParams[key]
       }
     }
-    Object.assign(state.totalParam, nowSearchParam, pagination ? pageParams.value : {})
+    Object.assign(state.totalParam, nowSearchParams, pagination ? pageParams.value : {})
   }
 
   // 查询
@@ -65,9 +68,9 @@ export const useTable = (
   // 表格数据重置
   const handleReset = () => {
     state.pageTable.pageNum = 1
-    state.searchParam = {}
-    Object.keys(state.searchInitParam).forEach(key => {
-      state.searchParam[key] = state.searchInitParam[key]
+    state.searchParams = {}
+    Object.keys(state.searchInitParams).forEach(key => {
+      state.searchParams[key] = state.searchInitParams[key]
     })
     updatedTotalParam()
     getTableList()

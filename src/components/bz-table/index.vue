@@ -2,7 +2,7 @@
   <search-form
     :handle-search="handleSearch"
     :handle-reset="handleReset"
-    :searchParam="searchParam"
+    :searchParams="searchParams"
     :columns="flatSearchColumns"
     :colConfig="searchCol"
     v-show="!hideSearch"
@@ -111,8 +111,8 @@ const { selectionChange, getRowKeys, selectedList, selectedListIds, isSelected }
 const {
   tableData,
   pageTable,
-  searchParam,
-  searchInitParam,
+  searchParams,
+  searchInitParams,
   getTableList,
   handleSearch,
   handleReset,
@@ -160,10 +160,10 @@ const flatSearchColumnsFunc = (columns: SearchColumnProps[]) => {
 const flatSearchColumns = ref<SearchColumnProps[]>()
 flatSearchColumns.value = flatSearchColumnsFunc(props.searchColumns as SearchColumnProps[])
 
-// 设置搜索默认值
+// 设置搜索默认值，指定搜索key
 flatSearchColumns.value.forEach(column => {
   if (column.search?.defaultValue !== undefined && column.search?.defaultValue !== null) {
-    searchInitParam.value[column.search.key ?? column.prop!] = column.search?.defaultValue
+    searchInitParams.value[column.search.key ?? column.prop!] = column.search?.defaultValue
   }
 })
 
@@ -182,7 +182,7 @@ const openColSetting = () => {
   colRef.value.openColSetting()
 }
 
-defineExpose({ element: tableRef, tableData, searchParam, pageTable, getTableList, clearSelection })
+defineExpose({ element: tableRef, tableData, searchParams, pageTable, getTableList, clearSelection })
 </script>
 
 <style lang="scss" scoped>

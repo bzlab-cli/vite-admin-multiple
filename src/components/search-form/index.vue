@@ -1,10 +1,10 @@
 <template>
   <div class="search" v-if="columns.length">
-    <el-form ref="formRef" :model="searchParam">
+    <el-form ref="formRef" :model="searchParams">
       <grid ref="gridRef" :collapsed="collapsed" :gap="[20, 0]" :cols="colConfig">
         <grid-item v-for="(item, index) in columns" :key="item.prop" v-bind="getResponsive(item)" :index="index">
           <el-form-item :label="item.label" :label-width="item.labelWidth || 'auto'">
-            <search-form-item :column="item" :searchParam="searchParam" />
+            <search-form-item :column="item" :searchParams="searchParams" />
           </el-form-item>
         </grid-item>
         <grid-item suffix>
@@ -33,7 +33,7 @@ import { BreakPoint } from '@/interface/grid'
 
 interface ProTableProps {
   columns?: SearchColumnProps[] // 搜索配置列
-  searchParam?: { [key: string]: any } // 搜索参数
+  searchParams?: { [key: string]: any } // 搜索参数
   colConfig: number | Record<BreakPoint, number>
   handleSearch: (params: any) => void // 搜索方法
   handleReset: (params: any) => void // 重置方法
@@ -41,7 +41,7 @@ interface ProTableProps {
 
 const props = withDefaults(defineProps<ProTableProps>(), {
   columns: () => [],
-  searchParam: () => ({})
+  searchParams: () => ({})
 })
 
 // 获取响应式设置

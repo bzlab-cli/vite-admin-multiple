@@ -2,9 +2,9 @@
   <el-pagination
     :current-page="pageTable.pageNum"
     :page-size="pageTable.pageSize"
-    :page-sizes="[10, 25, 50, 100]"
-    :background="true"
-    layout="total, prev, pager, next, jumper"
+    :page-sizes="pageTable.pageSizes"
+    :background="pageTable.background"
+    :layout="pageTable.layout"
     :total="pageTable.total"
     @size-change="handleSizeChange"
     @current-change="handleCurrentChange"
@@ -12,14 +12,10 @@
 </template>
 
 <script lang="ts" setup>
-interface PageTable {
-  pageNum: number
-  pageSize: number
-  total: number
-}
+import { Table } from '@/interface/table'
 
 interface PaginationProps {
-  pageTable: PageTable
+  pageTable: Table.PageTable
   handleSizeChange: (size: number) => void
   handleCurrentChange: (currentPage: number) => void
 }

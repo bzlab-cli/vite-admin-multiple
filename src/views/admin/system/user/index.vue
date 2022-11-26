@@ -50,7 +50,7 @@ const initParam = reactive({
 
 const dataCallback = (data: any) => {
   return {
-    list: [],
+    list: data.list,
     total: data.total
   }
 }
@@ -70,7 +70,7 @@ const searchColumns = [
     prop: 'userName',
     label: '用户名',
     search: {
-      el: 'input',
+      el: 'el-input',
       props: {
         placeholder: '请输入用户名',
         clearable: true
@@ -81,7 +81,7 @@ const searchColumns = [
     prop: 'phone',
     label: '手机号',
     search: {
-      el: 'input',
+      el: 'el-input',
       props: {
         placeholder: '请输入手机号',
         clearable: true
@@ -94,7 +94,8 @@ const searchColumns = [
     enum: getRoleSelect2,
     fieldNames: { label: 'roleName', value: 'id' },
     search: {
-      el: 'select',
+      el: 'el-select',
+      defaultValue: 'sub_ad',
       props: {
         placeholder: '请选择角色',
         clearable: true
@@ -104,8 +105,16 @@ const searchColumns = [
   {
     prop: 'orgName',
     label: '组织',
+    enum: [{ roleName: '111', id: '55' }],
+    fieldNames: { label: 'roleName', value: 'id' },
+    // render: ({ row }) => {
+    //   return <span>{row.roleId === 'ad' ? '-' : row.orgName}</span>
+    // },
     search: {
-      el: 'select',
+      el: 'el-select',
+      fieldName: 'test',
+      key: 'test11',
+      defaultValue: '55',
       props: {
         placeholder: '请选择组织',
         clearable: true
@@ -116,7 +125,7 @@ const searchColumns = [
     prop: 'forbiddenStatus',
     label: '状态',
     search: {
-      el: 'select',
+      el: 'el-select',
       props: {
         placeholder: '请选择状态',
         clearable: true
@@ -128,24 +137,21 @@ const searchColumns = [
 const columns: ColumnProps[] = [
   {
     prop: 'userName',
-    label: '用户名',
-    search: { el: 'input' }
+    label: '用户名'
   },
 
-  { prop: 'phone', label: '手机号', search: { el: 'input' } },
+  { prop: 'phone', label: '手机号' },
   { prop: 'email', label: '邮箱' },
   { prop: 'createTime', label: '创建时间' },
   {
     prop: 'roleName',
     label: '角色',
     enum: getRoleSelect2,
-    fieldNames: { label: 'roleName', value: 'id' },
-    search: { el: 'select' }
+    fieldNames: { label: 'roleName', value: 'id' }
   },
   {
     prop: 'orgName',
     label: '组织',
-    search: { el: 'select' },
     render: ({ row }) => {
       return <span>{row.roleId === 'ad' ? '-' : row.orgName}</span>
     }
@@ -160,7 +166,6 @@ const columns: ColumnProps[] = [
   {
     prop: 'forbiddenStatus',
     label: '状态',
-    search: { el: 'select' },
     render: ({ row }) => {
       return (
         <el-tag type={row.forbiddenStatus == 1 ? '' : 'danger'}>{row.forbiddenStatus == 1 ? '启用' : '禁用'}</el-tag>

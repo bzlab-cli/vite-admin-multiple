@@ -21,36 +21,36 @@ export interface EnumProps {
 export type TypeProp = 'index' | 'selection' | 'expand'
 
 interface Input {
-  el: 'input'
+  el: 'el-input'
   props?: Partial<InputProps>
 }
 interface Select {
-  el: 'select'
+  el: 'el-select'
   props?: Partial<typeof ElSelect.__defaults>
 }
 
 interface TreeSelect {
-  el: 'tree-select'
+  el: 'el-tree-select'
   props?: any
 }
 
 interface DatePicker {
-  el: 'date-picker'
+  el: 'el-date-picker'
   props?: any
 }
 
 interface TimePicker {
-  el: 'time-picker'
+  el: 'el-time-picker'
   props?: Partial<TimePickerDefaultProps>
 }
 
 interface TimeSelect {
-  el: 'time-select'
+  el: 'el-time-select'
   props?: Partial<TimeSelectProps>
 }
 
 interface Switch {
-  el: 'switch'
+  el: 'el-switch'
   props?: Partial<SwitchProps>
 }
 
@@ -91,14 +91,17 @@ export namespace Table {
     pageNum: number
     pageSize: number
     total: number
+    pageSizes?: number[]
+    background?: boolean
+    layout?: string
   }
   export interface TableStateProps {
     tableData: any[]
     pageTable: PageTable
-    searchParam: {
+    searchParams: {
       [key: string]: any
     }
-    searchInitParam: {
+    searchInitParams: {
       [key: string]: any
     }
     totalParam: {

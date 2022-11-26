@@ -1,17 +1,17 @@
 <template>
   <component
     v-if="column.search?.el"
-    :is="`el-${column.search.el}`"
+    :is="column.search.el"
     v-bind="column.search.props"
-    v-model="searchParam[column.search.key ?? column.prop!]"
-    :data="column.search?.el === 'tree-select' ? columnEnum : []"
+    v-model="searchParams[column.search.key ?? column.prop!]"
+    :data="column.search?.el === 'el-tree-select' ? columnEnum : []"
     :placeholder="placeholder(column)"
     :clearable="clearable(column)"
     range-separator="至"
     start-placeholder="开始时间"
     end-placeholder="结束时间"
   >
-    <template v-if="column.search.el === 'select'">
+    <template v-if="column.search.el === 'el-select'">
       <component
         :is="`el-option`"
         v-for="(col, index) in columnEnum"
@@ -30,12 +30,13 @@ import { computed, inject, ref } from 'vue'
 
 interface SearchFormItem {
   column: SearchColumnProps
-  searchParam: { [key: string]: any } // 搜索参数
+  searchParams: { [key: string]: any } // 搜索参数
 }
 const props = defineProps<SearchFormItem>()
 
-// 接受 enumMap
 const enumMap = inject('enumMap', ref(new Map()))
+
+;(window as any).enumMap = enumMap
 
 const columnEnum = computed(() => {
   if (!enumMap.value.get(props.column.prop)) return []
@@ -49,12 +50,12 @@ const fieldNames = () => {
   }
 }
 
-// 判断 placeholder
+// placeholder
 const placeholder = (column: SearchColumnProps) => {
-  return column.search?.props?.placeholder ?? (column.search?.el === 'input' ? '请输入' : '请选择')
+  return column.search?.props?.placeholder ?? (column.search?.el === 'el-input' ? '请输入' : '请选择')
 }
 
-// 是否有清除按钮 (当搜索项有默认值时，清除按钮不显示)
+// 是否有清除按钮
 const clearable = (column: SearchColumnProps) => {
   return (
     column.search?.props?.clearable ?? (column.search?.defaultValue == null || column.search?.defaultValue == undefined)
