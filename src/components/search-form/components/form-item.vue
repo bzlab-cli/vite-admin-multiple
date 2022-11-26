@@ -25,11 +25,11 @@
 </template>
 
 <script setup lang="ts" name="searchFormItem">
-import { ColumnProps } from '@/components/bz-table/interface'
+import { SearchColumnProps } from '@/components/bz-table/interface'
 import { computed, inject, ref } from 'vue'
 
 interface SearchFormItem {
-  column: ColumnProps // 具体每一个搜索项的配置
+  column: SearchColumnProps
   searchParam: { [key: string]: any } // 搜索参数
 }
 const props = defineProps<SearchFormItem>()
@@ -42,7 +42,6 @@ const columnEnum = computed(() => {
   return enumMap.value.get(props.column.prop)
 })
 
-// 判断 fieldNames 设置 label && value 的 key 值
 const fieldNames = () => {
   return {
     label: props.column.fieldNames?.label ?? 'label',
@@ -51,12 +50,12 @@ const fieldNames = () => {
 }
 
 // 判断 placeholder
-const placeholder = (column: ColumnProps) => {
+const placeholder = (column: SearchColumnProps) => {
   return column.search?.props?.placeholder ?? (column.search?.el === 'input' ? '请输入' : '请选择')
 }
 
 // 是否有清除按钮 (当搜索项有默认值时，清除按钮不显示)
-const clearable = (column: ColumnProps) => {
+const clearable = (column: SearchColumnProps) => {
   return (
     column.search?.props?.clearable ?? (column.search?.defaultValue == null || column.search?.defaultValue == undefined)
   )

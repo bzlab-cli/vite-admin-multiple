@@ -1,5 +1,5 @@
 <template>
-  <div class="card table-search" v-if="columns.length">
+  <div class="search" v-if="columns.length">
     <el-form ref="formRef" :model="searchParam">
       <grid ref="gridRef" :collapsed="collapsed" :gap="[20, 0]" :cols="colConfig">
         <grid-item v-for="(item, index) in columns" :key="item.prop" v-bind="getResponsive(item)" :index="index">
@@ -11,7 +11,7 @@
           <div class="operation">
             <el-button type="primary" icon="Search" @click="handleSearch">搜索</el-button>
             <el-button icon="RefreshRight" @click="handleReset">重置</el-button>
-            <el-button v-if="showCollapse" type="primary" link class="search-isOpen" @click="collapsed = !collapsed">
+            <el-button v-if="showCollapse" type="primary" link class="search-toggle" @click="collapsed = !collapsed">
               {{ collapsed ? '展开' : '合并' }}
               <el-icon class="el-icon--right">
                 <component :is="collapsed ? 'ArrowDown' : 'ArrowUp'" />
@@ -25,10 +25,10 @@
 </template>
 <script setup lang="ts" name="SearchForm">
 import { computed, ref } from 'vue'
-import { ColumnProps } from '@/components/bz-table/interface'
+import { ColumnProps, SearchColumnProps } from '@/components/bz-table/interface'
 import searchFormItem from './components/form-item.vue'
-import grid from '@/components/grid/index.vue'
-import gridItem from '@/components/grid/components/grid-item.vue'
+import grid from './components/grid/index.vue'
+import gridItem from './components/grid/components/grid-item.vue'
 
 export type BreakPoint = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 
@@ -38,14 +38,13 @@ export type Responsive = {
 }
 
 interface ProTableProps {
-  columns?: ColumnProps[] // 搜索配置列
+  columns?: SearchColumnProps[] // 搜索配置列
   searchParam?: { [key: string]: any } // 搜索参数
   colConfig: number | Record<BreakPoint, number>
   handleSearch: (params: any) => void // 搜索方法
   handleReset: (params: any) => void // 重置方法
 }
 
-// 默认值
 const props = withDefaults(defineProps<ProTableProps>(), {
   columns: () => [],
   searchParam: () => ({})
@@ -64,14 +63,12 @@ const getResponsive = (item: ColumnProps) => {
   }
 }
 
-// 是否默认折叠搜索项
 const collapsed = ref(true)
 
-// 获取响应式断点
 const gridRef = ref()
 const breakPoint = computed<BreakPoint>(() => gridRef.value?.breakPoint)
 
-// 判断是否显示 展开/合并 按钮
+// 是否显示 展开/合并
 const showCollapse = computed(() => {
   let show = false
   props.columns.reduce((prev, current) => {
@@ -88,3 +85,14 @@ const showCollapse = computed(() => {
   return show
 })
 </script>
+
+<style lang="scss" scoped>
+.search {
+  .operation {
+    display: flex;
+    .search-toggle {
+      margin-left: 5px;
+    }
+  }
+}
+</style>

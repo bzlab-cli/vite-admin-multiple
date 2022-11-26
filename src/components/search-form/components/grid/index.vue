@@ -18,7 +18,7 @@ import {
   onActivated,
   VNode
 } from 'vue'
-import type { BreakPoint } from './interface/index'
+import type { BreakPoint } from '@/interface/grid'
 
 type Props = {
   cols?: number | Record<BreakPoint, number>
@@ -52,20 +52,40 @@ onDeactivated(() => {
 
 const resize = (e: UIEvent) => {
   let width = (e.target as Window).innerWidth
+  // switch (!!width) {
+  //   case width < 768:
+  //     breakPoint.value = 'xs'
+  //     break
+  //   case width >= 768 && width < 992:
+  //     breakPoint.value = 'sm'
+  //     break
+  //   case width >= 992 && width < 1366:
+  //     breakPoint.value = 'md'
+  //     break
+  //   case width >= 1366 && width < 1920:
+  //     breakPoint.value = 'lg'
+  //     break
+  //   case width >= 1920:
+  //     breakPoint.value = 'xl'
+  //     break
+  // }
   switch (!!width) {
-    case width < 768:
+    case width <= 768:
       breakPoint.value = 'xs'
       break
-    case width >= 768 && width < 992:
+    case width > 768 && width <= 992:
       breakPoint.value = 'sm'
       break
-    case width >= 992 && width < 1200:
+    case width > 992 && width <= 1366:
       breakPoint.value = 'md'
       break
-    case width >= 1200 && width < 1920:
+    case width > 1366 && width <= 1600:
       breakPoint.value = 'lg'
       break
-    case width >= 1920:
+    case width > 1600 && width <= 1920:
+      breakPoint.value = 'xl'
+      break
+    case width > 1920:
       breakPoint.value = 'xl'
       break
   }
@@ -92,7 +112,7 @@ const findIndex = () => {
   let suffix: any = null
   slots.forEach((slot: any) => {
     if (typeof slot.type === 'object') {
-      if (slot.type.name === 'GridItem' && slot.props?.suffix !== undefined) {
+      if (slot.type.name === 'grid-item' && slot.props?.suffix !== undefined) {
         suffix = slot
       }
     }

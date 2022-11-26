@@ -82,5 +82,6 @@ export interface SearchColumnProps {
   labelWidth?: boolean // 标签宽度
   prop?: string // 属性名
   enum?: any
+  fieldNames?: { label: string; value: string }
   search?: SearchProps | undefined // 搜索项配置
 }

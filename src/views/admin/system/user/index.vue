@@ -8,8 +8,8 @@
       :initParam="initParam"
       :dataCallback="dataCallback"
     >
-      <template #tableHeader="scope">
-        <el-button type="primary">新增用户{{ scope }}</el-button>
+      <template #tableHeader>
+        <el-button type="primary">新增用户</el-button>
       </template>
       <!-- <template #operation="scope">
         <el-button size="small" type="primary" link class="ml5" @click="onOpenEditUser(scope.row)">修改</el-button>

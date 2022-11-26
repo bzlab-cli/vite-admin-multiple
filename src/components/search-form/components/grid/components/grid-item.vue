@@ -3,9 +3,9 @@
     <slot />
   </div>
 </template>
-<script setup lang="ts" name="GridItem">
+<script lang="ts" setup name="grid-item">
 import { computed, inject, Ref, ref, useAttrs, watch } from 'vue'
-import { BreakPoint, Responsive } from '../interface/index'
+import { BreakPoint, Responsive } from '@/interface/grid'
 
 type Props = {
   offset?: number
