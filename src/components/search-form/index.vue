@@ -25,7 +25,7 @@
 </template>
 <script lang="ts" setup name="search-form">
 import { computed, ref } from 'vue'
-import { ColumnProps, SearchColumnProps } from '@/interface/table'
+import { SearchColumnProps } from '@/interface/table'
 import searchFormItem from './components/form-item.vue'
 import grid from './components/grid/index.vue'
 import gridItem from './components/grid/grid-item.vue'
@@ -45,7 +45,7 @@ const props = withDefaults(defineProps<ProTableProps>(), {
 })
 
 // 获取响应式设置
-const getResponsive = (item: ColumnProps) => {
+const getResponsive = (item: SearchColumnProps) => {
   return {
     span: item.search?.span,
     offset: item.search?.offset ?? 0,

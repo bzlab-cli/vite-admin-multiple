@@ -79,6 +79,7 @@ const tableRef = ref<InstanceType<typeof ElTable>>()
 
 interface ProTableProps extends Partial<Omit<TableProps<any>, 'data'>> {
   searchColumns: SearchColumnProps[]
+  filterSearchField: string[]
   columns: ColumnProps[] // 列配置项
   requestApi: (params: any) => Promise<any> // 请求数据接口
   dataCallback?: (data: any) => any // 返回数据二次处理
@@ -94,6 +95,7 @@ interface ProTableProps extends Partial<Omit<TableProps<any>, 'data'>> {
 // 默认配置
 const props = withDefaults(defineProps<ProTableProps>(), {
   searchColumns: () => [],
+  filterSearchField: () => [],
   columns: () => [],
   pagination: true,
   hideSearch: false,
@@ -118,7 +120,7 @@ const {
   handleReset,
   handleSizeChange,
   handleCurrentChange
-} = useTable(props.requestApi, props.initParam, props.pagination, props.dataCallback)
+} = useTable(props.requestApi, props.initParam, props.filterSearchField, props.pagination, props.dataCallback)
 
 // 清空选中数据
 const clearSelection = () => tableRef.value!.clearSelection()

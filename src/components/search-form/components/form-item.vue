@@ -1,9 +1,11 @@
 <template>
+  <component v-if="column.render" :is="column.render(column)" />
   <component
-    v-if="column.search?.el"
-    :is="column.search.el"
-    v-bind="column.search.props"
-    v-model="searchParams[column.search.key ?? column.prop!]"
+    v-if="!column.render"
+    :is="column.search?.el"
+    v-bind="column.search?.props"
+    v-model="searchParams[column.search?.key ?? column.prop!]"
+    v-on="column.search.event"
     :data="column.search?.el === 'el-tree-select' ? columnEnum : []"
     :placeholder="placeholder(column)"
     :clearable="clearable(column)"
@@ -11,7 +13,7 @@
     start-placeholder="开始时间"
     end-placeholder="结束时间"
   >
-    <template v-if="column.search.el === 'el-select'">
+    <template v-if="column.search?.el === 'el-select'">
       <component
         :is="`el-option`"
         v-for="(col, index) in columnEnum"

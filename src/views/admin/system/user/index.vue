@@ -3,6 +3,7 @@
     <bz-table
       ref="bzTableRef"
       :searchColumns="searchColumns"
+      :filterSearchField="filterSearchField"
       :columns="columns"
       :requestApi="getUserList"
       :initParam="initParam"
@@ -42,11 +43,15 @@ import { getUserList } from '@/api/auth/user'
 import { getRoleSelect2 } from '@/api/auth/role'
 
 const bzTableRef = ref()
+
+;(window as any).bzTableRef = bzTableRef
 // const roleList = ref([])
 
 const initParam = reactive({
   type: 1
 })
+
+const filterSearchField = ['orgName']
 
 const dataCallback = (data: any) => {
   return {
@@ -107,17 +112,26 @@ const searchColumns = [
     label: '组织',
     enum: [{ roleName: '111', id: '55' }],
     fieldNames: { label: 'roleName', value: 'id' },
-    // render: ({ row }) => {
-    //   return <span>{row.roleId === 'ad' ? '-' : row.orgName}</span>
-    // },
     search: {
-      el: 'el-select',
-      fieldName: 'test',
-      key: 'test11',
-      defaultValue: '55',
+      el: 'el-date-picker',
+      // key: 'test11',
+      // defaultValue: '55',
+      // defaultValue: ['2022-11-12 11:35:00', '2022-12-12 11:35:00'],
       props: {
+        type: 'datetimerange',
+        'value-format': 'YYYY-MM-DD',
         placeholder: '请选择组织',
         clearable: true
+      },
+      event: {
+        change: scope => {
+          console.log('555-change', scope)
+
+          bzTableRef.value.searchParams.startTime = scope[0]
+          bzTableRef.value.searchParams.endTime = scope[1]
+
+          console.log('bzTableRef.value.searchParams', bzTableRef.value.searchParams)
+        }
       }
     }
   },
