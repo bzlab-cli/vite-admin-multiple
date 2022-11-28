@@ -4,7 +4,7 @@ import { reactive, onMounted, toRefs, computed } from 'vue'
 export const useTable = (
   api: (params: any) => Promise<any>,
   initParam: object = {},
-  filterSearchField: string[] = [],
+  filterSearchFields: string[] = [],
   pagination,
   dataCallBack?: (data: any) => any
 ) => {
@@ -39,7 +39,7 @@ export const useTable = (
     try {
       Object.assign(state.totalParam, initParam, pagination ? pageParams.value : {})
       Object.keys(state.totalParam).forEach(key => {
-        if (filterSearchField.includes(key)) delete state.totalParam[key]
+        if (filterSearchFields.includes(key)) delete state.totalParam[key]
       })
       let { data } = await api(state.totalParam)
       dataCallBack && (data = dataCallBack(data))

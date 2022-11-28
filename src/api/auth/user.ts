@@ -3,12 +3,12 @@
  * @Description:
  * @Date: 2021/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2022/11/15 10:02:39
+ * @LastEditTime: 2022/11/28 10:08:34
  */
 
-import { UserInfoModel } from '@/model/user'
+import { UserInfoModel } from '@/interface/user'
 import axios from '@/utils/axios'
-import { LoginModel } from '@/model/login'
+import { LoginModel } from '@/interface/login'
 
 export const login = (userInfo: any) => {
   return axios.request<IResponseModel<LoginModel>>({

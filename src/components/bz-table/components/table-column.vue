@@ -3,7 +3,7 @@
 </template>
 
 <script lang="tsx" setup>
-import { useSlots } from 'vue'
+import { inject, ref, useSlots } from 'vue'
 import { ElTableColumn } from 'element-plus'
 import { formatValue } from '@/utils'
 import { ColumnProps } from '@/interface/table'
@@ -12,8 +12,34 @@ const slots = useSlots()
 
 defineProps<{ column: ColumnProps }>()
 
+const searchEnumMap = inject('searchEnumMap', ref(new Map()))
+const enumMap = inject('enumMap', ref(new Map()))
+
+const filterEnum = (
+  row: any,
+  enumData: { [key: string]: any } | undefined,
+  fieldRowNames?: { [key: string]: any }
+): string => {
+  const name = fieldRowNames?.name ?? 'name'
+  const value = fieldRowNames?.value ?? 'value'
+  const rowKey = fieldRowNames?.rowKey ?? 'rowKey'
+  const curValue = row[rowKey]
+
+  let filterData: any = {}
+  if (Array.isArray(enumData)) filterData = enumData.find((item: any) => item[value] === curValue)
+  return filterData ? filterData[name] : '-'
+}
+
 const renderCellData = (item: ColumnProps, scope: any) => {
-  return formatValue(scope.row[item.prop!])
+  if (item.enum) {
+    return enumMap.value.get(item.prop) && item.filterEnum
+      ? filterEnum(scope.row, enumMap.value.get(item.prop)!, item.fieldRowNames)
+      : formatValue(scope.row[item.prop!])
+  }
+
+  return searchEnumMap.value.get(item.prop) && item.filterEnum
+    ? filterEnum(scope.row, searchEnumMap.value.get(item.prop)!, item.fieldRowNames)
+    : formatValue(scope.row[item.prop!])
 }
 
 const renderLoop = (item: ColumnProps) => {

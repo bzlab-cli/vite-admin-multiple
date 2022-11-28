@@ -3,7 +3,7 @@
     <bz-table
       ref="bzTableRef"
       :searchColumns="searchColumns"
-      :filterSearchField="filterSearchField"
+      :filterSearchFields="filterSearchFields"
       :columns="columns"
       :requestApi="getUserList"
       :initParam="initParam"
@@ -38,20 +38,19 @@ import { ref, reactive } from 'vue'
 import { ColumnProps } from '@/interface/table'
 // import { useHandleData } from '@/hooks/table/use-handle-data'
 import bzTable from '@/components/bz-table/index.vue'
-import { IMajorSchema, majorList } from '@/constant/major'
+import { majorList } from '@/constant/major'
 import { getUserList } from '@/api/auth/user'
 import { getRoleSelect2 } from '@/api/auth/role'
+import { getOrgList } from '@/api/auth/org'
+import { statusList } from '@/constant/user'
 
 const bzTableRef = ref()
 
 ;(window as any).bzTableRef = bzTableRef
-// const roleList = ref([])
 
-const initParam = reactive({
-  type: 1
-})
+const initParam = reactive({})
 
-const filterSearchField = ['orgName']
+const filterSearchFields = ['orgName']
 
 const dataCallback = (data: any) => {
   return {
@@ -60,20 +59,10 @@ const dataCallback = (data: any) => {
   }
 }
 
-// const fetchRoleList = async () => {
-//   let { data, retCode, retMsg } = await getRoleSelect2({})
-//   if (retCode !== 200) return ElMessage.warning(retMsg)
-//   roleList.value = data
-// }
-
-// onMounted(() => {
-// fetchRoleList()
-// })
-
 const searchColumns = [
   {
-    prop: 'userName',
     label: '用户名',
+    prop: 'userName',
     search: {
       el: 'el-input',
       props: {
@@ -83,8 +72,8 @@ const searchColumns = [
     }
   },
   {
-    prop: 'phone',
     label: '手机号',
+    prop: 'phone',
     search: {
       el: 'el-input',
       props: {
@@ -94,13 +83,13 @@ const searchColumns = [
     }
   },
   {
-    prop: 'roleName',
     label: '角色',
+    prop: 'roleName',
     enum: getRoleSelect2,
     fieldNames: { label: 'roleName', value: 'id' },
     search: {
       el: 'el-select',
-      defaultValue: 'sub_ad',
+      key: 'eqRoleId',
       props: {
         placeholder: '请选择角色',
         clearable: true
@@ -108,38 +97,27 @@ const searchColumns = [
     }
   },
   {
-    prop: 'orgName',
     label: '组织',
-    enum: [{ roleName: '111', id: '55' }],
-    fieldNames: { label: 'roleName', value: 'id' },
+    prop: 'orgName',
+    enum: getOrgList,
+    fieldNames: { label: 'orgName', value: 'id', children: 'childTreeList' },
     search: {
-      el: 'el-date-picker',
-      // key: 'test11',
-      // defaultValue: '55',
-      // defaultValue: ['2022-11-12 11:35:00', '2022-12-12 11:35:00'],
+      el: 'el-tree-select',
+      key: 'eqOrgId',
       props: {
-        type: 'datetimerange',
-        'value-format': 'YYYY-MM-DD',
         placeholder: '请选择组织',
         clearable: true
-      },
-      event: {
-        change: scope => {
-          console.log('555-change', scope)
-
-          bzTableRef.value.searchParams.startTime = scope[0]
-          bzTableRef.value.searchParams.endTime = scope[1]
-
-          console.log('bzTableRef.value.searchParams', bzTableRef.value.searchParams)
-        }
       }
     }
   },
   {
-    prop: 'forbiddenStatus',
     label: '状态',
+    prop: 'forbiddenStatus',
+    enum: statusList,
+    fieldNames: { label: 'name', value: 'id' },
     search: {
       el: 'el-select',
+      key: 'forbiddenStatus',
       props: {
         placeholder: '请选择状态',
         clearable: true
@@ -150,50 +128,61 @@ const searchColumns = [
 
 const columns: ColumnProps[] = [
   {
-    prop: 'userName',
-    label: '用户名'
+    label: '用户名',
+    prop: 'userName'
   },
 
-  { prop: 'phone', label: '手机号' },
-  { prop: 'email', label: '邮箱' },
-  { prop: 'createTime', label: '创建时间' },
   {
-    prop: 'roleName',
-    label: '角色',
-    enum: getRoleSelect2,
-    fieldNames: { label: 'roleName', value: 'id' }
+    label: '手机号',
+    prop: 'phone'
   },
   {
-    prop: 'orgName',
+    label: '邮箱',
+    prop: 'email'
+  },
+  {
+    label: '创建时间',
+    prop: 'createTime'
+  },
+  {
+    label: '角色',
+    prop: 'roleName',
+    filterEnum: true,
+    fieldRowNames: { name: 'roleName', value: 'id', rowKey: 'roleId' }
+  },
+  {
     label: '组织',
+    prop: 'orgName',
     render: ({ row }) => {
       return <span>{row.roleId === 'ad' ? '-' : row.orgName}</span>
     }
   },
   {
-    prop: 'professional',
     label: '专业',
-    render: ({ row }) => {
-      return <span>{professionalFilter(row)}</span>
-    }
+    prop: 'professional',
+    enum: majorList,
+    filterEnum: true,
+    fieldNames: { label: 'name', value: 'value' },
+    fieldRowNames: { name: 'name', value: 'value', rowKey: 'professional' }
   },
   {
-    prop: 'forbiddenStatus',
     label: '状态',
+    prop: 'forbiddenStatus',
     render: ({ row }) => {
       return (
         <el-tag type={row.forbiddenStatus == 1 ? '' : 'danger'}>{row.forbiddenStatus == 1 ? '启用' : '禁用'}</el-tag>
       )
     }
   },
-  { prop: 'remarks', label: '备注' },
-  { prop: 'operation', label: '操作', fixed: 'right', width: 190 }
-]
-
-function professionalFilter(row) {
-  let item = majorList.find(t => t.value !== 0 && t.value === row.professional) as IMajorSchema
-  if (item) {
-    return item.name
+  {
+    label: '备注',
+    prop: 'remarks'
+  },
+  {
+    label: '操作',
+    prop: 'operation',
+    fixed: 'right',
+    width: 190
   }
-}
+]
 </script>

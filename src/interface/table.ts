@@ -1,5 +1,6 @@
 import { InputProps, ElSelect, SwitchProps, TimePickerDefaultProps } from 'element-plus'
 import { TimeSelectProps } from 'element-plus/es/components/time-select/src/time-select'
+import { TableColumnCtx } from 'element-plus/es/components/table/src/table-column/defaults'
 
 export type BreakPoint = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 
@@ -53,6 +54,7 @@ interface Switch {
 }
 
 export type BaseSearch = {
+  el?: string
   key?: string // 指定搜索key
   span?: number // 搜索项占用列数，默认为1
   offset?: number // 搜索字段左偏移列数
@@ -62,27 +64,34 @@ export type BaseSearch = {
   lg: number
   xl: number
   defaultValue?: string | number | boolean | any[] // 搜索默认值
+  event?: any
 }
 
 export type SearchProps = BaseSearch & (Input | Select | DatePicker | TimePicker | TimeSelect | Switch | TreeSelect)
 
-export interface ColumnProps<T = any> {
+export interface ColumnProps<T = any> extends Partial<TableColumnCtx<T>> {
   isShow?: boolean // 是否显示在表格当中
-  enum?: EnumProps[] | ((params?: any) => Promise<any>) // 渲染值的字典
-  fieldNames?: { label: string; value: string } // 指定label，value的key值
+  label?: string // 标签名称
+  prop?: string // 属性名
+  filterEnum?: boolean
+  enum?: any
+  enumOptions?: { data?: string; params?: any }
+  fieldNames?: { label: string; value: string } // 枚举字段
+  fieldRowNames?: { name: string; value: string; rowKey: string } // 数据行枚举字段获取值
   headerRender?: (row: ColumnProps) => any // 自定义表头渲染
   render?: (scope: { row: T }) => any // 自定义单元格渲染
   _children?: ColumnProps<T>[] // 多级表头
 }
 
 export interface SearchColumnProps {
-  render?: (scope?) => any
-  label?: boolean // 标签名称
+  label?: string // 标签名称
   labelWidth?: boolean // 标签宽度
   prop?: string // 属性名
   enum?: any
-  fieldNames?: { label: string; value: string }
-  search?: SearchProps | undefined // 搜索项配置
+  enumOptions?: { data?: string; params?: any }
+  fieldNames?: { label: string; value: string; children?: string }
+  search?: SearchProps | any // 搜索项配置
+  render?: (scope?) => any
 }
 
 export namespace Table {

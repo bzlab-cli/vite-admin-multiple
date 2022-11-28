@@ -3,7 +3,7 @@
  * @Description:
  * @Date: 2021/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2022/01/29 16:04:00
+ * @LastEditTime: 2022/11/28 18:29:56
  */
 
 import { prefix, get } from '../decorator/request'

@@ -79,11 +79,11 @@ const tableRef = ref<InstanceType<typeof ElTable>>()
 
 interface ProTableProps extends Partial<Omit<TableProps<any>, 'data'>> {
   searchColumns: SearchColumnProps[]
-  filterSearchField: string[]
+  filterSearchFields: string[]
   columns: ColumnProps[] // 列配置项
   requestApi: (params: any) => Promise<any> // 请求数据接口
   dataCallback?: (data: any) => any // 返回数据二次处理
-  hideSearch: boolean
+  hideSearch?: boolean
   pagination?: boolean // 是否需要分页组件
   initParam?: any // 初始化请求参数
   border?: boolean // 是否带有纵向边框
@@ -95,7 +95,7 @@ interface ProTableProps extends Partial<Omit<TableProps<any>, 'data'>> {
 // 默认配置
 const props = withDefaults(defineProps<ProTableProps>(), {
   searchColumns: () => [],
-  filterSearchField: () => [],
+  filterSearchFields: () => [],
   columns: () => [],
   pagination: true,
   hideSearch: false,
@@ -120,7 +120,7 @@ const {
   handleReset,
   handleSizeChange,
   handleCurrentChange
-} = useTable(props.requestApi, props.initParam, props.filterSearchField, props.pagination, props.dataCallback)
+} = useTable(props.requestApi, props.initParam, props.filterSearchFields, props.pagination, props.dataCallback)
 
 // 清空选中数据
 const clearSelection = () => tableRef.value!.clearSelection()
@@ -135,7 +135,10 @@ watch(
 
 const tableColumns = ref<ColumnProps[]>(props.columns)
 
+const searchEnumMap = ref(new Map<string, { [key: string]: any }[]>())
 const enumMap = ref(new Map<string, { [key: string]: any }[]>())
+
+provide('searchEnumMap', searchEnumMap)
 provide('enumMap', enumMap)
 
 const flatTableColumnsFunc = (columns: ColumnProps[], flatArr: ColumnProps[] = []) => {
@@ -143,6 +146,10 @@ const flatTableColumnsFunc = (columns: ColumnProps[], flatArr: ColumnProps[] = [
     if (col._children?.length) flatArr.push(...flatTableColumnsFunc(col._children))
     flatArr.push(col)
     col.isShow = col.isShow ?? true
+    if (!col.enum) return
+    if (typeof col.enum !== 'function') return enumMap.value.set(col.prop!, col.enum)
+    const { data } = await col.enum()
+    enumMap.value.set(col.prop!, data)
   })
   return flatArr.filter(item => !item._children?.length)
 }
@@ -152,9 +159,17 @@ flatTableColumnsFunc(tableColumns.value as ColumnProps[])
 const flatSearchColumnsFunc = (columns: SearchColumnProps[]) => {
   columns.forEach(async col => {
     if (!col.enum) return
-    if (typeof col.enum !== 'function') return enumMap.value.set(col.prop!, col.enum)
-    const { data } = await col.enum()
-    enumMap.value.set(col.prop!, data)
+    if (typeof col.enum !== 'function') return searchEnumMap.value.set(col.prop!, col.enum)
+
+    const dataField = col.enumOptions?.data ?? 'data'
+    const params = col.enumOptions?.params ?? undefined
+    const colEnum = await col.enum(params)
+    let enumData = colEnum
+    const paths = dataField.split('.') as any[]
+    while (paths.length > 0) {
+      enumData = enumData[paths.shift()]
+    }
+    searchEnumMap.value.set(col.prop!, enumData)
   })
   return columns
 }

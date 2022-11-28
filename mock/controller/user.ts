@@ -3,7 +3,7 @@
  * @Description:
  * @Date: 2021/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2022/11/25 16:58:09
+ * @LastEditTime: 2022/11/28 17:13:00
  */
 
 import { Random } from 'mockjs'
@@ -124,7 +124,7 @@ export default class User {
           rtcAttributes: null,
           jobNumber: null,
           entryDate: null,
-          professional: null,
+          professional: 1,
           dateOfBirth: null,
           education: null,
           createTime: '2021-11-18 10:24:05',
@@ -135,8 +135,8 @@ export default class User {
         {
           userId: '1ee3d49b-aa78-4846-a1b7-76044d097c8e',
           userName: 'admin2',
-          roleId: 'ad1',
-          roleName: '管理员2',
+          roleId: 'sub_ad',
+          roleName: '子管理员',
           orgId: 0,
           orgName: '组织2',
           headUrl: null,
@@ -148,7 +148,7 @@ export default class User {
           rtcAttributes: null,
           jobNumber: null,
           entryDate: null,
-          professional: null,
+          professional: '',
           dateOfBirth: null,
           education: null,
           createTime: '2021-11-18 10:24:05',

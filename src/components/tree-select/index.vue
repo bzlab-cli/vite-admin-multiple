@@ -51,7 +51,7 @@ export default defineComponent({
     const mySelect = ref()
     const optionValue = ref('')
 
-    function getLable(arr, value) {
+    function getLabel(arr, value) {
       let res = ''
       function find(arr, value) {
         for (let i = 0; i < arr.length; i++) {
@@ -71,11 +71,11 @@ export default defineComponent({
         return props.modelValue
       },
       () => {
-        optionValue.value = getLable(props.list, props.modelValue)
+        optionValue.value = getLabel(props.list, props.modelValue)
       }
     )
     onMounted(() => {
-      optionValue.value = getLable(props.list, props.modelValue)
+      optionValue.value = getLabel(props.list, props.modelValue)
     })
 
     function handleNodeClick(node) {
