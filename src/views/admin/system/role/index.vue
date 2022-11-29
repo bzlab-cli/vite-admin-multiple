@@ -1,185 +1,116 @@
 <template>
-  <div class="role-container">
-    <el-card shadow="hover">
-      <div class="system-user-search mb15">
-        <el-button type="primary" @click="onOpenAddRole({})">新增角色</el-button>
-        <div class="box-right">
-          <el-input
-            class="mr10"
-            v-model="tableData.params.roleName"
-            placeholder="请输入角色名称"
-            prefix-icon="Search"
-            style="max-width: 180px"
-          />
-          <el-button type="primary" @click="handleSearch">查询</el-button>
-        </div>
-      </div>
-      <el-table :data="tableData.data" stripe style="width: 100%">
-        <el-table-column prop="roleName" label="角色名称" show-overflow-tooltip />
-        <el-table-column prop="status" label="状态">
-          <template v-slot="{ row }">
-            <el-tag :type="row.status == 0 ? '' : 'danger'">{{ row.status == 0 ? '启用' : '禁用' }}</el-tag>
-          </template>
-        </el-table-column>
-        <el-table-column prop="orgName" label="组织" show-overflow-tooltip>
-          <template #default="scope">
-            <span v-if="scope.row.orgId === 0">全部</span>
-            <span v-else>{{ scope.row.orgName }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column prop="createTime" label="创建时间" show-overflow-tooltip />
-        <el-table-column prop="operate" label="操作" width="90">
-          <template #default="scope">
-            <el-button
-              size="small"
-              type="primary"
-              link
-              v-if="scope.row.editFlag === 1"
-              @click="onOpenAuthorize(scope.row)"
-            >
-              授权
-            </el-button>
-            <el-button
-              size="small"
-              type="primary"
-              link
-              class="ml5"
-              v-if="scope.row.editFlag === 1"
-              @click="onOpenEditRole(scope.row)"
-            >
-              修改
-            </el-button>
-            <!-- <el-button size="small" type="primary" link class="ml5" @click="onRowDel(scope.row)">删除</el-button> -->
-          </template>
-        </el-table-column>
-      </el-table>
-      <el-pagination
-        @size-change="onHandleSizeChange"
-        @current-change="onHandleCurrentChange"
-        class="fx-ec mt15"
-        :pager-count="5"
-        :page-sizes="[10, 20, 30]"
-        v-model:current-page="tableData.params.pageNum"
-        background
-        v-model:page-size="tableData.params.pageSize"
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="tableData.total"
-      />
-    </el-card>
-    <add-role ref="addRoleRef" />
-    <add-authorize ref="addAuthorizeRef" />
+  <div class="table-box">
+    <bz-table
+      ref="bzTableRef"
+      :searchColumns="searchColumns"
+      :columns="columns"
+      :requestApi="getRoleList"
+      :dataCallback="dataCallback"
+    >
+      <template #tableHeader>
+        <el-button type="primary" @click="handleAddRole('新增角色')">新增角色</el-button>
+      </template>
+      <template #operation="scope">
+        <el-button size="small" type="primary" link class="ml5" @click="handleAddAuth('授权', scope.row)">
+          授权
+        </el-button>
+        <el-button size="small" type="primary" link class="ml5" @click="handleAddRole('修改角色', scope.row)">
+          修改
+        </el-button>
+      </template>
+    </bz-table>
   </div>
 </template>
 
-<script lang="ts">
-import { ref, toRefs, reactive, onMounted } from 'vue'
-import AddRole from './components/add-role.vue'
-import AddAuthorize from './components/add-authorize.vue'
-import { ElMessageBox, ElMessage } from 'element-plus'
+<script lang="tsx" setup>
+import { ref } from 'vue'
+import addRole from './components/add-role.vue'
+import addAuthorize from './components/add-authorize.vue'
 import { getRoleList } from '@/api/auth/role'
+import { ColumnProps } from '@/interface/table'
+import bzTable from '@/components/bz-table/index.vue'
+import { dynamic } from '@bzlab/bz-core'
 
-export default {
-  name: 'role',
-  components: { AddRole, AddAuthorize },
-  setup() {
-    const addRoleRef = ref()
-    const addAuthorizeRef = ref()
-    const state: any = reactive({
-      tableData: {
-        data: [],
-        total: 0,
-        loading: false,
-        params: {
-          roleName: '',
-          status: '',
-          pageNum: 1,
-          pageSize: 10
-        }
+const bzTableRef = ref()
+;(window as any).bzTableRef = bzTableRef
+
+const handleAddRole = (title: string, rowData?) => {
+  const params = {
+    id: 'addRole', // 组件id
+    el: '#app', // 挂载节点
+    data: {
+      title,
+      rowData,
+      isAdd: title === '新增角色',
+      callback: () => bzTableRef.value.getTableList()
+    },
+    render: addRole
+  }
+  dynamic.show(params)
+}
+
+const handleAddAuth = (title: string, rowData?) => {
+  const params = {
+    id: 'addAuthorize', // 组件id
+    el: '#app', // 挂载节点
+    data: {
+      title,
+      rowData,
+      callback: () => bzTableRef.value.getTableList()
+    },
+    render: addAuthorize
+  }
+  dynamic.show(params)
+}
+
+const dataCallback = (data: any) => {
+  return {
+    list: data.list,
+    total: data.total
+  }
+}
+
+const searchColumns = [
+  {
+    label: '角色名称',
+    prop: 'roleName',
+    search: {
+      el: 'el-input',
+      props: {
+        placeholder: '请输入角色名称',
+        clearable: true
       }
-    })
-    // 初始化表格数据
-    const initTableData = async () => {
-      let { data, retCode, retMsg } = await getRoleList(state.tableData.params)
-      if (retCode !== 200) return ElMessage.warning(retMsg)
-      state.tableData.data = data.list || []
-      state.tableData.total = data.total
-    }
-
-    const handleSearch = () => {
-      state.tableData.params.pageNum = 1
-      initTableData()
-    }
-
-    const onOpenAuthorize = row => {
-      addAuthorizeRef.value.openDialog(row, () => {
-        initTableData()
-      })
-    }
-
-    // 打开新增菜单弹窗
-    const onOpenAddRole = row => {
-      row.dialogType = 'add'
-      row.dialogTitle = '新增角色'
-      addRoleRef.value.openDialog(row, () => {
-        initTableData()
-      })
-    }
-    // 打开编辑菜单弹窗
-    const onOpenEditRole = row => {
-      row.dialogType = 'update'
-      row.dialogTitle = '编辑角色'
-      addRoleRef.value.openDialog(row, () => {
-        initTableData()
-      })
-    }
-    // 当前行删除
-    const onRowDel = row => {
-      console.log(row)
-      ElMessageBox.confirm('确认删除?', '提示', {
-        confirmButtonText: '删除',
-        cancelButtonText: '取消',
-        type: 'warning'
-      })
-        .then(() => {
-          console.log(row)
-        })
-        .catch(() => {})
-    }
-    // 分页改变
-    const onHandleSizeChange = (val: number) => {
-      state.tableData.params.pageSize = val
-      initTableData()
-    }
-    // 分页改变
-    const onHandleCurrentChange = (val: number) => {
-      state.tableData.params.pageNum = val
-      initTableData()
-    }
-    // 页面加载时
-    onMounted(() => {
-      initTableData()
-    })
-    return {
-      addRoleRef,
-      addAuthorizeRef,
-      onOpenAuthorize,
-      onOpenAddRole,
-      onOpenEditRole,
-      handleSearch,
-      onRowDel,
-      onHandleSizeChange,
-      onHandleCurrentChange,
-      ...toRefs(state)
     }
   }
-}
+]
+
+const columns: ColumnProps[] = [
+  {
+    label: '角色名称',
+    prop: 'roleName'
+  },
+  {
+    label: '状态',
+    prop: 'status',
+    render: ({ row }) => {
+      return <el-tag type={row.status == 0 ? '' : 'danger'}>{row.status == 0 ? '启用' : '禁用'}</el-tag>
+    }
+  },
+  {
+    label: '组织',
+    prop: 'orgName',
+    render: ({ row }) => {
+      return <>{<span>{row.orgId === 0 ? '全部' : row.orgName}</span>}</>
+    }
+  },
+  {
+    label: '创建时间',
+    prop: 'createTime'
+  },
+  {
+    label: '操作',
+    prop: 'operation',
+    fixed: 'right'
+  }
+]
 </script>
-
-<style lang="scss" scoped>
-.role-container {
-  .system-user-search {
-    display: flex;
-    justify-content: space-between;
-  }
-}
-</style>

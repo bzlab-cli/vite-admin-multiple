@@ -3,7 +3,7 @@
  * @Description:
  * @Date: 2021/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2022/11/24 10:18:44
+ * @LastEditTime: 2022/11/29 15:30:38
  */
 
 module.exports = {
@@ -56,20 +56,6 @@ module.exports = {
     '@typescript-eslint/ban-ts-comment': ['off'],
     'vue/no-setup-props-destructure': ['off'],
     '@typescript-eslint/no-empty-function': ['off'],
-    "@typescript-eslint/no-unused-vars": [
-      "error",
-      {
-        argsIgnorePattern: "^_",
-        varsIgnorePattern: "^_"
-      }
-    ],
-    "no-unused-vars": [
-      "error",
-      {
-        argsIgnorePattern: "^_",
-        varsIgnorePattern: "^_"
-      }
-    ],
     "vue/html-self-closing": [
       "error",
       {

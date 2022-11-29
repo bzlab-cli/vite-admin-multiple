@@ -10,47 +10,80 @@
       :dataCallback="dataCallback"
     >
       <template #tableHeader>
-        <el-button type="primary">新增用户</el-button>
+        <el-button type="primary" @click="handleAddUser('新增用户')">新增用户</el-button>
       </template>
-      <!-- <template #operation="scope">
-        <el-button size="small" type="primary" link class="ml5" @click="onOpenEditUser(scope.row)">修改</el-button>
+      <template #operation="scope">
+        <el-button size="small" type="primary" link class="ml5" @click="handleAddUser('修改用户', scope.row)">
+          修改
+        </el-button>
         <el-button
           size="small"
           type="primary"
           link
           class="ml5"
-          @click="onRowEnableChange(scope.row, scope.row.forbiddenStatus == 1 ? 0 : 1)"
+          @click="handleEnableChange(scope.row, scope.row.forbiddenStatus == 1 ? 0 : 1)"
         >
           {{ scope.row.forbiddenStatus == 1 ? '禁用' : '启用' }}
         </el-button>
-        <el-button size="small" type="primary" link class="ml5" @click="handleResetPassword(scope.row)">
-          重置密码
-        </el-button>
-        <el-button size="small" type="primary" link class="ml5" @click="onRowDel(scope.row)">删除</el-button>
-      </template> -->
+        <el-button size="small" type="primary" link class="ml5" @click="handleResetPwd(scope.row)">重置密码</el-button>
+        <el-button size="small" type="primary" link class="ml5" @click="handleDelete(scope.row)">删除</el-button>
+      </template>
     </bz-table>
   </div>
 </template>
 
 <script lang="tsx" setup name="user">
 import { ref, reactive } from 'vue'
-// import { ElMessage } from 'element-plus'
+import { ElMessage } from 'element-plus'
 import { ColumnProps } from '@/interface/table'
-// import { useHandleData } from '@/hooks/table/use-handle-data'
+import { useConfirm } from '@/hooks/table/use-handle'
 import bzTable from '@/components/bz-table/index.vue'
 import { majorList } from '@/constant/major'
-import { getUserList } from '@/api/auth/user'
+import { getUserList, resetPassword, deleteUser, updateUserForbiddenStatus } from '@/api/auth/user'
 import { getRoleSelect2 } from '@/api/auth/role'
 import { getOrgList } from '@/api/auth/org'
 import { statusList } from '@/constant/user'
+import addUser from './components/add-user.vue'
+import { dynamic } from '@bzlab/bz-core'
 
 const bzTableRef = ref()
-
 ;(window as any).bzTableRef = bzTableRef
 
 const initParam = reactive({})
-
 const filterSearchFields = ['orgName']
+
+const handleAddUser = (title: string, rowData?) => {
+  const params = {
+    id: 'addUser', // 组件id
+    el: '#app', // 挂载节点
+    data: {
+      title,
+      rowData,
+      isAdd: title === '新增用户',
+      callback: () => bzTableRef.value.getTableList()
+    },
+    render: addUser
+  }
+  dynamic.show(params)
+}
+
+const handleEnableChange = async (row, flag) => {
+  const message = `确认${flag === 0 ? '禁用' : '启用'}?`
+  await useConfirm(updateUserForbiddenStatus, { userId: row.userId, forbiddenStatus: flag }, message)
+  bzTableRef.value.getTableList()
+}
+
+const handleResetPwd = async row => {
+  let { retCode, retMsg } = await resetPassword({ userId: row.userId })
+  if (retCode !== 200) return ElMessage.warning(retMsg)
+  ElMessage.success('重置成功')
+}
+
+const handleDelete = async row => {
+  const message = `确认删除?`
+  await useConfirm(deleteUser, { userId: row.userId }, message)
+  bzTableRef.value.getTableList()
+}
 
 const dataCallback = (data: any) => {
   return {

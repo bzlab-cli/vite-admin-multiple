@@ -9,21 +9,21 @@ import { HandleData } from '@/interface/table'
  * @param {String} confirmType 消息类型，默认warning
  * @return Promise
  */
-export const useHandleData = <P = any>(
+export const useConfirm = <P = any>(
   api: (params: P) => Promise<IResponseModel<any>>,
   params: Parameters<typeof api>[0],
   message: string,
   confirmType: HandleData.MessageType = 'warning'
 ) => {
-  return new Promise((resolve, reject) => {
-    ElMessageBox.confirm(`是否${message}?`, '温馨提示', {
+  return new Promise(resolve => {
+    ElMessageBox.confirm(message, '提示', {
       confirmButtonText: '确定',
       cancelButtonText: '取消',
       type: confirmType,
       draggable: true
     }).then(async () => {
-      const { retCode } = await api(params)
-      if (retCode !== 200) return reject(false)
+      const { retCode, retMsg } = await api(params)
+      if (retCode !== 200) return ElMessage.warning(retMsg)
       ElMessage({
         type: 'success',
         message: `操作成功`

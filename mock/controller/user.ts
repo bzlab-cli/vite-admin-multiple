@@ -3,7 +3,7 @@
  * @Description:
  * @Date: 2021/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2022/11/28 17:13:00
+ * @LastEditTime: 2022/11/29 15:35:52
  */
 
 import { Random } from 'mockjs'
@@ -174,5 +174,58 @@ export default class User {
       navigateFirstPage: 1,
       navigateLastPage: 1
     }
+  }
+
+  @get('/competence')
+  competence() {
+    return [
+      {
+          "id": 1,
+          "competenceName": "绩效评审组长",
+          "competenceCode": "202",
+          "describe": null
+      },
+      {
+          "id": 2,
+          "competenceName": "绩效主席",
+          "competenceCode": null,
+          "describe": null
+      },
+      {
+          "id": 3,
+          "competenceName": "绩效评审组员",
+          "competenceCode": null,
+          "describe": null
+      }
+    ] as any
+  }
+
+  @get('/user/getUser')
+  getUser() {
+    return {
+      "userId": "01b322e7-130d-403f-b010-74bde37a0290",
+      "userName": "admin",
+      "roleId": "ad",
+      "roleName": "系统管理员",
+      "orgId": 0,
+      "orgName": null,
+      "headUrl": "",
+      "phone": "13575356945",
+      "regId": "",
+      "account": "13575356945",
+      "email": "",
+      "state": null,
+      "userType": 0,
+      "rtcAttributes": null,
+      "jobNumber": null,
+      "entryDate": null,
+      "professional": null,
+      "dateOfBirth": null,
+      "education": null,
+      "createTime": "2022-09-26 16:49:21",
+      "remarks": "",
+      "competenceIds": null,
+      "forbiddenStatus": 1
+    } as any
   }
 }

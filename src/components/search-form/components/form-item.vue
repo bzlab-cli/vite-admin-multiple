@@ -4,7 +4,7 @@
     v-if="!column.render"
     :is="column.search?.el"
     v-bind="column.search?.props"
-    v-model="searchParams[column.search?.key]"
+    v-model="searchParams[column.search?.key ?? column.prop]"
     v-on="column.search?.event"
     :data="column.search?.el === 'el-tree-select' ? treeSelectColumnEnum : []"
     :placeholder="placeholder(column)"

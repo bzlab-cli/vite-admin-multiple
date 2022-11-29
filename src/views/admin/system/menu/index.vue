@@ -1,174 +1,156 @@
 <template>
-  <div class="menu-container">
-    <el-card shadow="hover">
-      <div class="system-user-search mb15">
-        <el-button type="primary" @click="onOpenAddMenu({})">新增菜单</el-button>
-        <div class="box-right">
-          <el-input
-            class="mr10"
-            v-model="tableData.params.menuName"
-            placeholder="请输入菜单名称"
-            prefix-icon="Search"
-            style="max-width: 180px"
-          />
-          <el-button type="primary" @click="handleSearch">查询</el-button>
-        </div>
-      </div>
-      <el-table
-        :data="tableData.data"
-        stripe
-        style="width: 100%"
-        row-key="id"
-        :tree-props="{ children: 'childTreeList', hasChildren: 'hasChildren' }"
-      >
-        <el-table-column label="菜单名称" show-overflow-tooltip width="150">
-          <template #default="scope">
-            <el-icon class="menu-icon">
-              <component :is="scope.row.menuIcon" />
-            </el-icon>
-            <span>{{ scope.row.menuName }}</span>
-          </template>
-        </el-table-column>
-        <!-- <el-table-column prop="menuIcon" label="图标" show-overflow-tooltip width="50">
-          <template #default="scope">
-            <i :class="scope.row.menuIcon"></i>
-          </template>
-        </el-table-column> -->
-        <el-table-column prop="menuType" label="类型">
-          <template v-slot="{ row }">
-            <el-tag v-if="row.menuType === 1">目录</el-tag>
-            <el-tag type="success" v-if="row.menuType === 2">菜单</el-tag>
-            <el-tag type="warning" v-if="row.menuType === 3">按钮</el-tag>
-          </template>
-        </el-table-column>
-        <el-table-column prop="menuCode" label="权限标识" show-overflow-tooltip width="150" />
-        <el-table-column label="组件地址" show-overflow-tooltip>
-          <template #default="scope">
-            <span>{{ scope.row.menuComponents }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="组件名称" show-overflow-tooltip>
-          <template #default="scope">
-            <span>{{ scope.row.menuRoute }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column prop="menuSort" label="排序" show-overflow-tooltip width="100" />
-        <el-table-column prop="cache" label="是否缓存">
-          <template v-slot="{ row }">
-            <el-tag v-if="row.menuType === 2" :type="row.cache == 0 ? 'danger' : ''">
-              {{ row.cache == 0 ? '禁用' : '启用' }}
-            </el-tag>
-          </template>
-        </el-table-column>
-        <el-table-column prop="hiddenFlag" label="是否显示">
-          <template v-slot="{ row }">
-            <el-tag :type="row.hiddenFlag == 0 ? 'danger' : ''">{{ row.hiddenFlag == 0 ? '隐藏' : '显示' }}</el-tag>
-          </template>
-        </el-table-column>
-        <el-table-column prop="status" label="状态">
-          <template v-slot="{ row }">
-            <el-tag :type="row.status == 0 ? '' : 'danger'">{{ row.status == 0 ? '启用' : '禁用' }}</el-tag>
-          </template>
-        </el-table-column>
-        <el-table-column prop="createTime" label="创建时间" show-overflow-tooltip width="150" />
-        <el-table-column label="操作" show-overflow-tooltip width="100">
-          <template #default="scope">
-            <el-button size="small" type="primary" link @click="onOpenEditMenu(scope.row)">修改</el-button>
-            <!-- <el-button size="small" type="primary" link class="ml5" @click="onTabelRowDel(scope.row)">删除</el-button> -->
-          </template>
-        </el-table-column>
-      </el-table>
-    </el-card>
-    <add-menu ref="addMenuRef" />
+  <div class="table-box">
+    <bz-table
+      ref="bzTableRef"
+      :searchColumns="searchColumns"
+      :columns="columns"
+      :requestApi="getMenuList"
+      :initParam="initParam"
+      :dataCallback="dataCallback"
+      :pagination="false"
+      row-key="id"
+      :tree-props="{ children: 'childTreeList', hasChildren: 'hasChildren' }"
+    >
+      <template #tableHeader>
+        <el-button type="primary" @click="handleAddMenu('新增菜单')">新增菜单</el-button>
+      </template>
+      <template #operation="scope">
+        <el-button size="small" type="primary" link class="ml5" @click="handleAddMenu('修改菜单', scope.row)">
+          修改
+        </el-button>
+      </template>
+    </bz-table>
   </div>
 </template>
 
-<script lang="ts">
-import { ref, toRefs, reactive, onMounted } from 'vue'
-import AddMenu from './components/add-menu.vue'
-import { ElMessageBox, ElMessage } from 'element-plus'
+<script lang="tsx" setup>
+import { ref, reactive } from 'vue'
+import addMenu from './components/add-menu.vue'
 import { getMenuList } from '@/api/auth/menu'
+import { dynamic } from '@bzlab/bz-core'
+import { ColumnProps } from '@/interface/table'
+import bzTable from '@/components/bz-table/index.vue'
+import Icon from '@/components/icon/index.vue'
 
-export default {
-  name: 'menu',
-  components: { AddMenu },
-  setup() {
-    const addMenuRef = ref()
-    const state = reactive({
-      tableData: {
-        data: [],
-        loading: false,
-        params: {
-          menuName: '',
-          status: ''
-        }
+const bzTableRef = ref()
+;(window as any).bzTableRef = bzTableRef
+
+const initParam = reactive({})
+
+const handleAddMenu = (title: string, rowData?) => {
+  const params = {
+    id: 'addMenu', // 组件id
+    el: '#app', // 挂载节点
+    data: {
+      title,
+      rowData,
+      tableData: bzTableRef.value.tableData,
+      isAdd: title === '新增菜单',
+      callback: () => bzTableRef.value.getTableList()
+    },
+    render: addMenu
+  }
+  dynamic.show(params)
+}
+
+const dataCallback = (data: any) => {
+  return {
+    list: data
+  }
+}
+
+const searchColumns = [
+  {
+    label: '菜单名称',
+    prop: 'menuName',
+    search: {
+      el: 'el-input',
+      props: {
+        placeholder: '请输入菜单名称',
+        clearable: true
       }
-    })
-
-    const initTableData = async () => {
-      let { data, retCode, retMsg } = await getMenuList(state.tableData.params)
-      if (retCode !== 200) return ElMessage.warning(retMsg)
-      let list = data || []
-      state.tableData.data = list
-    }
-
-    const handleSearch = () => {
-      initTableData()
-    }
-
-    const onOpenAddMenu = row => {
-      row.dialogType = 'add'
-      row.dialogTitle = '新增菜单'
-      row.tableData = state.tableData.data
-      addMenuRef.value.openDialog(row, () => {
-        initTableData()
-      })
-    }
-    // 打开编辑菜单弹窗
-    const onOpenEditMenu = row => {
-      row.dialogType = 'update'
-      row.dialogTitle = '编辑菜单'
-      row.tableData = state.tableData.data
-      addMenuRef.value.openDialog(row, () => {
-        initTableData()
-      })
-    }
-    // 删除当前行
-    const onTabelRowDel = (row: object) => {
-      ElMessageBox.confirm('确认删除?', '提示', {
-        confirmButtonText: '删除',
-        cancelButtonText: '取消',
-        type: 'warning'
-      })
-        .then(() => {
-          console.log(row)
-        })
-        .catch(() => {})
-    }
-    onMounted(() => {
-      initTableData()
-    })
-    return {
-      addMenuRef,
-      onOpenAddMenu,
-      onOpenEditMenu,
-      handleSearch,
-      onTabelRowDel,
-      ...toRefs(state)
     }
   }
-}
+]
+
+const columns: ColumnProps[] = [
+  {
+    label: '菜单名称',
+    prop: 'menuName',
+    render: ({ row }) => {
+      return (
+        <>
+          <Icon icon={row.menuIcon} style={{ verticalAlign: 'middle', marginBottom: '4px' }} />
+          <span style={{ marginLeft: '3px' }}>{row.menuName}</span>
+        </>
+      )
+    }
+  },
+  {
+    label: '类型',
+    prop: 'menuType',
+    render: ({ row }) => {
+      return (
+        <>
+          {row.menuType === 1 && <el-tag>目录</el-tag>}
+          {row.menuType === 2 && <el-tag type="success">菜单</el-tag>}
+          {row.menuType === 3 && <el-tag type="warning">按钮</el-tag>}
+        </>
+      )
+    }
+  },
+  {
+    label: '权限标识',
+    prop: 'menuCode'
+  },
+  {
+    label: '组件地址',
+    prop: 'menuComponents'
+  },
+  {
+    label: '组件名称',
+    prop: 'menuRoute'
+  },
+  {
+    label: '排序',
+    prop: 'menuSort'
+  },
+  {
+    label: '是否缓存',
+    prop: 'cache',
+    render: ({ row }) => {
+      return (
+        <>
+          {row.menuType === 2 && (
+            <el-tag type={row.cache == 0 ? 'danger' : ''}>{row.cache == 0 ? '禁用' : '启用'}</el-tag>
+          )}
+        </>
+      )
+    }
+  },
+  {
+    label: '是否显示',
+    prop: 'cache',
+    render: ({ row }) => {
+      return <>{<el-tag type={row.hiddenFlag == 0 ? 'danger' : ''}>{row.hiddenFlag == 0 ? '隐藏' : '显示'}</el-tag>}</>
+    }
+  },
+  {
+    label: '状态',
+    prop: 'cache',
+    render: ({ row }) => {
+      return <>{<el-tag type={row.status == 0 ? '' : 'danger'}>{row.status == 0 ? '启用' : '禁用'}</el-tag>}</>
+    }
+  },
+  {
+    label: '创建时间',
+    prop: 'createTime'
+  },
+  {
+    label: '操作',
+    prop: 'operation',
+    fixed: 'right',
+    width: 100
+  }
+]
 </script>
-
-<style lang="scss" scoped>
-.menu-container {
-  .system-user-search {
-    display: flex;
-    justify-content: space-between;
-  }
-  .menu-icon {
-    vertical-align: middle;
-    margin-bottom: 2px;
-  }
-}
-</style>
