@@ -16,7 +16,7 @@ export const useSelection = (selectId = 'id') => {
     return ids
   })
 
-  // 获取行数据key,
+  // 获取行数据键值
   const getRowKeys = (row: any) => {
     return row[selectId]
   }

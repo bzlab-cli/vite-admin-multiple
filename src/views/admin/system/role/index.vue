@@ -35,6 +35,8 @@ const bzTableRef = ref()
 ;(window as any).bzTableRef = bzTableRef
 
 const handleAddRole = (title: string, rowData?) => {
+  console.log('rowData', rowData)
+
   const params = {
     id: 'addRole', // 组件id
     el: '#app', // 挂载节点
@@ -85,19 +87,10 @@ const searchColumns = [
 ]
 
 const columns: ColumnProps[] = [
+  { type: 'selection', fixed: 'left', width: 80 },
   {
     label: '角色名称',
-    prop: 'roleName',
-    _children: [
-      {
-        label: '角色名称',
-        prop: 'roleName'
-      },
-      {
-        label: '角色名称',
-        prop: 'roleName'
-      }
-    ]
+    prop: 'roleName'
   },
   {
     label: '状态',

@@ -80,7 +80,7 @@ export interface ColumnProps<T = any> extends Partial<TableColumnCtx<T>> {
   fieldRowNames?: { name: string; value: string; rowKey: string } // 数据行枚举字段获取值
   headerRender?: (row: ColumnProps) => any // 自定义表头渲染
   render?: (scope: { row: T }) => any // 自定义单元格渲染
-  _children?: ColumnProps<T>[] // 多级表头
+  children?: any[] // 多级表头
 }
 
 export interface SearchColumnProps {
@@ -95,7 +95,7 @@ export interface SearchColumnProps {
 }
 
 export namespace Table {
-  export interface PageTable {
+  export interface PaginationParams {
     pageNum: number
     pageSize: number
     total: number
@@ -105,7 +105,7 @@ export namespace Table {
   }
   export interface TableStateProps {
     tableData: any[]
-    pageTable: PageTable
+    paginationParams: PaginationParams
     searchParams: {
       [key: string]: any
     }

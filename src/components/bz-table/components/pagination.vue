@@ -1,11 +1,11 @@
 <template>
   <el-pagination
-    :current-page="pageTable.pageNum"
-    :page-size="pageTable.pageSize"
-    :page-sizes="pageTable.pageSizes"
-    :background="pageTable.background"
-    :layout="pageTable.layout"
-    :total="pageTable.total"
+    :current-page="paginationParams.pageNum"
+    :page-size="paginationParams.pageSize"
+    :page-sizes="paginationParams.pageSizes"
+    :background="paginationParams.background"
+    :layout="paginationParams.layout"
+    :total="paginationParams.total"
     @size-change="handleSizeChange"
     @current-change="handleCurrentChange"
   />
@@ -15,7 +15,7 @@
 import { Table } from '@/interface/table'
 
 interface PaginationProps {
-  pageTable: Table.PageTable
+  paginationParams: Table.PaginationParams
   handleSizeChange: (size: number) => void
   handleCurrentChange: (currentPage: number) => void
 }

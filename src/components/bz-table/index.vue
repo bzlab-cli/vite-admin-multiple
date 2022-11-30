@@ -55,7 +55,7 @@
     <bz-pagination
       class="pagination"
       v-if="pagination"
-      :pageTable="pageTable"
+      :paginationParams="paginationParams"
       :handleSizeChange="handleSizeChange"
       :handleCurrentChange="handleCurrentChange"
     />
@@ -83,11 +83,11 @@ interface ProTableProps extends Partial<Omit<TableProps<any>, 'data'>> {
   columns: ColumnProps[] // 列配置项
   requestApi: (params: any) => Promise<any> // 请求数据接口
   dataCallback?: (data: any) => any // 返回数据二次处理
-  hideSearch?: boolean
+  hideSearch?: boolean // 隐藏搜索
   pagination?: boolean // 是否需要分页组件
   initParam?: any // 初始化请求参数
-  border?: boolean // 是否带有纵向边框
-  toolButton?: boolean // 是否显示功能按钮
+  border?: boolean // 显示表格边框
+  toolButton?: boolean // 显示功能按钮
   selectId?: string // 当表格数据多选时，指定的id
   searchCol?: number | Record<BreakPoint, number> // 表格搜索项配置
 }
@@ -97,8 +97,8 @@ const props = withDefaults(defineProps<ProTableProps>(), {
   searchColumns: () => [],
   filterSearchFields: () => [],
   columns: () => [],
-  pagination: true,
   hideSearch: false,
+  pagination: true,
   initParam: {},
   border: false,
   toolButton: true,
@@ -112,7 +112,7 @@ const { selectionChange, getRowKeys, selectedList, selectedListIds, isSelected }
 // 表格操作
 const {
   tableData,
-  pageTable,
+  paginationParams,
   searchParams,
   searchInitParams,
   getTableList,
@@ -143,7 +143,7 @@ provide('enumMap', enumMap)
 
 const flatTableColumnsFunc = (columns: ColumnProps[], flatArr: ColumnProps[] = []) => {
   columns.forEach(async col => {
-    if (col._children?.length) flatArr.push(...flatTableColumnsFunc(col._children))
+    if (col.children?.length) flatArr.push(...flatTableColumnsFunc(col.children))
     flatArr.push(col)
     col.isShow = col.isShow ?? true
     if (!col.enum) return
@@ -151,7 +151,7 @@ const flatTableColumnsFunc = (columns: ColumnProps[], flatArr: ColumnProps[] = [
     const { data } = await col.enum()
     enumMap.value.set(col.prop!, data)
   })
-  return flatArr.filter(item => !item._children?.length)
+  return flatArr.filter(item => !item.children?.length)
 }
 
 flatTableColumnsFunc(tableColumns.value as ColumnProps[])
@@ -199,7 +199,7 @@ const openColSetting = () => {
   colRef.value.openColSetting()
 }
 
-defineExpose({ element: tableRef, tableData, searchParams, pageTable, getTableList, clearSelection })
+defineExpose({ tableRef, tableData, searchParams, paginationParams, getTableList, clearSelection })
 </script>
 
 <style lang="scss" scoped>

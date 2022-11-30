@@ -53,7 +53,7 @@ const renderLoop = (item: ColumnProps) => {
         >
           {{
             default: (scope: any) => {
-              if (item._children) return item._children.map(child => renderLoop(child))
+              if (item.children) return item.children.map(child => renderLoop(child))
               if (item.render) return item.render(scope)
               if (slots[item.prop!]) return slots[item.prop!]!(scope)
               return renderCellData(item, scope)

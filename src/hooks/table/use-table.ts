@@ -1,5 +1,6 @@
 import { Table } from '@/interface/table'
 import { reactive, onMounted, toRefs, computed } from 'vue'
+import { paginationParams } from '@/constant/layout'
 
 export const useTable = (
   api: (params: any) => Promise<any>,
@@ -10,14 +11,7 @@ export const useTable = (
 ) => {
   const state = reactive<Table.TableStateProps>({
     tableData: [],
-    pageTable: {
-      pageNum: 1,
-      pageSize: 10,
-      total: 0,
-      pageSizes: [10, 25, 50, 100],
-      background: true,
-      layout: 'total, prev, pager, next, jumper'
-    },
+    paginationParams,
     searchParams: {},
     searchInitParams: {},
     totalParam: {}
@@ -29,8 +23,8 @@ export const useTable = (
 
   const pageParams = computed(() => {
     return {
-      pageNum: state.pageTable.pageNum,
-      pageSize: state.pageTable.pageSize
+      pageNum: state.paginationParams.pageNum,
+      pageSize: state.paginationParams.pageSize
     }
   })
 
@@ -44,7 +38,7 @@ export const useTable = (
       let { data } = await api(state.totalParam)
       dataCallBack && (data = dataCallBack(data))
       state.tableData = data.list || []
-      state.pageTable.total = data.total || 0
+      state.paginationParams.total = data.total || 0
     } catch (error) {
       console.log(error)
     }
@@ -64,14 +58,14 @@ export const useTable = (
 
   // 查询
   const handleSearch = () => {
-    state.pageTable.pageNum = 1
+    state.paginationParams.pageNum = 1
     updatedTotalParam()
     getTableList()
   }
 
   // 表格数据重置
   const handleReset = () => {
-    state.pageTable.pageNum = 1
+    state.paginationParams.pageNum = 1
     state.searchParams = {}
     Object.keys(state.searchInitParams).forEach(key => {
       state.searchParams[key] = state.searchInitParams[key]
@@ -81,13 +75,13 @@ export const useTable = (
   }
 
   const handleSizeChange = (val: number) => {
-    state.pageTable.pageNum = 1
-    state.pageTable.pageSize = val
+    state.paginationParams.pageNum = 1
+    state.paginationParams.pageSize = val
     getTableList()
   }
 
   const handleCurrentChange = (val: number) => {
-    state.pageTable.pageNum = val
+    state.paginationParams.pageNum = val
     getTableList()
   }
 
