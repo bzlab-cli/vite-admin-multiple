@@ -87,7 +87,17 @@ const searchColumns = [
 const columns: ColumnProps[] = [
   {
     label: '角色名称',
-    prop: 'roleName'
+    prop: 'roleName',
+    _children: [
+      {
+        label: '角色名称',
+        prop: 'roleName'
+      },
+      {
+        label: '角色名称',
+        prop: 'roleName'
+      }
+    ]
   },
   {
     label: '状态',

@@ -1,136 +1,99 @@
 <template>
-  <div class="org-container">
-    <el-card shadow="hover">
-      <div class="org-search mb15">
-        <div class="add-org">
-          <el-button type="primary" @click="onOpenAddOrg({})">新增组织</el-button>
-        </div>
-        <div class="search">
-          <el-input
-            class="mr10"
-            v-model="tableData.params.orgName"
-            placeholder="请输入组织名称"
-            prefix-icon="Search"
-            style="max-width: 180px"
-          />
-          <el-button type="primary" @click="handleSearch">查询</el-button>
-        </div>
-      </div>
-      <el-table
-        :data="tableData.data"
-        stripe
-        row-key="id"
-        :tree-props="{ children: 'childTreeList', hasChildren: 'hasChildren' }"
-        style="width: 100%"
-      >
-        <el-table-column prop="orgName" label="组织名称" show-overflow-tooltip />
-        <el-table-column prop="orgSort" label="排序" show-overflow-tooltip />
-        <el-table-column prop="status" label="状态">
-          <template v-slot="{ row }">
-            <el-tag :type="row.status == 0 ? '' : 'danger'">{{ row.status == 0 ? '启用' : '禁用' }}</el-tag>
-          </template>
-        </el-table-column>
-        <el-table-column prop="createTime" label="创建时间" show-overflow-tooltip />
-        <el-table-column prop="remarks" label="备注" show-overflow-tooltip />
-        <el-table-column prop="operate" label="操作" width="90">
-          <template #default="scope">
-            <el-button size="small" type="primary" link @click="onOpenEditOrg(scope.row)">修改</el-button>
-            <!-- <el-button size="small" type="primary" link class="ml5" @click="onRowDel(scope.row)">删除</el-button> -->
-          </template>
-        </el-table-column>
-      </el-table>
-    </el-card>
-    <add-org ref="addOrgRef" />
+  <div class="table-box">
+    <bz-table
+      ref="bzTableRef"
+      :searchColumns="searchColumns"
+      :columns="columns"
+      :requestApi="getOrgList"
+      :dataCallback="dataCallback"
+    >
+      <template #tableHeader>
+        <el-button type="primary" @click="handleAddOrg('新增组织')">新增组织</el-button>
+      </template>
+      <template #operation="scope">
+        <el-button size="small" type="primary" link class="ml5" @click="handleAddOrg('修改组织', scope.row)">
+          修改
+        </el-button>
+      </template>
+    </bz-table>
   </div>
 </template>
 
-<script lang="ts">
-import { ref, toRefs, reactive, onMounted } from 'vue'
-import AddOrg from './components/add-org.vue'
-import { ElMessageBox, ElMessage } from 'element-plus'
+<script lang="tsx" setup>
+import { ref } from 'vue'
+import addOrg from './components/add-org.vue'
 import { getOrgList } from '@/api/auth/org'
+import { ColumnProps } from '@/interface/table'
+import bzTable from '@/components/bz-table/index.vue'
+import { dynamic } from '@bzlab/bz-core'
 
-export default {
-  name: 'org',
-  components: { AddOrg },
-  setup() {
-    const addOrgRef = ref()
-    const state: any = reactive({
-      tableData: {
-        data: [],
-        total: 0,
-        loading: false,
-        params: {
-          orgName: '',
-          status: '',
-          pageNum: 1,
-          pageSize: 10
-        }
+const bzTableRef = ref()
+;(window as any).bzTableRef = bzTableRef
+
+const handleAddOrg = (title: string, rowData?) => {
+  const params = {
+    id: 'addOrg', // 组件id
+    el: '#app', // 挂载节点
+    data: {
+      title,
+      rowData,
+      isAdd: title === '新增组织',
+      callback: () => bzTableRef.value.getTableList()
+    },
+    render: addOrg
+  }
+  dynamic.show(params)
+}
+
+const dataCallback = (data: any) => {
+  return {
+    list: data,
+    total: data.total
+  }
+}
+
+const searchColumns = [
+  {
+    label: '组织名称',
+    prop: 'orgName',
+    search: {
+      el: 'el-input',
+      props: {
+        placeholder: '请输入组织名称',
+        clearable: true
       }
-    })
-    // 初始化表格数据
-    const initTableData = async () => {
-      let { data, retCode, retMsg } = await getOrgList(state.tableData.params)
-      if (retCode !== 200) return ElMessage.warning(retMsg)
-      state.tableData.data = data || []
-    }
-
-    const handleSearch = () => {
-      state.tableData.params.pageNum = 1
-      initTableData()
-    }
-
-    // 打开新增菜单弹窗
-    const onOpenAddOrg = row => {
-      row.dialogType = 'add'
-      row.dialogTitle = '新增组织'
-      addOrgRef.value.openDialog(row, () => {
-        initTableData()
-      })
-    }
-    // 打开编辑菜单弹窗
-    const onOpenEditOrg = row => {
-      row.dialogType = 'update'
-      row.dialogTitle = '编辑组织'
-      addOrgRef.value.openDialog(row, () => {
-        initTableData()
-      })
-    }
-    // 当前行删除
-    const onRowDel = (row: object) => {
-      console.log(row)
-      ElMessageBox.confirm('确认删除?', '提示', {
-        confirmButtonText: '删除',
-        cancelButtonText: '取消',
-        type: 'warning'
-      })
-        .then(() => {
-          console.log(row)
-        })
-        .catch(() => {})
-    }
-
-    // 页面加载时
-    onMounted(() => {
-      initTableData()
-    })
-    return {
-      addOrgRef,
-      onOpenAddOrg,
-      onOpenEditOrg,
-      handleSearch,
-      onRowDel,
-      ...toRefs(state)
     }
   }
-}
+]
+
+const columns: ColumnProps[] = [
+  {
+    label: '组织名称',
+    prop: 'orgName'
+  },
+  {
+    label: '排序',
+    prop: 'orgSort'
+  },
+  {
+    label: '状态',
+    prop: 'status',
+    render: ({ row }) => {
+      return <el-tag type={row.status == 0 ? '' : 'danger'}>{row.status == 0 ? '启用' : '禁用'}</el-tag>
+    }
+  },
+  {
+    label: '创建时间',
+    prop: 'createTime'
+  },
+  {
+    label: '备注',
+    prop: 'remarks'
+  },
+  {
+    label: '操作',
+    prop: 'operation',
+    fixed: 'right'
+  }
+]
 </script>
-
-<style lang="scss" scoped>
-.org-container {
-  .org-search {
-    display: flex;
-    justify-content: space-between;
-  }
-}
-</style>

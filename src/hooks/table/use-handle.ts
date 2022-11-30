@@ -20,7 +20,7 @@ export const useConfirm = <P = any>(
       confirmButtonText: '确定',
       cancelButtonText: '取消',
       type: confirmType,
-      draggable: true
+      draggable: false
     }).then(async () => {
       const { retCode, retMsg } = await api(params)
       if (retCode !== 200) return ElMessage.warning(retMsg)

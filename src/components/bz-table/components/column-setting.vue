@@ -6,7 +6,7 @@
         :border="true"
         row-key="prop"
         default-expand-all
-        :tree-props="{ children: '_children' }"
+        :tree-props="{ children: 'children' }"
       >
         <el-table-column prop="label" align="center" label="列名" />
         <el-table-column prop="isShow" align="center" label="显示" v-slot="scope">

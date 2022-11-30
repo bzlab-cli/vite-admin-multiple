@@ -2,7 +2,7 @@
   <el-dialog custom-class="add-authorize" v-model="dialogVisible" width="500px" @close="onDestroy">
     <el-form label-width="80px">
       <el-form-item label="权限" prop="role" style="width: 100%">
-        <el-card shadow="never" :body-style="{ padding: 0, height: '400px', width: '380px' }">
+        <el-card shadow="never" style="width: 100%" :body-style="{ padding: 0, height: '400px' }">
           <el-scrollbar>
             <el-tree
               class="menu-tree"
