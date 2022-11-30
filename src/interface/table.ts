@@ -73,23 +73,40 @@ export interface ColumnProps<T = any> extends Partial<TableColumnCtx<T>> {
   isShow?: boolean // 是否显示在表格当中
   label?: string // 标签名称
   prop?: string // 属性名
-  filterEnum?: boolean
-  enum?: any
-  enumOptions?: { data?: string; params?: any }
-  fieldNames?: { label: string; value: string } // 枚举字段
-  fieldRowNames?: { name: string; value: string; rowKey: string } // 数据行枚举字段获取值
+  filterEnum?: boolean // 是否过滤枚举数据
+  enum?: any // 枚举数据
+  enumOptions?: {
+    data?: string // 当为接口请求时，指定返回值数据字段
+    params?: any // 当为接口请求时，传递参数
+  }
+  fieldNames?: {
+    label: string // 枚举字段
+    value: string // 枚举值
+  }
+  fieldRowNames?: {
+    name: string // 指定映射属性
+    value: string // 指定映射属性值
+    rowKey: string // 匹配当前数据行字段
+  }
   headerRender?: (row: ColumnProps) => any // 自定义表头渲染
   render?: (scope: { row: T }) => any // 自定义单元格渲染
-  children?: any[] // 多级表头
+  children?: any[] // 多级表头数据
 }
 
 export interface SearchColumnProps {
   label?: string // 标签名称
   labelWidth?: boolean // 标签宽度
   prop?: string // 属性名
-  enum?: any
-  enumOptions?: { data?: string; params?: any }
-  fieldNames?: { label: string; value: string; children?: string }
+  enum?: any // 枚举数据
+  enumOptions?: {
+    data?: string // 当为接口请求时，指定返回值数据字段
+    params?: any // 当为接口请求时，传递参数
+  }
+  fieldNames?: {
+    label: string // 枚举字段
+    value: string // 枚举值
+    children?: string // 子级枚举
+  }
   search?: SearchProps | any // 搜索项配置
   render?: (scope?) => any
 }

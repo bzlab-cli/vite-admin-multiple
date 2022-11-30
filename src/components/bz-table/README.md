@@ -22,20 +22,42 @@
 ## 文档
 
 ### props 配置项
+
+```
+interface SearchColumnProps {
+  label?: string // 标签名称
+  labelWidth?: boolean // 标签宽度
+  prop?: string // 属性名
+  enum?: any // 枚举数据
+  enumOptions?: {
+    data?: string // 当为接口请求时，指定返回值数据字段
+    params?: any // 当为接口请求时，传递参数
+  }
+  fieldNames?: {
+    label: string // 枚举字段
+    value: string // 枚举值
+    children?: string // 子级枚举
+  }
+  search?: SearchProps | any // 搜索项配置
+  render?: (scope?) => any
+}
+```
+
 | 序号 | 参数 | 说明 | 默认值 |
 | ---- | ---- | ---- | ---- |
-| 1 | searchColumns | 搜索配置项 | [] |
+| 1 | searchColumns | 搜索配置项 | SearchColumnProps[] |
 | 2 | filterSearchFields | 搜索项请求参数过滤 | [] |
 | 3 | columns | 列配置项 | [] |
 | 4 | requestApi | 请求数据接口 | - |
-| 5 | dataCallback | 返回数据二次处理 | function(data) |
-| 6 | hideSearch | 隐藏搜索 | false |
-| 7 | pagination | 显示分页 | true |
-| 8 | initParam | 初始化请求参数 | {} |
-| 9 | border | 显示表格边框 | false |
-| 10 | toolButton | 显示功能按钮 | true |
-| 11 | selectId | 当表格数据多选时，指定的id | id |
-| 12 | searchCol | 表格搜索项配置 | () => ({ xs: 2, sm: 3, md: 4, lg: 5, xl: 6 }) |
+| 5 | searchDataCallback | 请求参数二次处理 | function(data) |
+| 6 | dataCallback | 返回数据二次处理 | function(data) |
+| 7 | hideSearch | 隐藏搜索 | false |
+| 8 | pagination | 显示分页 | true |
+| 9 | initParam | 初始化请求参数 | {} |
+| 10 | border | 显示表格边框 | false |
+| 11 | toolButton | 显示功能按钮 | true |
+| 12 | selectId | 当表格数据多选时，指定的id | id |
+| 13 | searchCol | 表格搜索项配置 | () => ({ xs: 2, sm: 3, md: 4, lg: 5, xl: 6 }) |
 
 ### ref 事件
 | 序号 | 事件名 | 说明 | 回调参数 |

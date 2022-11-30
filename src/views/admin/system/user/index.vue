@@ -36,7 +36,7 @@
 import { ref, reactive } from 'vue'
 import { ElMessage } from 'element-plus'
 import { ColumnProps } from '@/interface/table'
-import { useConfirm } from '@/hooks/table/use-handle'
+import { useConfirm } from '@/hooks/handle/use-handle'
 import bzTable from '@/components/bz-table/index.vue'
 import { majorList } from '@/constant/major'
 import { getUserList, resetPassword, deleteUser, updateUserForbiddenStatus } from '@/api/auth/user'

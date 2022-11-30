@@ -7,6 +7,7 @@ export const useTable = (
   initParam: object = {},
   filterSearchFields: string[] = [],
   pagination,
+  searchDataCallBack?: (data: any) => any,
   dataCallBack?: (data: any) => any
 ) => {
   const state = reactive<Table.TableStateProps>({
@@ -35,6 +36,7 @@ export const useTable = (
       Object.keys(state.totalParam).forEach(key => {
         if (filterSearchFields.includes(key)) delete state.totalParam[key]
       })
+      searchDataCallBack && (state.totalParam = searchDataCallBack(state.totalParam))
       let { data } = await api(state.totalParam)
       dataCallBack && (data = dataCallBack(data))
       state.tableData = data.list || []

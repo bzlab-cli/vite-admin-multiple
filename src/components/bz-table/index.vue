@@ -82,6 +82,7 @@ interface ProTableProps extends Partial<Omit<TableProps<any>, 'data'>> {
   filterSearchFields: string[]
   columns: ColumnProps[] // 列配置项
   requestApi: (params: any) => Promise<any> // 请求数据接口
+  searchDataCallBack?: (data: any) => any // 请求参数二次处理
   dataCallback?: (data: any) => any // 返回数据二次处理
   hideSearch?: boolean // 隐藏搜索
   pagination?: boolean // 是否需要分页组件
@@ -120,7 +121,14 @@ const {
   handleReset,
   handleSizeChange,
   handleCurrentChange
-} = useTable(props.requestApi, props.initParam, props.filterSearchFields, props.pagination, props.dataCallback)
+} = useTable(
+  props.requestApi,
+  props.initParam,
+  props.filterSearchFields,
+  props.pagination,
+  props.searchDataCallBack,
+  props.dataCallback
+)
 
 // 清空选中数据
 const clearSelection = () => tableRef.value!.clearSelection()
