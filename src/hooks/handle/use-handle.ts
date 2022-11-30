@@ -15,20 +15,22 @@ export const useConfirm = <P = any>(
   message: string,
   confirmType: HandleData.MessageType = 'warning'
 ) => {
-  return new Promise(resolve => {
+  return new Promise((resolve, reject) => {
     ElMessageBox.confirm(message, '提示', {
       confirmButtonText: '确定',
       cancelButtonText: '取消',
       type: confirmType,
       draggable: false
-    }).then(async () => {
-      const { retCode, retMsg } = await api(params)
-      if (retCode !== 200) return ElMessage.warning(retMsg)
-      ElMessage({
-        type: 'success',
-        message: `操作成功`
-      })
-      resolve(true)
     })
+      .then(async () => {
+        const { retCode, retMsg } = await api(params)
+        if (retCode !== 200) return ElMessage.warning(retMsg)
+        ElMessage({
+          type: 'success',
+          message: `操作成功`
+        })
+        resolve(true)
+      })
+      .catch(() => reject('cancel'))
   })
 }
