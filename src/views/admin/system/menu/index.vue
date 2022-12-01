@@ -75,6 +75,7 @@ const columns: ColumnProps[] = [
   {
     label: '菜单名称',
     prop: 'menuName',
+    align: 'left',
     render: ({ row }) => {
       return (
         <>
