@@ -9,16 +9,16 @@
           <el-icon v-if="theOnlyOneChild.meta.icon">
             <component :is="theOnlyOneChild.meta.icon" />
           </el-icon>
-          <span v-if="theOnlyOneChild.meta.title">{{ theOnlyOneChild.meta.title }}</span>
+          <span v-if="isCollapse && theOnlyOneChild?.meta?.title">{{ theOnlyOneChild.meta.title }}</span>
         </el-menu-item>
       </SidebarItemLink>
     </template>
     <el-sub-menu v-else :index="resolvePath(item.path)">
       <template #title>
-        <el-icon v-if="item.meta && item.meta.icon">
+        <el-icon v-if="item?.meta?.icon">
           <component :is="item.meta.icon" />
         </el-icon>
-        <span v-if="isCollapse && item.meta && item.meta.title">{{ item.meta.title }}</span>
+        <span v-if="isCollapse && item?.meta?.title">{{ item.meta.title }}</span>
       </template>
       <template v-if="item.children">
         <sidebar-item

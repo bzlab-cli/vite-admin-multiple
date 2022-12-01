@@ -11,9 +11,7 @@
         <el-button type="primary" @click="handleAddOrg('新增组织')">新增组织</el-button>
       </template>
       <template #operation="scope">
-        <el-button size="small" type="primary" link class="ml5" @click="handleAddOrg('修改组织', scope.row)">
-          修改
-        </el-button>
+        <el-button size="small" type="primary" link @click="handleAddOrg('修改组织', scope.row)">修改</el-button>
       </template>
     </bz-table>
   </div>

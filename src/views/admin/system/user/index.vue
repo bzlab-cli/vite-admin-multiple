@@ -13,20 +13,17 @@
         <el-button type="primary" @click="handleAddUser('新增用户')">新增用户</el-button>
       </template>
       <template #operation="scope">
-        <el-button size="small" type="primary" link class="ml5" @click="handleAddUser('修改用户', scope.row)">
-          修改
-        </el-button>
+        <el-button size="small" type="primary" link @click="handleAddUser('修改用户', scope.row)">修改</el-button>
         <el-button
           size="small"
           type="primary"
           link
-          class="ml5"
           @click="handleEnableChange(scope.row, scope.row.forbiddenStatus == 1 ? 0 : 1)"
         >
           {{ scope.row.forbiddenStatus == 1 ? '禁用' : '启用' }}
         </el-button>
-        <el-button size="small" type="primary" link class="ml5" @click="handleResetPwd(scope.row)">重置密码</el-button>
-        <el-button size="small" type="primary" link class="ml5" @click="handleDelete(scope.row)">删除</el-button>
+        <el-button size="small" type="primary" link @click="handleResetPwd(scope.row)">重置密码</el-button>
+        <el-button size="small" type="primary" link @click="handleDelete(scope.row)">删除</el-button>
       </template>
     </bz-table>
   </div>
@@ -114,49 +111,49 @@ const searchColumns = [
         clearable: true
       }
     }
-  },
-  {
-    label: '角色',
-    prop: 'roleName',
-    enum: getRoleSelect2,
-    fieldNames: { label: 'roleName', value: 'id' },
-    search: {
-      el: 'el-select',
-      key: 'eqRoleId',
-      props: {
-        placeholder: '请选择角色',
-        clearable: true
-      }
-    }
-  },
-  {
-    label: '组织',
-    prop: 'orgName',
-    enum: getOrgList,
-    fieldNames: { label: 'orgName', value: 'id', children: 'childTreeList' },
-    search: {
-      el: 'el-tree-select',
-      key: 'eqOrgId',
-      props: {
-        placeholder: '请选择组织',
-        clearable: true
-      }
-    }
-  },
-  {
-    label: '状态',
-    prop: 'forbiddenStatus',
-    enum: statusList,
-    fieldNames: { label: 'name', value: 'id' },
-    search: {
-      el: 'el-select',
-      key: 'forbiddenStatus',
-      props: {
-        placeholder: '请选择状态',
-        clearable: true
-      }
-    }
   }
+  // {
+  //   label: '角色',
+  //   prop: 'roleName',
+  //   enum: getRoleSelect2,
+  //   fieldNames: { label: 'roleName', value: 'id' },
+  //   search: {
+  //     el: 'el-select',
+  //     key: 'eqRoleId',
+  //     props: {
+  //       placeholder: '请选择角色',
+  //       clearable: true
+  //     }
+  //   }
+  // },
+  // {
+  //   label: '组织',
+  //   prop: 'orgName',
+  //   enum: getOrgList,
+  //   fieldNames: { label: 'orgName', value: 'id', children: 'childTreeList' },
+  //   search: {
+  //     el: 'el-tree-select',
+  //     key: 'eqOrgId',
+  //     props: {
+  //       placeholder: '请选择组织',
+  //       clearable: true
+  //     }
+  //   }
+  // },
+  // {
+  //   label: '状态',
+  //   prop: 'forbiddenStatus',
+  //   enum: statusList,
+  //   fieldNames: { label: 'name', value: 'id' },
+  //   search: {
+  //     el: 'el-select',
+  //     key: 'forbiddenStatus',
+  //     props: {
+  //       placeholder: '请选择状态',
+  //       clearable: true
+  //     }
+  //   }
+  // }
 ]
 
 const columns: ColumnProps[] = [

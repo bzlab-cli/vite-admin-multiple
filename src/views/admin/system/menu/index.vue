@@ -15,9 +15,7 @@
         <el-button type="primary" @click="handleAddMenu('新增菜单')">新增菜单</el-button>
       </template>
       <template #operation="scope">
-        <el-button size="small" type="primary" link class="ml5" @click="handleAddMenu('修改菜单', scope.row)">
-          修改
-        </el-button>
+        <el-button size="small" type="primary" link @click="handleAddMenu('修改菜单', scope.row)">修改</el-button>
       </template>
     </bz-table>
   </div>

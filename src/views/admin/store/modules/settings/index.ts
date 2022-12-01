@@ -3,11 +3,11 @@
  * @Description:
  * @Date: 2021/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2022/11/22 15:31:28
+ * @LastEditTime: 2022/12/01 11:44:37
  */
 import { reactive, toRefs } from 'vue'
 import { defineStore } from 'pinia'
-import elementVariables from '@/styles/element-variables.scss'
+import elementVariables from '@/styles/variables.module.scss'
 import layoutSettings from '@/config/layout'
 import { store } from '@/views/admin/store'
 

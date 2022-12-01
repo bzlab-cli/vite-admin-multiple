@@ -11,12 +11,8 @@
         <el-button type="primary" @click="handleAddRole('新增角色')">新增角色</el-button>
       </template>
       <template #operation="scope">
-        <el-button size="small" type="primary" link class="ml5" @click="handleAddAuth('授权', scope.row)">
-          授权
-        </el-button>
-        <el-button size="small" type="primary" link class="ml5" @click="handleAddRole('修改角色', scope.row)">
-          修改
-        </el-button>
+        <el-button size="small" type="primary" link @click="handleAddAuth('授权', scope.row)">授权</el-button>
+        <el-button size="small" type="primary" link @click="handleAddRole('修改角色', scope.row)">修改</el-button>
       </template>
     </bz-table>
   </div>
