@@ -172,7 +172,7 @@ const form = reactive({
   parentId: 0,
   menuCode: null,
   menuSort: 0,
-  menuIcon: '',
+  menuIcon: 'Menu',
   menuRoute: null,
   menuUrl: null,
   hiddenFlag: 1, // 默认显示
@@ -256,6 +256,7 @@ const handleSubmit = async () => {
 
     const { retCode, retMsg } = isAdd ? await addMenu(reqBody) : await updateMenu(reqBody)
     if (retCode !== 200) return ElMessage.warning(retMsg)
+    dialogVisible.value = false
     callback!()
   })
 }

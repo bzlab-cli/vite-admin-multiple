@@ -159,6 +159,7 @@ const handleSubmit = async () => {
 
     const { retCode, retMsg } = isAdd ? await addUser(reqBody) : await updateUser(reqBody)
     if (retCode !== 200) return ElMessage.warning(retMsg)
+    dialogVisible.value = false
     callback!()
   })
 }

@@ -89,6 +89,7 @@ const handleSubmit = async () => {
   let { retCode, retMsg } = await roleMenuGrant(params)
   if (retCode !== 200) return ElMessage.warning(retMsg)
   ElMessage.success('授权成功')
+  dialogVisible.value = false
   callback!()
 }
 </script>

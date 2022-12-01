@@ -78,7 +78,7 @@ const columns: ColumnProps[] = [
     render: ({ row }) => {
       return (
         <>
-          <Icon icon={row.menuIcon} style={{ verticalAlign: 'middle', marginBottom: '4px' }} />
+          <Icon icon={row.menuIcon || 'Menu'} style={{ verticalAlign: 'middle', marginBottom: '4px' }} />
           <span style={{ marginLeft: '3px' }}>{row.menuName}</span>
         </>
       )

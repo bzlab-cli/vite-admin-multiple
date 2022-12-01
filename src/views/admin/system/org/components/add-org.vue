@@ -116,6 +116,7 @@ const handleSubmit = () => {
 
     let { retCode, retMsg } = isAdd ? await addOrg(reqBody) : await updateOrg(reqBody)
     if (retCode !== 200) return ElMessage.warning(retMsg)
+    dialogVisible.value = false
     callback!()
   })
 }
