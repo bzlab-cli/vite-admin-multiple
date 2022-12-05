@@ -4,7 +4,10 @@ import { paginationParams } from '@/constant/layout'
 
 export const useTable = (
   api: (params: any) => Promise<any>,
+  propsLoading,
+  loading,
   initParam: object = {},
+  initFetch,
   filterSearchFields: string[] = [],
   pagination,
   searchDataCallBack?: (data: any) => any,
@@ -19,7 +22,11 @@ export const useTable = (
   })
 
   onMounted(() => {
-    handleReset()
+    if (initFetch) {
+      handleReset()
+    } else {
+      loading.value = false
+    }
   })
 
   const pageParams = computed(() => {
@@ -28,10 +35,14 @@ export const useTable = (
       pageSize: state.paginationParams.pageSize
     }
   })
-
+  // 序号计算
+  const sortNumber = scope => {
+    return (state.paginationParams.pageNum - 1) * state.paginationParams.pageSize + scope.$index + 1
+  }
   // 获取表格数据
   const getTableList = async () => {
     try {
+      loading.value = propsLoading
       Object.assign(state.totalParam, initParam, pagination ? pageParams.value : {})
       Object.keys(state.totalParam).forEach(key => {
         if (filterSearchFields.includes(key)) delete state.totalParam[key]
@@ -39,9 +50,13 @@ export const useTable = (
       searchDataCallBack && (state.totalParam = searchDataCallBack(state.totalParam))
       let { data } = await api(state.totalParam)
       dataCallBack && (data = dataCallBack(data))
+      loading.value = false
       state.tableData = data.list || []
       state.paginationParams.total = data.total || 0
     } catch (error) {
+      loading.value = false
+      state.tableData = []
+      state.paginationParams.total = 0
       console.log(error)
     }
   }
@@ -89,6 +104,7 @@ export const useTable = (
 
   return {
     ...toRefs(state),
+    sortNumber,
     getTableList,
     handleSearch,
     handleReset,

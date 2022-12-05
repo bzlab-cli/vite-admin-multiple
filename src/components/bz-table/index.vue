@@ -7,6 +7,7 @@
     :colConfig="searchCol"
     v-show="!hideSearch"
   />
+  <slot name="extra" />
   <div class="bz-table">
     <div class="table-header">
       <div class="header-button-lf">
@@ -28,6 +29,7 @@
       :data="tableData"
       :border="border"
       :row-key="getRowKeys"
+      v-loading="loading"
       @selection-change="selectionChange"
     >
       <slot />
@@ -36,8 +38,13 @@
           v-bind="item"
           :align="item.align ?? 'center'"
           :reserve-selection="item.type == 'selection'"
-          v-if="item.type == 'selection' || item.type == 'index'"
+          v-if="item.type == 'selection'"
         />
+        <el-table-column v-bind="item" :align="item.align ?? 'center'" v-if="item.type == 'index'">
+          <template #default="scope">
+            {{ sortNumber(scope) }}
+          </template>
+        </el-table-column>
         <el-table-column v-bind="item" :align="item.align ?? 'center'" v-if="item.type == 'expand'" v-slot="scope">
           <component :is="item.render" :row="scope.row" v-if="item.render" />
           <slot :name="item.type" :row="scope.row" v-else />
@@ -87,7 +94,9 @@ interface ProTableProps extends Partial<Omit<TableProps<any>, 'data'>> {
   hideSearch?: boolean // 隐藏搜索
   pagination?: boolean // 是否需要分页组件
   initParam?: any // 初始化请求参数
+  initFetch?: boolean // 是否初始化请求数据
   border?: boolean // 显示表格边框
+  loading?: boolean // 表格加载
   toolButton?: boolean // 显示功能按钮
   selectId?: string // 当表格数据多选时，指定的id
   searchCol?: number | Record<BreakPoint, number> // 表格搜索项配置
@@ -101,11 +110,15 @@ const props = withDefaults(defineProps<ProTableProps>(), {
   hideSearch: false,
   pagination: true,
   initParam: {},
+  initFetch: true,
   border: false,
+  loading: true,
   toolButton: true,
   selectId: 'id',
   searchCol: () => ({ xs: 2, sm: 3, md: 4, lg: 5, xl: 6 })
 })
+
+const loading = ref<boolean>(props.loading)
 
 // 表格多选
 const { selectionChange, getRowKeys, selectedList, selectedListIds, isSelected } = useSelection(props.selectId)
@@ -116,6 +129,7 @@ const {
   paginationParams,
   searchParams,
   searchInitParams,
+  sortNumber,
   getTableList,
   handleSearch,
   handleReset,
@@ -123,7 +137,10 @@ const {
   handleCurrentChange
 } = useTable(
   props.requestApi,
+  props.loading,
+  loading,
   props.initParam,
+  props.initFetch,
   props.filterSearchFields,
   props.pagination,
   props.searchDataCallBack,
@@ -207,7 +224,7 @@ const openColSetting = () => {
   colRef.value.openColSetting()
 }
 
-defineExpose({ tableRef, tableData, searchParams, paginationParams, getTableList, clearSelection })
+defineExpose({ tableRef, tableData, searchParams, paginationParams, handleReset, getTableList, clearSelection })
 </script>
 
 <style lang="scss" scoped>
