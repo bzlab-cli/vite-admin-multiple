@@ -111,49 +111,49 @@ const searchColumns = [
         clearable: true
       }
     }
+  },
+  {
+    label: '角色',
+    prop: 'roleName',
+    enum: getRoleSelect2,
+    fieldNames: { label: 'roleName', value: 'id' },
+    search: {
+      el: 'el-select',
+      key: 'eqRoleId',
+      props: {
+        placeholder: '请选择角色',
+        clearable: true
+      }
+    }
+  },
+  {
+    label: '组织',
+    prop: 'orgName',
+    enum: getOrgList,
+    fieldNames: { label: 'orgName', value: 'id', children: 'childTreeList' },
+    search: {
+      el: 'el-tree-select',
+      key: 'eqOrgId',
+      props: {
+        placeholder: '请选择组织',
+        clearable: true
+      }
+    }
+  },
+  {
+    label: '状态',
+    prop: 'forbiddenStatus',
+    enum: statusList,
+    fieldNames: { label: 'name', value: 'id' },
+    search: {
+      el: 'el-select',
+      key: 'forbiddenStatus',
+      props: {
+        placeholder: '请选择状态',
+        clearable: true
+      }
+    }
   }
-  // {
-  //   label: '角色',
-  //   prop: 'roleName',
-  //   enum: getRoleSelect2,
-  //   fieldNames: { label: 'roleName', value: 'id' },
-  //   search: {
-  //     el: 'el-select',
-  //     key: 'eqRoleId',
-  //     props: {
-  //       placeholder: '请选择角色',
-  //       clearable: true
-  //     }
-  //   }
-  // },
-  // {
-  //   label: '组织',
-  //   prop: 'orgName',
-  //   enum: getOrgList,
-  //   fieldNames: { label: 'orgName', value: 'id', children: 'childTreeList' },
-  //   search: {
-  //     el: 'el-tree-select',
-  //     key: 'eqOrgId',
-  //     props: {
-  //       placeholder: '请选择组织',
-  //       clearable: true
-  //     }
-  //   }
-  // },
-  // {
-  //   label: '状态',
-  //   prop: 'forbiddenStatus',
-  //   enum: statusList,
-  //   fieldNames: { label: 'name', value: 'id' },
-  //   search: {
-  //     el: 'el-select',
-  //     key: 'forbiddenStatus',
-  //     props: {
-  //       placeholder: '请选择状态',
-  //       clearable: true
-  //     }
-  //   }
-  // }
 ]
 
 const columns: ColumnProps[] = [
