@@ -40,7 +40,15 @@ export default defineComponent({
   background-color: $bgColor;
   padding: 10px;
   overflow: auto;
-  .table-box {
+  .main-box {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    :deep(.table-box) {
+      width: calc(100% - 230px);
+    }
+  }
+  :deep(.table-box) {
     display: flex;
     flex: 1;
     flex-direction: column;

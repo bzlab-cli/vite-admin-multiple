@@ -3,7 +3,7 @@
  * @Description:
  * @Date: 2021/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2022/11/29 15:35:52
+ * @LastEditTime: 2022/12/08 11:43:28
  */
 
 import { Random } from 'mockjs'
@@ -227,5 +227,59 @@ export default class User {
       "competenceIds": null,
       "forbiddenStatus": 1
     } as any
+  }
+
+  @get('/user/getTreeList')
+  getTreeList() {
+    return [
+      {
+        fileId: '0',
+        folderName: '全部文件',
+        isChild: true,
+        suffix: null,
+        isFolder: null,
+        dwgConversionState: null,
+        childs: [
+          {
+            fileId: 'f152f1ae-a1aa-4888-bd1e-6487b270035f',
+            folderName: '智慧工地图纸汇总',
+            isChild: true,
+            suffix: ' ',
+            isFolder: true,
+            dwgConversionState: null,
+            childs: [
+              {
+                fileId: '1b7214d6-414e-4f8d-997b-1ef29d40fbe8',
+                folderName: '暖通',
+                isChild: true,
+                suffix: '',
+                isFolder: true,
+                dwgConversionState: null,
+                childs: [
+                  {
+                    fileId: 'a36bdee5-8aa8-43d5-b6be-9afbc70499ff',
+                    folderName: '地上CAD',
+                    isChild: false,
+                    suffix: '',
+                    isFolder: true,
+                    dwgConversionState: null,
+                    childs: []
+                  },
+                  {
+                    fileId: 'b6930066-174a-428d-8e21-bab4b2af3e99',
+                    folderName: '地下室CAD',
+                    isChild: false,
+                    suffix: '',
+                    isFolder: true,
+                    dwgConversionState: null,
+                    childs: []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ] as any
   }
 }

@@ -3,7 +3,7 @@
  * @Description:
  * @Date: 2021/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2022/11/28 10:08:34
+ * @LastEditTime: 2022/12/08 11:41:39
  */
 
 import { UserInfoModel } from '@/interface/user'
@@ -101,6 +101,14 @@ export const updateUserForbiddenStatus = (data: any) => {
 export const getGrantProjectByToken = (data?: any) => {
   return axios.request<IResponseModel<any>>({
     url: `thirdUser/getGrantProjectByToken`,
+    method: 'get',
+    params: data
+  })
+}
+
+export const getTreeList = (data: any) => {
+  return axios.request<IResponseModel<any>>({
+    url: `user/getTreeList`,
     method: 'get',
     params: data
   })
