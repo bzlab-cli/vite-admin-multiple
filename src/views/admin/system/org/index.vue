@@ -22,7 +22,6 @@ import { ref } from 'vue'
 import addOrg from './components/add-org.vue'
 import { getOrgList } from '@/api/auth/org'
 import { ColumnProps } from '@/interface/table'
-import bzTable from '@/components/bz-table/index.vue'
 import { dynamic } from '@bzlab/bz-core'
 
 const bzTableRef = ref()

@@ -105,7 +105,6 @@ interface TreeFilterProps {
 
 <script lang="tsx" setup>
 import { ref, reactive } from 'vue'
-import bzTreeFilter from '@/components/bz-tree-filter/index.vue'
 
 const selectId = ref('')
 const selectIds = ref([])

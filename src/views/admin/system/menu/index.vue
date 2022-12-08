@@ -27,7 +27,6 @@ import addMenu from './components/add-menu.vue'
 import { getMenuList } from '@/api/auth/menu'
 import { dynamic } from '@bzlab/bz-core'
 import { ColumnProps } from '@/interface/table'
-import bzTable from '@/components/bz-table/index.vue'
 import Icon from '@/components/icon/index.vue'
 
 const bzTableRef = ref()

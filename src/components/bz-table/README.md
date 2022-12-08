@@ -95,7 +95,6 @@ interface SearchColumnProps {
 
 <script lang="tsx" setup>
 import { ColumnProps } from '@/interface/table'
-import bzTable from '@/components/bz-table/index.vue'
 import { getRoleList } from '@/api/auth/role'
 import { getRoleSelect2 } from '@/api/auth/role'
 import { majorList } from '@/constant/major'

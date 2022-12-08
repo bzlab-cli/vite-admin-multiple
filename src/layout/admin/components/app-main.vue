@@ -48,6 +48,13 @@ export default defineComponent({
       width: calc(100% - 230px);
     }
   }
+  :deep(.select-filter-box) {
+    box-sizing: border-box;
+    padding: 0 15px;
+    background-color: #ffffff;
+    border-radius: 4px;
+    margin-bottom: 10px;
+  }
   :deep(.table-box) {
     display: flex;
     flex: 1;

@@ -24,7 +24,6 @@ import addRole from './components/add-role.vue'
 import addAuthorize from './components/add-authorize.vue'
 import { getRoleList } from '@/api/auth/role'
 import { ColumnProps } from '@/interface/table'
-import bzTable from '@/components/bz-table/index.vue'
 import { dynamic } from '@bzlab/bz-core'
 
 const bzTableRef = ref()
