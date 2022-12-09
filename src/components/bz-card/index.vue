@@ -26,15 +26,9 @@ withDefaults(defineProps<CardsProps>(), {
 </script>
 
 <style lang="scss" scoped>
-.bz-tabs {
-  height: unset;
-  padding-top: 5px;
-  padding-bottom: 0;
-  :deep(.el-tabs__header) {
-    margin-bottom: 0;
-  }
-  :deep(.el-tabs__nav-wrap::after) {
-    height: 1px;
+.bz-card {
+  .el-row .el-col {
+    margin-bottom: 10px;
   }
 }
 </style>
