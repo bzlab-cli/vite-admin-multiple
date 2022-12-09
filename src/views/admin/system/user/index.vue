@@ -7,7 +7,6 @@
       :columns="columns"
       :requestApi="getUserList"
       :initParam="initParam"
-      :cardClick="cardClick"
       :dataCallback="dataCallback"
     >
       <template #tableHeader>
