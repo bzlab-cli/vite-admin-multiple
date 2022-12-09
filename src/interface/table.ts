@@ -18,6 +18,7 @@ export interface EnumProps {
 }
 
 export type TypeProp = 'index' | 'selection' | 'expand'
+export type ShadowProp = 'always' | 'hover' | 'never'
 
 interface Input {
   el: 'el-input'
@@ -91,6 +92,22 @@ export interface ColumnProps<T = any> extends Partial<TableColumnCtx<T>> {
   headerRender?: (row: ColumnProps) => any // 自定义表头渲染
   render?: (scope: { row: T }) => any // 自定义单元格渲染
   children?: any[] // 多级表头数据
+}
+
+export interface TabsProps {
+  type?: string
+  closable?: boolean
+  addable?: boolean
+  editable?: boolean
+  tabPosition?: string
+  stretch?: boolean
+}
+
+export interface TabsColumnsProps {
+  label?: string // 标签名称
+  prop?: string // 属性名
+  active?: boolean // 活动列
+  render?: (scope?) => any
 }
 
 export interface SearchColumnProps {

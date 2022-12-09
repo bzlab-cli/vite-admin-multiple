@@ -1,5 +1,7 @@
 <template>
+  <bz-tabs ref="tabsRef" :tabsProps="tabsProps" :columns="tabsColumns" :handle-click="tabsClick" v-if="!hideTabs" />
   <search-form
+    ref="searchFormRef"
     :handle-search="handleSearch"
     :handle-reset="handleReset"
     :searchParams="searchParams"
@@ -9,7 +11,7 @@
   />
   <slot name="extra" />
   <div class="bz-table">
-    <div class="table-header">
+    <div class="table-header" v-if="!hideTableHeader">
       <div class="header-button-lf">
         <slot
           name="tableHeader"
@@ -23,7 +25,21 @@
         <el-button icon="Operation" circle v-if="columns.length" @click="openColSetting" />
       </div>
     </div>
+    <bz-card
+      ref="cardRef"
+      :data="tableData"
+      :cardGutter="cardGutter"
+      :cardSpan="cardSpan"
+      :cardShadow="cardShadow"
+      :cardClick="cardClick"
+      v-if="!hideCard"
+    >
+      <template #card="scope">
+        <slot name="card" :item="scope.item" :index="scope.index" />
+      </template>
+    </bz-card>
     <el-table
+      v-if="!hideTable"
       ref="tableRef"
       v-bind="$attrs"
       :data="tableData"
@@ -74,24 +90,39 @@
 import { ref, provide } from 'vue'
 import { useTable } from '@/hooks/table/use-table'
 import { useSelection } from '@/hooks/table/use-selection'
-import { ColumnProps, SearchColumnProps } from '@/interface/table'
+import { ColumnProps, SearchColumnProps, TabsProps, TabsColumnsProps } from '@/interface/table'
 import { ElTable, TableProps } from 'element-plus'
+import bzTabs from '@/components/bz-tabs/index.vue'
+import bzCard from '@/components/bz-card/index.vue'
 import searchForm from '@/components/search-form/index.vue'
 import bzPagination from './components/pagination.vue'
 import columnSetting from './components/column-setting.vue'
 import tableColumn from './components/table-column.vue'
 import type { BreakPoint } from '@/interface/grid'
 
+const tabsRef = ref()
+const searchFormRef = ref()
 const tableRef = ref<InstanceType<typeof ElTable>>()
 
 interface ProTableProps extends Partial<Omit<TableProps<any>, 'data'>> {
+  tabsProps: TabsProps
+  tabsColumns: TabsColumnsProps[]
+  tabsClick?: (data: any) => any
+  cardGutter?: number
+  cardSpan?: number
+  cardShadow?: string
+  cardClick?: (data?: any, index?: number) => any
   searchColumns: SearchColumnProps[]
   filterSearchFields: string[]
   columns: ColumnProps[] // 列配置项
   requestApi: (params: any) => Promise<any> // 请求数据接口
   searchDataCallback?: (data: any) => any // 请求参数二次处理
   dataCallback?: (data: any) => any // 返回数据二次处理
+  hideTabs?: boolean // 隐藏tabs
   hideSearch?: boolean // 隐藏搜索
+  hideTableHeader?: boolean // 隐藏表格顶部操作
+  hideTable?: boolean // 隐藏表格
+  hideCard?: boolean // 隐藏卡片布局
   pagination?: boolean // 是否需要分页组件
   initParam?: any // 初始化请求参数
   initFetch?: boolean // 是否初始化请求数据
@@ -104,10 +135,20 @@ interface ProTableProps extends Partial<Omit<TableProps<any>, 'data'>> {
 
 // 默认配置
 const props = withDefaults(defineProps<ProTableProps>(), {
+  tabsColumns: () => [],
+  tabsClick: () => {},
+  cardGutter: 12,
+  cardSpan: 6,
+  cardShadow: 'hover',
+  cardClick: () => {},
   searchColumns: () => [],
   filterSearchFields: () => [],
   columns: () => [],
+  hideTabs: true,
   hideSearch: false,
+  hideTableHeader: false,
+  hideTable: false,
+  hideCard: true,
   pagination: true,
   initParam: {},
   initFetch: true,
@@ -224,7 +265,17 @@ const openColSetting = () => {
   colRef.value.openColSetting()
 }
 
-defineExpose({ tableRef, tableData, searchParams, paginationParams, handleReset, getTableList, clearSelection })
+defineExpose({
+  tabsRef,
+  searchFormRef,
+  tableRef,
+  tableData,
+  searchParams,
+  paginationParams,
+  handleReset,
+  getTableList,
+  clearSelection
+})
 </script>
 
 <style lang="scss" scoped>

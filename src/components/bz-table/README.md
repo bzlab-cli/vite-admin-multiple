@@ -5,6 +5,9 @@
 ### 参数及事件列表
 
 ```
+:tabsProps="tabsProps"
+:tabsColumns="tabsColumns"
+:tabsClick="handleTabsClick"
 :searchColumns="searchColumns"
 :filterSearchFields="filterSearchFields"
 :columns="columns"
@@ -20,6 +23,32 @@
 ```
 
 ## 文档
+
+### tabs props 配置项
+
+```
+interface TabsProps {
+  type?: string
+  closable?: boolean
+  addable?: boolean
+  editable?: boolean
+  tabPosition?: string
+  stretch?: boolean
+}
+
+interface TabsColumnsProps {
+  label?: string // 标签名称
+  prop?: string // 属性名
+  active?: boolean // 活动列
+  render?: (scope?) => any
+}
+```
+
+| 序号 | 参数 | 说明 | 默认值 |
+| ---- | ---- | ---- | ---- |
+| 1 | tabsProps | 额外属性 | - |
+| 2 | tabsColumns | 列配置项 | [] |
+| 3 | tabsClick | 点击回调 | function(data) |
 
 ### props 配置项
 
@@ -80,6 +109,8 @@ interface SearchColumnProps {
 ```
 <bz-table
   ref="bzTableRef"
+  :tabsColumns="tabsColumns"
+  :tabsClick="handleTabsClick"
   :searchColumns="searchColumns"
   :columns="columns"
   :requestApi="getRoleList"
@@ -105,6 +136,17 @@ const dataCallback = (data: any) => {
     total: data.total
   }
 }
+
+const tabsColumns = [
+  {
+    label: '用户',
+    prop: 'user'
+  },
+  {
+    label: '角色',
+    prop: 'role'
+  }
+]
 
 const searchColumns = [
   {

@@ -2,15 +2,21 @@
   <div class="table-box">
     <bz-table
       ref="bzTableRef"
+      hideTable
+      :hideCard="false"
       :searchColumns="searchColumns"
       :filterSearchFields="filterSearchFields"
       :columns="columns"
       :requestApi="getUserList"
       :initParam="initParam"
+      :cardClick="cardClick"
       :dataCallback="dataCallback"
     >
       <template #tableHeader>
         <el-button type="primary" @click="handleAddUser('新增用户')">新增用户</el-button>
+      </template>
+      <template #card>
+        <div>34232</div>
       </template>
       <template #operation="scope">
         <el-button size="small" type="primary" link @click="handleAddUser('修改用户', scope.row)">修改</el-button>
@@ -61,6 +67,10 @@ const handleAddUser = (title: string, rowData?) => {
     render: addUser
   }
   dynamic.show(params)
+}
+
+const cardClick = (val, i) => {
+  console.log('cardClick', val, i)
 }
 
 const handleEnableChange = async (row, flag) => {
