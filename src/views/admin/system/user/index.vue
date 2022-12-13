@@ -211,7 +211,7 @@ const columns: ColumnProps[] = [
     label: '操作',
     prop: 'operation',
     fixed: 'right',
-    width: 190
+    width: 210
   }
 ]
 </script>
