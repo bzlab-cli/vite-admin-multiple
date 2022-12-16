@@ -3,8 +3,9 @@
  * @Description:
  * @Date: 2021/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2022/08/24 18:07:02
+ * @LastEditTime: 2022/12/16 18:30:29
  */
+import { deepClone } from '@bzlab/bz-core'
 
 /**
  * 加载组件
@@ -30,11 +31,8 @@ export const filterAsyncRouter = (routers, layout) => {
     item.meta = {
       title: item.menuName,
       icon: item.menuIcon,
+      breadcrumb: item.breadcrumb,
       hidden: item.hiddenFlag === 0
-    }
-
-    if (item.menuType === 1) {
-      item.meta.alwaysShow = true
     }
 
     if (item.menuComponents) {
@@ -80,4 +78,46 @@ function filterProps(item) {
   filterPropsList.map(name => {
     delete item[name]
   })
+}
+
+/**
+ * 扁平化路由数组对象
+ * @param {Array} menuList
+ * @return array
+ */
+export function flatRoutes(menuList) {
+  const newMenuList = deepClone(menuList)
+  return newMenuList.reduce((pre, current) => {
+    let flatArr = [...pre, current]
+    if (current.children) flatArr = [...flatArr, ...flatRoutes(current.children)]
+    return flatArr
+  }, [])
+}
+
+/**
+ * 递归过滤需要渲染在左侧菜单的列表
+ * @param {Array} menuList
+ * @return array
+ * */
+export function getShowMenuList(menuList) {
+  const newMenuList = deepClone(menuList)
+  return newMenuList.filter(item => {
+    item.children?.length && (item.children = getShowMenuList(item.children))
+    return !item.meta?.hidden
+  })
+}
+
+/**
+ * 递归找出所有面包屑
+ * @param {Array} menuList
+ * @param {Object} result
+ * @param {String} path
+ * @returns object
+ */
+export const getAllBreadcrumbList = (menuList, result: { [key: string]: any } = {}, path = []) => {
+  for (const item of menuList) {
+    result[item.path] = [...path, item]
+    if (item.children) getAllBreadcrumbList(item.children, result, result[item.path])
+  }
+  return result
 }

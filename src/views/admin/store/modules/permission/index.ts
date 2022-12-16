@@ -3,7 +3,7 @@
  * @Author: jrucker
  * @Date: 2020-12-26 13:45:52
  * @LastEditors: jrucker
- * @LastEditTime: 2022/11/22 16:43:59
+ * @LastEditTime: 2022/12/16 18:11:11
  */
 
 import { reactive, toRefs } from 'vue'
@@ -12,13 +12,14 @@ import { RouteRecordRaw } from 'vue-router'
 import { store } from '@/views/admin/store'
 import { constantRoutes, asyncRoutes } from '@/views/admin/router'
 import { filter } from '@/utils'
-import { filterAsyncRouter } from '@/utils/permission'
+import { filterAsyncRouter, flatRoutes } from '@/utils/permission'
 import Layout from '@/layout/admin/index.vue'
 import { useTagsStore } from '../tags'
 export interface PermissionState {
   accessedCodes: string[]
   routes: RouteRecordRaw[]
   dynamicRoutes: RouteRecordRaw[]
+  activeMenu: string
 }
 
 const hasPermission = (roles: string[], route: RouteRecordRaw) => {
@@ -52,8 +53,13 @@ export const usePermissionStore = defineStore('permission', () => {
   const state = reactive<PermissionState>({
     accessedCodes: [],
     routes: [],
-    dynamicRoutes: []
+    dynamicRoutes: [],
+    activeMenu: ''
   })
+
+  const setActiveMenu = val => {
+    state.activeMenu = val
+  }
 
   const setRoutes = (routes: any[]) => {
     const accessedCodes: any = []
@@ -78,8 +84,11 @@ export const usePermissionStore = defineStore('permission', () => {
     const accessedRoutes = filterAsyncRouter(filterRoutes, Layout)
     accessedRoutes.push({ path: '/:pathMatch(.*)', redirect: '/404', meta: { hidden: true } })
 
-    state.routes = constantRoutes.concat(accessedRoutes) // 路由菜单
-    state.dynamicRoutes = accessedRoutes // 动态路由
+    // state.routes = constantRoutes.concat(accessedRoutes) // 路由菜单
+    // state.dynamicRoutes = flatRoutes(accessedRoutes) // 动态路由
+    state.routes = constantRoutes.concat(asyncRoutes) // 本地路由菜单
+    state.dynamicRoutes = flatRoutes(asyncRoutes) // 本地动态路由
+
     state.accessedCodes = accessedCodes // 按钮权限
     tagsStore.addCacheView(cachedViews) // 缓存路由
 
@@ -88,7 +97,7 @@ export const usePermissionStore = defineStore('permission', () => {
     console.log('asyncRoutes', asyncRoutes)
   }
 
-  return { ...toRefs(state), setRoutes }
+  return { ...toRefs(state), setActiveMenu, setRoutes }
 })
 
 export function usePermissionStoreHook() {

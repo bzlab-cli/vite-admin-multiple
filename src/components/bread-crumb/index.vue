@@ -12,14 +12,17 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onBeforeMount, reactive, toRefs, watch } from 'vue'
-import { useRoute, RouteLocationMatched, useRouter } from 'vue-router'
+import { defineComponent, onBeforeMount, reactive, toRefs, watch, computed } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import { compile } from 'path-to-regexp'
+import { usePermissionStore } from '@/views/admin/store/modules/permission'
+import { getAllBreadcrumbList } from '@/utils/permission'
 
 export default defineComponent({
   setup() {
     const router = useRouter()
     const currentRoute = useRoute()
+    const permissionStore = usePermissionStore() as any
     const pathCompile = (path: string) => {
       const { params } = currentRoute
       const toPath = compile(path)
@@ -27,12 +30,22 @@ export default defineComponent({
     }
 
     const state = reactive({
-      breadcrumbs: [] as Array<RouteLocationMatched>,
+      breadcrumbs: [] as any,
       getBreadcrumb: () => {
-        const matched = currentRoute.matched.filter(item => item.meta && item.meta.title)
-        state.breadcrumbs = matched.filter(item => {
-          return item.meta && item.meta.title && item.meta.breadcrumb !== false
-        })
+        const matched = currentRoute.matched[currentRoute.matched.length - 1].path
+        const breadcrumbList = getAllBreadcrumbList(permissionStore.routes)
+        const matchedList = breadcrumbList[matched]
+        if (matchedList?.length > 1) {
+          const last = matchedList[matchedList.length - 1]
+          const lastSecond = matchedList[matchedList.length - 2]
+          if (last?.meta?.hidden) {
+            permissionStore.setActiveMenu(lastSecond?.path)
+          } else {
+            permissionStore.setActiveMenu(last?.path)
+          }
+        }
+
+        state.breadcrumbs = computed(() => matchedList)
       },
       handleLink(item: any) {
         const { redirect, path } = item
@@ -54,6 +67,7 @@ export default defineComponent({
         if (path.startsWith('/redirect/')) {
           return
         }
+        permissionStore.setActiveMenu('')
         state.getBreadcrumb()
       }
     )

@@ -10,8 +10,8 @@
         :text-color="variables.menuText"
         mode="vertical"
       >
-        <SidebarItem
-          v-for="route in routes"
+        <sidebar-item
+          v-for="route in menuList"
           :key="route.path"
           :item="route"
           :base-path="route.path"
@@ -23,7 +23,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from 'vue'
+import { computed, defineComponent, watch, ref } from 'vue'
 import SidebarItem from './sidebar-item.vue'
 import SidebarLogo from './sidebar-logo.vue'
 import variables from '@/styles/variables.module.scss'
@@ -31,6 +31,7 @@ import { useAppStore } from '@/views/admin/store/modules/app'
 import { usePermissionStore } from '@/views/admin/store/modules/permission'
 import { useSettingsStore } from '@/views/admin/store/modules/settings'
 import { useRoute } from 'vue-router'
+import { getShowMenuList } from '@/utils/permission'
 
 export default defineComponent({
   components: {
@@ -49,6 +50,8 @@ export default defineComponent({
       return permissionStore.routes
     })
 
+    const activeMenu = ref()
+    const menuList = computed(() => getShowMenuList(permissionStore.routes))
     const showLogo = computed(() => {
       return settingsStore.showSidebarLogo
     })
@@ -62,23 +65,28 @@ export default defineComponent({
       }
     })
 
-    const activeMenu = computed(() => {
-      const { meta, path } = route
-      if (meta !== null || meta !== undefined) {
-        if (meta.activeMenu) {
-          return meta.activeMenu
-        }
-      }
-      return path
-    })
-
     const isCollapse = computed(() => {
       return sidebar.value.opened
     })
 
+    watch(
+      () => route,
+      val => {
+        activeMenu.value = val.path
+      }
+    )
+
+    watch(
+      () => permissionStore.activeMenu,
+      val => {
+        activeMenu.value = val
+      }
+    )
+
     return {
       sidebar,
       routes,
+      menuList,
       showLogo,
       menuActiveTextColor,
       variables,

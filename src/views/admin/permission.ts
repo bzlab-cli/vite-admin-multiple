@@ -3,7 +3,7 @@
  * @Description: 权限
  * @Date: 2021/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2022/11/22 15:21:58
+ * @LastEditTime: 2022/12/16 17:53:38
  */
 
 import NProgress from 'nprogress'
@@ -31,7 +31,7 @@ router.beforeEach(async (to: RouteLocationNormalized, _: RouteLocationNormalized
           await userStore.getUserInfo()
           await userStore.getMenu()
           permissionStore.dynamicRoutes.forEach((route: any) => {
-            router.addRoute(route)
+            router.addRoute('layout', route)
           })
           next({ ...to, replace: true })
         } catch (err) {

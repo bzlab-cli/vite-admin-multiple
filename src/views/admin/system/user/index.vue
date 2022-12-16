@@ -29,7 +29,7 @@
   </div>
 </template>
 
-<script lang="tsx" setup name="user">
+<script lang="tsx" setup name="system-user">
 import { ref, reactive } from 'vue'
 import { ElMessage } from 'element-plus'
 import { ColumnProps } from '@/interface/table'
@@ -39,28 +39,33 @@ import { getUserList, resetPassword, deleteUser, updateUserForbiddenStatus } fro
 import { getRoleSelect2 } from '@/api/auth/role'
 import { getOrgList } from '@/api/auth/org'
 import { statusList } from '@/constant/user'
-import addUser from './components/add-user.vue'
-import { dynamic } from '@bzlab/bz-core'
+// import addUser from './components/add-user.vue'
+// import { dynamic } from '@bzlab/bz-core'
+import { useRouter } from 'vue-router'
 
 const bzTableRef = ref()
 ;(window as any).bzTableRef = bzTableRef
+const router = useRouter()
 
 const initParam = reactive({})
 const filterSearchFields = ['orgName']
 
-const handleAddUser = (title: string, rowData?) => {
-  const params = {
-    id: 'addUser', // 组件id
-    el: '#app', // 挂载节点
-    data: {
-      title,
-      rowData,
-      isAdd: title === '新增用户',
-      callback: () => bzTableRef.value.getTableList()
-    },
-    render: addUser
-  }
-  dynamic.show(params)
+const handleAddUser = () => {
+  router.push({
+    path: '/system/user/detail'
+  })
+  // const params = {
+  //   id: 'addUser', // 组件id
+  //   el: '#app', // 挂载节点
+  //   data: {
+  //     title,
+  //     rowData,
+  //     isAdd: title === '新增用户',
+  //     callback: () => bzTableRef.value.getTableList()
+  //   },
+  //   render: addUser
+  // }
+  // dynamic.show(params)
 }
 
 const handleEnableChange = async (row, flag) => {

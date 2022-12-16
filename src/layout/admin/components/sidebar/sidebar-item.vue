@@ -1,19 +1,6 @@
 <template>
-  <div
-    v-if="!item.meta || !item.meta.hidden"
-    :class="[isCollapse ? 'simple-mode' : 'full-mode', { 'first-level': isFirstLevel }]"
-  >
-    <template v-if="!alwaysShowRootMenu && theOnlyOneChild && !theOnlyOneChild.children">
-      <SidebarItemLink v-if="theOnlyOneChild.meta" :to="resolvePath(theOnlyOneChild.path)">
-        <el-menu-item :index="resolvePath(theOnlyOneChild.path)" :class="{ 'submenu-title-noDropdown': isFirstLevel }">
-          <el-icon v-if="theOnlyOneChild.meta.icon">
-            <component :is="theOnlyOneChild.meta.icon" />
-          </el-icon>
-          <span v-if="isCollapse && theOnlyOneChild?.meta?.title">{{ theOnlyOneChild.meta.title }}</span>
-        </el-menu-item>
-      </SidebarItemLink>
-    </template>
-    <el-sub-menu v-else :index="resolvePath(item.path)">
+  <div :class="[isCollapse ? 'simple-mode' : 'full-mode', { 'first-level': isFirstLevel }]">
+    <el-sub-menu v-if="item.children && item.children.length > 0" :index="resolvePath(item.path)">
       <template #title>
         <el-icon v-if="item?.meta?.icon">
           <component :is="item.meta.icon" />
@@ -32,12 +19,19 @@
         />
       </template>
     </el-sub-menu>
+    <sidebar-item-link v-else :to="resolvePath(item.path)">
+      <el-menu-item :index="resolvePath(item.path)">
+        <el-icon v-if="item?.meta?.icon">
+          <component :is="item.meta.icon" />
+        </el-icon>
+        <span v-if="isCollapse && item?.meta?.title">{{ item.meta.title }}</span>
+      </el-menu-item>
+    </sidebar-item-link>
   </div>
 </template>
 
 <script lang="ts">
-import path from 'path'
-import { computed, defineComponent, PropType } from 'vue'
+import { defineComponent, PropType } from 'vue'
 import { RouteRecordRaw } from 'vue-router'
 import { isExternal } from '@/utils'
 import SidebarItemLink from './sidebar-item-link.vue'
@@ -66,42 +60,6 @@ export default defineComponent({
     SidebarItemLink
   },
   setup(props) {
-    const alwaysShowRootMenu = computed(() => {
-      if (props.item.meta && props.item.meta.alwaysShow) {
-        return true
-      } else {
-        return false
-      }
-    })
-
-    const showingChildNumber = computed(() => {
-      if (props.item.children) {
-        const showingChildren = props.item.children.filter(item => {
-          if (item.meta && item.meta.hidden) {
-            return false
-          } else {
-            return true
-          }
-        })
-        return showingChildren.length
-      }
-      return 0
-    })
-
-    const theOnlyOneChild = computed(() => {
-      if (showingChildNumber.value > 1) {
-        return null
-      }
-      if (props.item.children) {
-        for (const child of props.item.children) {
-          if (!child.meta || !child.meta.hidden) {
-            return child
-          }
-        }
-      }
-      return { ...props.item, path: '' }
-    })
-
     const resolvePath = (routePath: string) => {
       if (isExternal(routePath)) {
         return routePath
@@ -109,13 +67,10 @@ export default defineComponent({
       if (isExternal(props.basePath)) {
         return props.basePath
       }
-      return path.resolve(props.basePath, routePath)
+      return routePath
     }
 
     return {
-      alwaysShowRootMenu,
-      showingChildNumber,
-      theOnlyOneChild,
       resolvePath
     }
   }
