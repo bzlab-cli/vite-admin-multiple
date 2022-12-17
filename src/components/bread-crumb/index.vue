@@ -1,14 +1,24 @@
 <template>
-  <el-breadcrumb class="app-breadcrumb" separator-icon="ArrowRight">
-    <transition-group name="breadcrumb">
-      <el-breadcrumb-item v-for="(item, index) in breadcrumbs" :key="item.path">
-        <span v-if="item.redirect === 'noredirect' || index === breadcrumbs.length - 1" class="no-redirect">
-          {{ item.meta.title }}
-        </span>
-        <a v-else @click.prevent="handleLink(item)">{{ item.meta.title }}</a>
-      </el-breadcrumb-item>
-    </transition-group>
-  </el-breadcrumb>
+  <div class="page-header">
+    <div class="back-box" @click="handleBack" v-if="showBack">
+      <el-icon class="back-icon" size="16"><Back /></el-icon>
+      <div class="title">返回</div>
+    </div>
+    <div class="el-divider el-divider--vertical" v-if="showBack" />
+    <el-breadcrumb class="app-breadcrumb" separator-icon="ArrowRight">
+      <transition-group name="breadcrumb">
+        <el-breadcrumb-item v-for="(item, index) in breadcrumbs" :key="item.path">
+          <span v-if="item.redirect === 'noredirect' || index === breadcrumbs.length - 1" class="no-redirect">
+            {{ item.meta.title }}
+          </span>
+          <a v-else @click.prevent="handleLink(item)">{{ item.meta.title }}</a>
+        </el-breadcrumb-item>
+      </transition-group>
+    </el-breadcrumb>
+  </div>
+  <el-page-header @back="handleBack" icon="Back" title="返回">
+    <template #content />
+  </el-page-header>
 </template>
 
 <script lang="ts">
@@ -31,16 +41,21 @@ export default defineComponent({
 
     const state = reactive({
       breadcrumbs: [] as any,
+      showBack: false,
       getBreadcrumb: () => {
         const matched = currentRoute.matched[currentRoute.matched.length - 1].path
         const breadcrumbList = getAllBreadcrumbList(permissionStore.routes)
         const matchedList = breadcrumbList[matched]
+        console.log('matchedList', matchedList)
+
         if (matchedList?.length > 1) {
           const last = matchedList[matchedList.length - 1]
           const lastSecond = matchedList[matchedList.length - 2]
           if (last?.meta?.hidden) {
+            // state.showBack = true
             permissionStore.setActiveMenu(lastSecond?.path)
           } else {
+            // state.showBack = false
             permissionStore.setActiveMenu(last?.path)
           }
         }
@@ -58,6 +73,11 @@ export default defineComponent({
         router.push(pathCompile(path)).catch(err => {
           console.warn(err)
         })
+      },
+      handleBack() {
+        const matchedList = state.breadcrumbs
+        const lastSecond = matchedList[matchedList.length - 2]
+        router.push(lastSecond.path)
       }
     })
 
@@ -84,13 +104,31 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+.page-header {
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+  line-height: 24px;
+  .back-box {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    .back-icon {
+      margin-right: 5px;
+    }
+    .title {
+      font-size: 14px;
+      font-weight: 500;
+    }
+  }
+}
 .el-breadcrumb__inner,
 .el-breadcrumb__inner a {
   font-weight: 400 !important;
 }
 
 .app-breadcrumb.el-breadcrumb {
-  display: inline-block;
+  // display: inline-block;
   font-size: 14px;
   line-height: 50px;
   margin-left: 8px;
