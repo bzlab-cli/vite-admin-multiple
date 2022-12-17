@@ -3,7 +3,7 @@
  * @Author: jrucker
  * @Date: 2021/11/08 11:32:52
  * @LastEditors: jrucker
- * @LastEditTime: 2022/12/17 23:04:56
+ * @LastEditTime: 2022/12/17 23:12:47
  */
 
 import { RouteRecordRaw } from 'vue-router'
@@ -26,19 +26,7 @@ const permissionRouter: Array<RouteRecordRaw> = [
         meta: {
           title: '用户管理',
           icon: 'Menu'
-        },
-        children: [
-          {
-            path: '/system/user/detail',
-            component: () => import('@/views/admin/system/role/index.vue'),
-            name: 'system-user-detail',
-            meta: {
-              title: '用户详情',
-              icon: 'Menu',
-              hidden: true
-            }
-          }
-        ]
+        }
       },
       {
         path: '/system/role',
