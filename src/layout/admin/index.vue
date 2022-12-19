@@ -11,7 +11,7 @@
   </div>
 </template>
 
-<script lang="ts" name="layout">
+<script lang="ts">
 import { computed, defineComponent, onBeforeMount, onBeforeUnmount, onMounted, reactive, toRefs } from 'vue'
 import { useAppStore, DeviceType } from '@/views/admin/store/modules/app'
 import { useSettingsStore } from '@/views/admin/store/modules/settings'
@@ -19,7 +19,7 @@ import { AppMain, Navbar, Sidebar } from './components'
 import resize from './resize'
 
 export default defineComponent({
-  name: 'Layout',
+  name: 'layout',
   components: {
     AppMain,
     Navbar,

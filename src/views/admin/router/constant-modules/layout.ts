@@ -3,10 +3,10 @@
  * @Author: jrucker
  * @Date: 2021-10-21 18:04:55
  * @LastEditors: jrucker
- * @LastEditTime: 2022/12/16 15:49:05
+ * @LastEditTime: 2022/12/19 13:43:55
  */
 import { RouteRecordRaw } from 'vue-router'
-const LoginRouter: Array<RouteRecordRaw> = [
+const LayoutRouter: Array<RouteRecordRaw> = [
   {
     path: '/layout',
     component: () => import('@/layout/admin/index.vue'),
@@ -16,4 +16,4 @@ const LoginRouter: Array<RouteRecordRaw> = [
     }
   }
 ]
-export default LoginRouter
+export default LayoutRouter

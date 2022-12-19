@@ -13,7 +13,7 @@ import resize from './resize'
 import scaleBox from '@/components/scale-box/index.vue'
 
 export default defineComponent({
-  name: 'Layout',
+  name: 'layout',
   components: {
     AppMain,
     Navbar,
