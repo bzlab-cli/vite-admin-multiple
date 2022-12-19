@@ -102,7 +102,7 @@ export default defineComponent({
   line-height: 24px;
   .back-button {
     position: fixed;
-    right: 15px;
+    right: 20px;
     bottom: 66px;
     height: 50px;
     width: 50px;
