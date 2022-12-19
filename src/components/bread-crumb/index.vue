@@ -1,10 +1,6 @@
 <template>
   <div class="page-header">
-    <div class="back-box" @click="handleBack" v-if="showBack">
-      <el-icon class="back-icon" size="16"><Back /></el-icon>
-      <div class="title">返回</div>
-    </div>
-    <div class="el-divider el-divider--vertical" v-if="showBack" />
+    <el-button class="back-button" type="primary" circle icon="Back" @click="handleBack" title="返回" v-if="showBack" />
     <el-breadcrumb class="app-breadcrumb" separator-icon="ArrowRight">
       <transition-group name="breadcrumb">
         <el-breadcrumb-item v-for="(item, index) in breadcrumbs" :key="item.path">
@@ -16,9 +12,6 @@
       </transition-group>
     </el-breadcrumb>
   </div>
-  <el-page-header @back="handleBack" icon="Back" title="返回">
-    <template #content />
-  </el-page-header>
 </template>
 
 <script lang="ts">
@@ -46,16 +39,14 @@ export default defineComponent({
         const matched = currentRoute.matched[currentRoute.matched.length - 1].path
         const breadcrumbList = getAllBreadcrumbList(permissionStore.routes)
         const matchedList = breadcrumbList[matched]
-        console.log('matchedList', matchedList)
-
         if (matchedList?.length > 1) {
           const last = matchedList[matchedList.length - 1]
           const lastSecond = matchedList[matchedList.length - 2]
           if (last?.meta?.hidden) {
-            // state.showBack = true
+            state.showBack = true
             permissionStore.setActiveMenu(lastSecond?.path)
           } else {
-            // state.showBack = false
+            state.showBack = false
             permissionStore.setActiveMenu(last?.path)
           }
         }
@@ -109,6 +100,14 @@ export default defineComponent({
   align-items: center;
   margin-right: 10px;
   line-height: 24px;
+  .back-button {
+    position: fixed;
+    right: 15px;
+    bottom: 66px;
+    height: 50px;
+    width: 50px;
+    font-size: 20px;
+  }
   .back-box {
     display: flex;
     align-items: center;
