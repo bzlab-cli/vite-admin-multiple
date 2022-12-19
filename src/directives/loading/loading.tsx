@@ -24,4 +24,5 @@ const Loading = defineComponent({
     )
   }
 })
+
 export default Loading
