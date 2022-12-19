@@ -5,6 +5,7 @@
   --el-border-radius-base: 6px;
   --el-menu-item-height: 42px;
   --el-menu-sub-item-height: calc(var(--el-menu-item-height) - 6px);
+  --el-menu-base-level-padding: 15px;
 }
 
 .el-button.is-link {
