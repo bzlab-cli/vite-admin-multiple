@@ -49,7 +49,7 @@ export const useTable = (
       })
       searchDataCallback && (state.totalParam = searchDataCallback(state.totalParam))
       let { data } = await api(state.totalParam)
-      dataCallback && (data = dataCallback(data))
+      dataCallback && (data = await dataCallback(data))
       loading.value = false
       state.tableData = data.list || []
       state.paginationParams.total = data.total || 0
