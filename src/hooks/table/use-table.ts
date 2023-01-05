@@ -15,7 +15,7 @@ export const useTable = (
 ) => {
   const state = reactive<Table.TableStateProps>({
     tableData: [],
-    paginationParams,
+    paginationParams: Object.assign({}, paginationParams),
     searchParams: {},
     searchInitParams: {},
     totalParam: {}
