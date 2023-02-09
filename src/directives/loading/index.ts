@@ -9,7 +9,7 @@ function remove(el: any) {
   el.removeChild(el[name].$el)
 }
 
-export const loading: Directive = {
+export const spin: Directive = {
   mounted(el, { value }) {
     const app = createApp(Loading)
     const instance = app.mount(document.createElement('div'))
