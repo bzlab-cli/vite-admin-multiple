@@ -5,6 +5,7 @@ import vueJsx from '@vitejs/plugin-vue-jsx'
 import eslintPlugin from 'vite-plugin-eslint'
 import viteCompression from 'vite-plugin-compression'
 import VueSetupExtend from 'vite-plugin-vue-setup-extend'
+import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 // import { loadEnv } from 'vite'
 import shell from 'shelljs'
 import mpa from '@bzlab/bz-vite-mpa'
@@ -79,6 +80,10 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
         threshold: 102400,
         algorithm: 'gzip',
         ext: '.gz'
+      }),
+      createSvgIconsPlugin({
+        iconDirs: [resolve('src/icons/svg')],
+        symbolId: 'icon-[name]'
       })
     ],
     css: {

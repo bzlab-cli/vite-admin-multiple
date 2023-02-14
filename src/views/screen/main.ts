@@ -3,7 +3,7 @@
  * @Description:
  * @Date: 2021/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2022/01/27 18:14:00
+ * @LastEditTime: 2023/02/14 15:21:29
  */
 
 import { createApp, Directive } from 'vue'
@@ -16,6 +16,7 @@ import '@/styles/index.scss'
 import 'normalize.css'
 import * as directives from '@/directives'
 import './permission'
+import 'virtual:svg-icons-register'
 // 引入外部字体
 import '@/assets/fonts/font.css'
 
