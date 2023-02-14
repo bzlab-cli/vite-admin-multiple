@@ -17,7 +17,7 @@
     "proxy": "ts-node-dev @bzlab/bz-vue-proxy use --config=build/proxy/config.json"
   },
   "dependencies": {
-    "@bz/bz-upload": "^0.2.3",
+    "@bz/bz-upload": "^0.2.7",
     "@bzlab/bz-core": "^0.1.4",
     "@element-plus/icons-vue": "^1.1.4",
     "axios": "^0.21.1",
