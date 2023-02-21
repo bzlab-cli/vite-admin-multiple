@@ -87,7 +87,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, provide } from 'vue'
+import { ref, provide, watch } from 'vue'
 import { useTable } from '@/hooks/table/use-table'
 import { useSelection } from '@/hooks/table/use-selection'
 import { ColumnProps, SearchColumnProps, TabsProps, TabsColumnsProps } from '@/interface/table'
@@ -191,14 +191,6 @@ const {
 // 清空选中数据
 const clearSelection = () => tableRef.value!.clearSelection()
 
-// watch(
-//   () => props.initParam,
-//   () => {
-//     getTableList()
-//   },
-//   { deep: true }
-// )
-
 const tableColumns = ref<ColumnProps[]>(props.columns)
 
 const searchEnumMap = ref(new Map<string, { [key: string]: any }[]>())
@@ -264,6 +256,14 @@ const colSetting = tableColumns.value!.filter((item: any) => {
 const openColSetting = () => {
   colRef.value.openColSetting()
 }
+
+watch(
+  () => props.searchColumns,
+  () => {
+    flatSearchColumns.value = flatSearchColumnsFunc(props.searchColumns as SearchColumnProps[])
+  },
+  { deep: true }
+)
 
 defineExpose({
   tabsRef,

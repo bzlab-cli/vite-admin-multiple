@@ -78,6 +78,10 @@ const showCollapse = computed(() => {
   }, 0)
   return show
 })
+
+defineExpose({
+  ...props
+})
 </script>
 
 <style lang="scss" scoped>
