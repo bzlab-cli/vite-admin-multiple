@@ -190,6 +190,8 @@ const {
 
 // 清空选中数据
 const clearSelection = () => tableRef.value!.clearSelection()
+// 获取选中数据
+const getSelection = () => tableRef.value!.getSelectionRows()
 
 const tableColumns = ref<ColumnProps[]>(props.columns)
 
@@ -274,7 +276,8 @@ defineExpose({
   paginationParams,
   handleReset,
   getTableList,
-  clearSelection
+  clearSelection,
+  getSelection
 })
 </script>
 
