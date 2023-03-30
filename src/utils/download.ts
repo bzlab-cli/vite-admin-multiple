@@ -14,12 +14,16 @@ import { getToken } from '@/utils/auth'
  */
 export function downloadAxiosBlobFile(options) {
   const headers = { token: getToken() }
-  if (!isArray(options)) {
-    downAxiosBlobFile({ ...options, headers })
-  } else {
-    options.forEach(item => (item.headers = headers))
-    downAxiosBlobFile(options)
-  }
+  return new Promise(async resolve => {
+    if (!isArray(options)) {
+      const res = await downAxiosBlobFile({ ...options, headers })
+      resolve(res)
+    } else {
+      options.forEach(item => (item.headers = headers))
+      const res = await downAxiosBlobFile(options)
+      resolve(res)
+    }
+  })
 }
 
 /**
