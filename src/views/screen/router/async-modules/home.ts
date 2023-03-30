@@ -3,7 +3,7 @@
  * @Author: jrucker
  * @Date: 2021-01-08 19:32:52
  * @LastEditors: jrucker
- * @LastEditTime: 2022/12/14 13:35:13
+ * @LastEditTime: 2023/03/30 09:54:20
  */
 
 import { RouteRecordRaw } from 'vue-router'
@@ -13,12 +13,11 @@ const HomeRouter: Array<RouteRecordRaw> = [
   {
     path: '/home',
     component: Layout,
-    redirect: '/home',
     children: [
       {
-        path: 'index',
+        path: '/home/index',
         component: () => import('@/views/screen/view/home/index.vue'),
-        name: 'home',
+        name: 'home-index',
         meta: {
           title: '主页',
           icon: 'Menu'

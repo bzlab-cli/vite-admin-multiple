@@ -3,7 +3,7 @@
  * @Description:
  * @Date: 2021/10/25 11:12:57
  * @LastEditors: jrucker
- * @LastEditTime: 2022/12/14 13:35:11
+ * @LastEditTime: 2023/03/30 09:55:15
  */
 
 import { RouteRecordRaw } from 'vue-router'
@@ -16,7 +16,7 @@ const DashboardRouter: Array<RouteRecordRaw> = [
     redirect: '/dashboard',
     children: [
       {
-        path: 'dashboard',
+        path: '/dashboard',
         component: () => import('@/views/screen/view/dashboard/index.vue'),
         name: 'dashboard',
         meta: {
