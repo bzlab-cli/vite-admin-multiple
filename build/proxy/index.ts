@@ -18,7 +18,7 @@ console.log(chalk.bold.green('当前环境', getConfig().env))
 
 module.exports = {
   proxy: {
-    '/business-web': {
+    '/wayun-epc': {
       target: getConfig().proxy || '',
       changeOrigin: true
     },
