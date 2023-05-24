@@ -60,9 +60,8 @@ export default defineComponent({
       if (settingsStore.sidebarTextTheme) {
         return '#57CAEB'
         // return settingsStore.theme
-      } else {
-        return variables.menuActiveText
       }
+      return variables.menuActiveText
     })
 
     const isCollapse = computed(() => {

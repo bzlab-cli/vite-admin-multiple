@@ -61,7 +61,7 @@ const selected = ref<selectedProp>({})
 function isType(val: any) {
   if (val === null) return 'null'
   if (typeof val !== 'object') return typeof val
-  else return Object.prototype.toString.call(val).slice(8, -1).toLocaleLowerCase()
+  return Object.prototype.toString.call(val).slice(8, -1).toLocaleLowerCase()
 }
 
 onBeforeMount(() => {
@@ -82,7 +82,7 @@ const select = (item: DataProps, option: optionsProps) => {
     if (selected.value[item.key].includes(option.value)) {
       let currentIndex = selected.value[item.key].findIndex(s => s === option.value)
       selected.value[item.key].splice(currentIndex, 1)
-      if (selected.value[item.key].length == 0) selected.value[item.key] = [item.options[0].value]
+      if (selected.value[item.key].length === 0) selected.value[item.key] = [item.options[0].value]
     } else {
       selected.value[item.key].push(option.value)
       if (selected.value[item.key].includes(item.options[0].value)) {

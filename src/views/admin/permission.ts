@@ -3,7 +3,7 @@
  * @Description: 权限
  * @Date: 2021/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2022/12/16 17:53:38
+ * @LastEditTime: 2023/05/24 11:33:23
  */
 
 import NProgress from 'nprogress'
@@ -23,32 +23,31 @@ router.beforeEach(async (to: RouteLocationNormalized, _: RouteLocationNormalized
   const permissionStore = usePermissionStore()
 
   if (whiteList.indexOf(to.path) !== -1 || whiteNameList.indexOf(to.name as string) !== -1) {
-    next()
-  } else {
-    if (userStore.token) {
-      if (!userStore.loadUserInfo) {
-        try {
-          await userStore.getUserInfo()
-          await userStore.getMenu()
-          permissionStore.dynamicRoutes.forEach((route: any) => {
-            router.addRoute('layout', route)
-          })
-          next({ ...to, replace: true })
-        } catch (err) {
-          console.error(err)
-          userStore.resetToken().then(() => {
-            ElMessage.error('登录已失效，请重新登录')
-            next(`/login?redirect=${to.path}`)
-            NProgress.done()
-          })
-        }
-      } else {
-        next()
+    return next()
+  }
+  if (userStore.token) {
+    if (!userStore.loadUserInfo) {
+      try {
+        await userStore.getUserInfo()
+        await userStore.getMenu()
+        permissionStore.dynamicRoutes.forEach((route: any) => {
+          router.addRoute('layout', route)
+        })
+        next({ ...to, replace: true })
+      } catch (err) {
+        console.error(err)
+        userStore.resetToken().then(() => {
+          ElMessage.error('登录已失效，请重新登录')
+          next(`/login?redirect=${to.path}`)
+          NProgress.done()
+        })
       }
     } else {
-      next(`/login?redirect=${to.path}`)
-      NProgress.done()
+      next()
     }
+  } else {
+    next(`/login?redirect=${to.path}`)
+    NProgress.done()
   }
 })
 

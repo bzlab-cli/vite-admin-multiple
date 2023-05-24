@@ -71,6 +71,8 @@ const resize = (e: UIEvent) => {
     case width > 1920:
       breakPoint.value = 'xl'
       break
+    default:
+      break
   }
 }
 

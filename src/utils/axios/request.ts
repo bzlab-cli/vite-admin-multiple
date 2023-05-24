@@ -3,7 +3,7 @@
  * @Description:
  * @Date: 2021/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2022/11/22 15:20:27
+ * @LastEditTime: 2023/05/24 11:48:59
  */
 
 import type { AxiosRequestConfig, AxiosInstance, AxiosResponse, AxiosError } from 'axios'
@@ -65,10 +65,9 @@ export class Request {
         const res = response.data
         if (res.retCode === 200) {
           return response
-        } else {
-          ElMessage.error(res.retMsg || '服务器响应失败，请重试')
-          return Promise.reject(response)
         }
+        ElMessage.error(res.retMsg || '服务器响应失败，请重试')
+        return Promise.reject(response)
       },
       (e: AxiosError) => {
         const { response } = e

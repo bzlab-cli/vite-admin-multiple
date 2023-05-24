@@ -3,7 +3,7 @@
  * @Author: jrucker
  * @Date: 2020-12-26 13:45:52
  * @LastEditors: jrucker
- * @LastEditTime: 2022/12/17 22:22:00
+ * @LastEditTime: 2023/05/24 11:26:09
  */
 
 import { reactive, toRefs } from 'vue'
@@ -29,9 +29,8 @@ const hasPermission = (roles: string[], route: RouteRecordRaw) => {
         return route.meta.roles.includes(role)
       }
     })
-  } else {
-    return true
   }
+  return true
 }
 
 export const filterAsyncRoutes = (routes: RouteRecordRaw[], roles: string[]) => {

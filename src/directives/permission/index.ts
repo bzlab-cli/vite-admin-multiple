@@ -3,7 +3,7 @@
  * @Author: jrucker
  * @Date: 2020-12-28 10:39:21
  * @LastEditors: jrucker
- * @LastEditTime: 2022/11/22 15:45:27
+ * @LastEditTime: 2023/05/24 11:26:56
  * @examples:
  * 单权限验证 v-permission="'权限名称'"
  * 单个验证 v-permission="[flag, '权限名称']"
@@ -40,9 +40,8 @@ function checkPermission(el, value) {
     if (flag) return
     if (isArray(val)) {
       return checkFlag('boolean', el, val)
-    } else {
-      return checkFlag('string', el, val)
     }
+    return checkFlag('string', el, val)
   }
 }
 

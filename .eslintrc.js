@@ -3,7 +3,7 @@
  * @Description:
  * @Date: 2021/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2022/11/29 15:30:38
+ * @LastEditTime: 2023/05/24 11:53:48
  */
 
 module.exports = {
@@ -37,17 +37,24 @@ module.exports = {
     ecmaVersion: 2021
   },
   rules: {
-    'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    'no-console': 'off',
+    'no-debugger': 'off',
     'import/no-unresolved': 'off',
     'import/extensions': 'off',
     'import/no-absolute-path': 'off',
     'no-async-promise-executor': 'off',
     'import/no-extraneous-dependencies': 'off',
     'vue/no-multiple-template-root': 'off',
-    'vue/html-self-closing': 'off',
     'vue/no-mutating-props': 'off',
-    'no-console': 'off',
+    'default-case': 'error',
+    'default-case-last': 'error',
+    eqeqeq: 'off',
+    'no-const-assign': 'error',
+    'no-useless-return': 'error',
+    'no-var': 'error',
+    'vue/no-parsing-error': 'error',
+    'vue/no-use-v-if-with-v-for': 'error',
+    'no-else-return': 'error',
     'no-plusplus': 'off',
     'no-useless-escape': 'off',
     'no-bitwise': 'off',
@@ -56,22 +63,23 @@ module.exports = {
     '@typescript-eslint/ban-ts-comment': ['off'],
     'vue/no-setup-props-destructure': ['off'],
     '@typescript-eslint/no-empty-function': ['off'],
-    "vue/html-self-closing": [
-      "error",
+    'vue/html-self-closing': [
+      'error',
       {
         html: {
-          void: "always",
-          normal: "always",
-          component: "always"
+          void: 'always',
+          normal: 'always',
+          component: 'always'
         },
-        svg: "always",
-        math: "always"
+        svg: 'always',
+        math: 'always'
       }
     ],
     'no-param-reassign': ['off'],
     '@typescript-eslint/ban-types': 'off',
     '@typescript-eslint/no-var-requires': 0,
-    "@typescript-eslint/no-non-null-assertion": "off",
-    "@typescript-eslint/no-namespace": "off",
+    '@typescript-eslint/no-non-null-assertion': 'off',
+    '@typescript-eslint/no-namespace': 'off',
+    'max-depth': ['error', { max: 4 }]
   }
 }
