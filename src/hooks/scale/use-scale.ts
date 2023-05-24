@@ -45,6 +45,8 @@ export const useScale = () => {
           })
         })()
         break
+      default:
+        break
     }
   })
 
