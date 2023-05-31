@@ -3,14 +3,13 @@
  * @Description: 权限
  * @Date: 2021/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2022/11/22 16:53:34
+ * @LastEditTime: 2023/05/31 09:43:53
  */
 
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import router from './router'
 import { RouteLocationNormalized } from 'vue-router'
-import { useStore } from './store'
 import { ElMessage } from 'element-plus'
 import { whiteList, whiteNameList } from '@/config/whitelist'
 import { useUserStore } from './store/modules/user'
