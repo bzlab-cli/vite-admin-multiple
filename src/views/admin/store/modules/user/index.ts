@@ -3,7 +3,7 @@
  * @Description:
  * @Date: 2021/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2022/11/22 15:32:34
+ * @LastEditTime: 2023/06/12 17:18:43
  */
 import { reactive, toRefs } from 'vue'
 import { defineStore } from 'pinia'
@@ -13,7 +13,6 @@ import { getMenuGrantByRoleId } from '@/api/auth/role'
 import { removeToken, setToken } from '@/utils/auth'
 import { resetRouter } from '@/views/admin/router'
 import { ElMessage } from 'element-plus'
-import { checkImgExists } from '@/utils'
 import { usePermissionStore } from '../permission'
 import { store } from '@/views/admin/store'
 export interface UserState {
@@ -32,7 +31,7 @@ export const useUserStore = defineStore('user', () => {
     token: getToken() || '',
     userId: '',
     name: '',
-    avatar: 'https://img2.baidu.com/it/u=3924374604,1207041510&fm=26&fmt=auto',
+    avatar: '',
     roleId: '',
     roleName: '', // 岗位名称
     loadUserInfo: false // 第一次加载用户信息
@@ -52,10 +51,7 @@ export const useUserStore = defineStore('user', () => {
     const { data, retCode, retMsg } = await userInfo()
     if (retCode !== 200) return ElMessage.error(retMsg)
     state.name = data?.account || ''
-    const exist = await checkImgExists(data?.headUrl)
-    if (exist) {
-      state.avatar = data?.headUrl || ''
-    }
+    state.avatar = data?.headUrl || '/images/avatar/default.png'
     state.userId = data?.userId || ''
     state.roleId = data?.roleId || ''
     state.roleName = data?.roleName || ''

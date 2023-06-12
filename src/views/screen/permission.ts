@@ -3,7 +3,7 @@
  * @Description: 权限
  * @Date: 2021/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2023/05/31 09:43:53
+ * @LastEditTime: 2023/06/12 16:54:38
  */
 
 import NProgress from 'nprogress'
@@ -38,7 +38,7 @@ router.beforeEach(async (to: RouteLocationNormalized, _: RouteLocationNormalized
           console.error(err)
           userStore.resetToken().then(() => {
             ElMessage.error('登录已失效，请重新登录')
-            next(`/login?redirect=${to.path}`)
+            next(`/login`)
             NProgress.done()
           })
         }

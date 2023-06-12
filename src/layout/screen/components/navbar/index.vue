@@ -34,7 +34,7 @@ export default {
       },
       logOut: () => {
         userStore.loginOut()
-        router.push(`/login?redirect=${route.fullPath}`).catch(err => {
+        router.push(`/login`).catch(err => {
           console.warn(err)
         })
       }
