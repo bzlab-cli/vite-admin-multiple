@@ -3,7 +3,7 @@
     <div class="content">
       <div class="login-top">
         <div class="login-title">
-          <!-- <img class="logo-img" src="/images/login/logo.png" /> -->
+          <img class="logo-img" :src="logo" />
           <span class="logo-name">管理系统</span>
         </div>
         <div class="login-desc">诚信卓越服务，创新超越自我</div>
@@ -39,7 +39,7 @@
     </div>
     <div class="footer">
       <div class="desc">
-        <img class="icon" src="/images/login/logo.png" />
+        <img class="icon" :src="logo" />
         <span>Technology provided by Frog Cloud Technology</span>
         <a class="beian" href="https://beian.miit.gov.cn" target="_blank" rel="noreferrer">浙ICP备16007368号-3</a>
       </div>
@@ -53,6 +53,7 @@ import { useRouter } from 'vue-router'
 import { useUserStore } from '@/views/admin/store/modules/user'
 import { User, Lock } from '@element-plus/icons-vue'
 import { mobileReg } from '@/utils/rules'
+import { Settings } from '@/config/settings'
 
 const validateAccount = (rule: any, value: string, callback: any) => {
   if (!value) {
@@ -77,6 +78,7 @@ const validatePassword = (rule: any, value: string, callback: any) => {
 const formRef = ref<any>(null)
 const router = useRouter()
 const userStore = useUserStore()
+const logo = ref(Settings.logo)
 const state = reactive({
   login: {
     title: '管理平台',

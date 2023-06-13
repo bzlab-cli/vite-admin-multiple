@@ -1,21 +1,22 @@
 <template>
   <div class="navbar">
-    <img src="@/assets/images/home/logo.png" class="logo-img" @click="goHome" />
+    <img :src="logo" class="logo-img" @click="goHome" />
   </div>
 </template>
 
 <script>
-import { computed, reactive, toRefs } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { computed, reactive, toRefs, ref } from 'vue'
+import { useRouter } from 'vue-router'
 import { useAppStore } from '@/views/admin/store/modules/app'
 import { useUserStore } from '@/views/admin/store/modules/user'
+import { Settings } from '@/config/settings'
 
 export default {
   setup() {
     const appStore = useAppStore()
     const userStore = useUserStore()
-    const route = useRoute()
     const router = useRouter()
+    const logo = ref(Settings.logo)
     const sidebar = computed(() => {
       return appStore.sidebar
     })
@@ -45,6 +46,7 @@ export default {
     }
 
     return {
+      logo,
       sidebar,
       device,
       name,

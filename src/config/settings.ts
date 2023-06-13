@@ -3,7 +3,7 @@
  * @Description:
  * @Date: 2021/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2022/01/26 11:12:45
+ * @LastEditTime: 2023/06/13 13:56:57
  */
 
 export enum RouterMode {
@@ -18,8 +18,12 @@ export class Keys {
 }
 
 export enum Settings {
-  title = '后台管理',
-  logo = '/assets/images/home/logo.png'
+  title = '管理系统',
+  logo = '/images/logo/logo.png'
+}
+
+export enum Vite {
+  port = 8445
 }
 
 export function getEnv(val) {

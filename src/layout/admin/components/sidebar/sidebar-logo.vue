@@ -2,7 +2,7 @@
   <div class="sidebar-logo-container" :class="[collapse ? 'collapse' : 'notitle']">
     <transition name="sidebarLogoFade">
       <div v-if="false" key="collapse" class="sidebar-logo-link" to="/">
-        <img src="/public/favicon.ico" class="sidebar-logo" />
+        <img src="/favicon.ico" class="sidebar-logo" />
       </div>
       <div v-else key="expand" @click="goHome" class="sidebar-logo-link" to="/">
         <img class="sidebar-logo" :src="logo" />
@@ -15,7 +15,6 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { Settings } from '@/config/settings'
-import logo from '@/assets/images/home/logo.png'
 
 export default defineComponent({
   props: {
@@ -26,6 +25,7 @@ export default defineComponent({
   },
   setup() {
     const title = Settings.title
+    const logo = Settings.logo
     function goHome() {
       window.location.href = '/'
     }
@@ -67,6 +67,7 @@ export default defineComponent({
       width: 32px;
       height: 32px;
       vertical-align: middle;
+      border-radius: 6px;
     }
 
     & .sidebar-title {
