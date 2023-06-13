@@ -4,9 +4,9 @@
       <div class="login-top">
         <div class="login-title">
           <img class="logo-img" :src="logo" />
-          <span class="logo-name">管理系统</span>
+          <span class="logo-name">{{ title }}</span>
         </div>
-        <div class="login-desc">诚信卓越服务，创新超越自我</div>
+        <div class="login-desc">{{ desc }}</div>
       </div>
       <div class="login-main">
         <el-form ref="formRef" :model="form" :rules="rules" autocomplete="on" label-position="left">
@@ -40,8 +40,8 @@
     <div class="footer">
       <div class="desc">
         <img class="icon" :src="logo" />
-        <span>Technology provided by Frog Cloud Technology</span>
-        <a class="beian" href="https://beian.miit.gov.cn" target="_blank" rel="noreferrer">浙ICP备16007368号-3</a>
+        <span>{{ footer }}</span>
+        <a class="beian" href="https://beian.miit.gov.cn" target="_blank">{{ beian }}</a>
       </div>
     </div>
   </div>
@@ -79,6 +79,10 @@ const formRef = ref<any>(null)
 const router = useRouter()
 const userStore = useUserStore()
 const logo = ref(Settings.logo)
+const title = ref(Settings.title)
+const desc = ref(Settings.desc)
+const footer = ref(Settings.footer)
+const beian = ref(Settings.beian)
 const state = reactive({
   login: {
     title: '管理平台',
