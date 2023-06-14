@@ -3,7 +3,7 @@
  * @Description:
  * @Date: 2021/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2022/12/16 18:30:29
+ * @LastEditTime: 2023/06/14 14:09:16
  */
 import { deepClone } from '@bzlab/bz-core'
 
@@ -120,4 +120,53 @@ export const getAllBreadcrumbList = (menuList, result: { [key: string]: any } = 
     if (item.children) getAllBreadcrumbList(item.children, result, result[item.path])
   }
   return result
+}
+
+/**
+ * @description 过滤出最底层子路由第一条数据
+ * @param routes 路由数据
+ * @returns
+ */
+export function getDeepChildNode(routes): any {
+  let deepNode = null
+  let maxDepth = 0
+
+  function dfs(node, depth) {
+    if (!node.children || !node.children.length) {
+      if (depth > maxDepth) {
+        maxDepth = depth
+        deepNode = node
+      }
+      return
+    }
+    for (const child of node.children) {
+      dfs(child, depth + 1)
+    }
+  }
+  for (const node of routes) {
+    dfs(node, 1)
+  }
+
+  return deepNode
+}
+
+/**
+ * @description 添加重定向路由
+ * @param routes 路由数据
+ * @returns
+ */
+export function addRedirectRoute(constantRoutes, asyncRoutes, router): any {
+  const routes = constantRoutes.concat(asyncRoutes)
+  const route = routes.find(item => item.path === '/')
+  const showMenus = getShowMenuList(routes) || []
+  const node = getDeepChildNode(showMenus)
+  if (route) return
+  const path = node?.path ?? ''
+  const obj = {
+    path: '/',
+    redirect: path,
+    meta: { hidden: true }
+  }
+  router.addRoute(obj)
+  return routes.concat(obj)
 }

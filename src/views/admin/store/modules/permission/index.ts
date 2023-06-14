@@ -3,16 +3,16 @@
  * @Author: jrucker
  * @Date: 2020-12-26 13:45:52
  * @LastEditors: jrucker
- * @LastEditTime: 2023/05/24 11:26:09
+ * @LastEditTime: 2023/06/14 14:12:42
  */
 
 import { reactive, toRefs } from 'vue'
 import { defineStore } from 'pinia'
 import { RouteRecordRaw } from 'vue-router'
 import { store } from '@/views/admin/store'
-import { constantRoutes, asyncRoutes } from '@/views/admin/router'
+import { constantRoutes, asyncRoutes, router } from '@/views/admin/router'
 import { filter } from '@/utils'
-import { filterAsyncRouter, flatRoutes } from '@/utils/permission'
+import { filterAsyncRouter, flatRoutes, addRedirectRoute } from '@/utils/permission'
 import Layout from '@/layout/admin/index.vue'
 import { useTagsStore } from '../tags'
 export interface PermissionState {
@@ -83,9 +83,9 @@ export const usePermissionStore = defineStore('permission', () => {
     const accessedRoutes = filterAsyncRouter(filterRoutes, Layout)
     accessedRoutes.push({ path: '/:pathMatch(.*)', redirect: '/404', meta: { hidden: true } })
 
-    // state.routes = constantRoutes.concat(accessedRoutes) // 路由菜单
+    // state.routes = addRedirectRoute(constantRoutes, accessedRoutes, router) // 路由菜单
     // state.dynamicRoutes = flatRoutes(accessedRoutes) // 动态路由
-    state.routes = constantRoutes.concat(asyncRoutes) // 本地路由菜单
+    state.routes = addRedirectRoute(constantRoutes, asyncRoutes, router) // 本地路由菜单
     state.dynamicRoutes = flatRoutes(asyncRoutes) // 本地动态路由
 
     state.accessedCodes = accessedCodes // 按钮权限

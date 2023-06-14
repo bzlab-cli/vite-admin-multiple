@@ -13,6 +13,7 @@
           <el-form-item prop="account">
             <el-input
               v-model="form.account"
+              maxlength="11"
               :placeholder="login.account"
               name="account"
               :prefix-icon="User"
@@ -95,7 +96,7 @@ const state = reactive({
     password: ''
   },
   rules: {
-    account: [{ validator: validateAccount, trigger: 'blur' }],
+    account: [{ validator: validateAccount, trigger: 'change' }],
     password: [{ validator: validatePassword, trigger: 'blur' }]
   },
   loading: false

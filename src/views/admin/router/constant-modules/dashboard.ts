@@ -3,7 +3,7 @@
  * @Description:
  * @Date: 2021/10/25 11:12:57
  * @LastEditors: jrucker
- * @LastEditTime: 2022/12/16 15:48:55
+ * @LastEditTime: 2023/06/14 13:42:03
  */
 
 import { RouteRecordRaw } from 'vue-router'
@@ -11,9 +11,8 @@ import Layout from '@/layout/admin/index.vue'
 
 const DashboardRouter: Array<RouteRecordRaw> = [
   {
-    path: '/',
+    path: '/dashboard',
     component: Layout,
-    redirect: '/dashboard',
     meta: {
       hidden: true
     },
