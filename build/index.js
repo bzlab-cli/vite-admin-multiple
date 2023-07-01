@@ -3,7 +3,7 @@
  * @Description:
  * @Date: 2021/07/29 10:15:09
  * @LastEditors: jrucker
- * @LastEditTime: 2022/01/29 17:33:40
+ * @LastEditTime: 2023/07/01 10:21:20
  */
 
 const { run } = require('runjs')
@@ -37,8 +37,13 @@ if (process.env.npm_config_preview || rawArgv.includes('--preview')) {
     app.use(createProxyMiddleware(options.filter || context, options))
   })
 
+  app.get('/screen/*', function (req, res) {
+    const html = fs.readFileSync(path.resolve(__dirname, '../dist/screen/index.html'), 'utf-8')
+    res.send(html)
+  })
+
   app.get('*', function (req, res) {
-    const html = fs.readFileSync(path.resolve(__dirname, '../dist/center/index.html'), 'utf-8')
+    const html = fs.readFileSync(path.resolve(__dirname, '../dist/admin/index.html'), 'utf-8')
     res.send(html)
   })
 

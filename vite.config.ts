@@ -10,6 +10,7 @@ import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 import shell from 'shelljs'
 import mpa from '@bzlab/bz-vite-mpa'
 import { Vite } from './src/config/settings'
+import sentryVitePlugin from 'sentry-vite-plugin'
 
 const dynamicProxy = require('./build/proxy/index.ts')
 const resolve = (p: string) => path.resolve(__dirname, p)
@@ -36,6 +37,20 @@ function mpaPlugin(mode) {
   }
 }
 
+function sentryPlugin() {
+  const rawArgv = JSON.parse(process.env.npm_config_argv as string).original
+  const ignoreSentry = rawArgv.includes('--ignoreSentry')
+  if (process.env.VITE_APP_ENV === 'production' && !ignoreSentry) {
+    return sentryVitePlugin({
+      release: process.env.VITE_APP_ENV + '@0.0.1',
+      include: path.resolve(__dirname, './dist/static/js'),
+      ignore: ['node_modules', 'vite.config.ts'],
+      configFile: `${__dirname}/.sentryclirc`,
+      urlPrefix: '~/static/js/'
+    })
+  }
+}
+
 export default ({ command, mode }: ConfigEnv): UserConfig => {
   // const env = loadEnv(mode, process.cwd())
   console.log('command', command, mode)
@@ -48,11 +63,11 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
       }
     },
     build: {
+      sourcemap: process.env.VITE_APP_ENV === 'production',
       minify: 'terser',
       chunkSizeWarningLimit: 1500,
       terserOptions: {
         compress: {
-          drop_console: true, //打包时删除console
           drop_debugger: true, //打包时删除 debugger
           pure_funcs: ['console.log']
         }
@@ -68,9 +83,7 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
     plugins: [
       vue(),
       vueJsx(),
-      eslintPlugin({
-        cache: false
-      }),
+      eslintPlugin({ cache: false }),
       VueSetupExtend(),
       mpa(mpaOptions, options => {
         mpaPlugin(mode)(options)
@@ -85,7 +98,8 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
       createSvgIconsPlugin({
         iconDirs: [resolve('src/icons/svg')],
         symbolId: 'icon-[name]'
-      })
+      }),
+      sentryPlugin()
     ],
     css: {
       preprocessorOptions: {
