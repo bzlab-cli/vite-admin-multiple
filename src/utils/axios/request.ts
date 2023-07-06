@@ -3,7 +3,7 @@
  * @Description:
  * @Date: 2021/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2023/05/24 11:48:59
+ * @LastEditTime: 2023/07/06 10:43:19
  */
 
 import type { AxiosRequestConfig, AxiosInstance, AxiosResponse, AxiosError } from 'axios'
@@ -70,8 +70,7 @@ export class Request {
         return Promise.reject(response)
       },
       (e: AxiosError) => {
-        const { response } = e
-        const { status } = response as AxiosResponse
+        const status = e?.response?.status
         const userStore = useUserStore()
         if (status === 500) {
           ElMessage.error('登录已失效，请重新登录')
