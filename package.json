@@ -8,7 +8,7 @@
     "build:deploy": "cross-env NODE_ENV=production dotenv -e .env.deploy vite build && node build/sourcemap.js",
     "build:release": "cross-env NODE_ENV=production dotenv -e .env.release vite build && node build/sourcemap.js",
     "build": "cross-env NODE_ENV=production dotenv -e .env.prod vite build && node build/sourcemap.js",
-		"preview": "node build/index.js --preview",
+    "preview": "node build/index.js --preview",
     "lint:eslint": "eslint --cache --max-warnings 0 \"src/**/*.{vue,js,ts,tsx}\" --fix",
     "lint:prettier": "prettier --write  \"src/**/*.{js,ts,json,tsx,css,less,scss,vue,html,md}\"",
     "lint": "npm-run-all lint:eslint lint:prettier",
@@ -41,7 +41,7 @@
     "vuex": "^4.0.0-0"
   },
   "devDependencies": {
-    "@bzlab/bz-vite-mpa": "0.0.3",
+    "@bzlab/bz-vite-mpa": "0.0.4",
     "@bzlab/bz-vue-proxy": "0.0.2",
     "@types/file-saver": "^2.0.1",
     "@types/js-cookie": "^2.2.6",
