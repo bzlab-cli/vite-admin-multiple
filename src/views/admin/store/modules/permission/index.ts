@@ -15,6 +15,7 @@ import { filter } from '@/utils'
 import { filterAsyncRouter, flatRoutes, addRedirectRoute } from '@/utils/permission'
 import Layout from '@/layout/admin/index.vue'
 import { useTagsStore } from '../tags'
+import { layoutSettings } from '@/config/settings'
 export interface PermissionState {
   accessedCodes: string[]
   routes: RouteRecordRaw[]
@@ -83,10 +84,13 @@ export const usePermissionStore = defineStore('permission', () => {
     const accessedRoutes = filterAsyncRouter(filterRoutes, Layout)
     accessedRoutes.push({ path: '/:pathMatch(.*)', redirect: '/404', meta: { hidden: true } })
 
-    // state.routes = addRedirectRoute(constantRoutes, accessedRoutes, router) // 路由菜单
-    // state.dynamicRoutes = flatRoutes(accessedRoutes) // 动态路由
-    state.routes = addRedirectRoute(constantRoutes, asyncRoutes, router) // 本地路由菜单
-    state.dynamicRoutes = flatRoutes(asyncRoutes) // 本地动态路由
+    if (layoutSettings.showAdminAuthMenu) {
+      state.routes = addRedirectRoute('admin', constantRoutes, accessedRoutes, router) // 路由菜单
+      state.dynamicRoutes = flatRoutes(accessedRoutes) // 动态路由
+    } else {
+      state.routes = addRedirectRoute('admin', constantRoutes, asyncRoutes, router) // 本地路由菜单
+      state.dynamicRoutes = flatRoutes(asyncRoutes) // 本地动态路由
+    }
 
     state.accessedCodes = accessedCodes // 按钮权限
     tagsStore.addCacheView(cachedViews) // 缓存路由

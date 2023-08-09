@@ -3,7 +3,7 @@
  * @Description:
  * @Date: 2021/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2023/06/14 14:09:16
+ * @LastEditTime: 2023/08/09 15:06:33
  */
 import { deepClone } from '@bzlab/bz-core'
 
@@ -155,10 +155,13 @@ export function getDeepChildNode(routes): any {
  * @param routes 路由数据
  * @returns
  */
-export function addRedirectRoute(constantRoutes, asyncRoutes, router): any {
+export function addRedirectRoute(mode, constantRoutes, asyncRoutes, router): any {
   const routes = constantRoutes.concat(asyncRoutes)
   const route = routes.find(item => item.path === '/')
-  const showMenus = getShowMenuList(routes) || []
+  let showMenus = []
+  if (mode === 'admin') {
+    showMenus = getShowMenuList(routes) || []
+  }
   const node = getDeepChildNode(showMenus)
   if (route) return
   const path = node?.path ?? ''

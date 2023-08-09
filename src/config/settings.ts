@@ -3,8 +3,12 @@
  * @Description:
  * @Date: 2021/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2023/06/13 14:47:42
+ * @LastEditTime: 2023/08/09 15:09:15
  */
+interface LayoutSettings {
+  // 后台是否显示权限路由菜单,默认false本地路由
+  showAdminAuthMenu: boolean
+}
 
 export enum RouterMode {
   Hash = 'hash',
@@ -13,7 +17,7 @@ export enum RouterMode {
 
 export class Keys {
   static sidebarStatusKey = 'sidebarStatusKey'
-  static tokenKey = 'nzf-token'
+  static tokenKey = 'mock-token'
   static projectId = 'projectId'
 }
 
@@ -31,10 +35,15 @@ export enum Vite {
 
 export function getEnv(val) {
   const obj = {
-    development: 'nzf-dev',
-    deployment: 'nzf-dev',
-    release: 'nzf-test',
-    production: 'nzf-prod'
+    development: 'mock-dev',
+    deployment: 'mock-dev',
+    release: 'mock-test',
+    production: 'mock-prod'
   }
   return obj[val]
+}
+
+export const layoutSettings: LayoutSettings = {
+  // 后台是否显示权限路由菜单,默认false本地路由
+  showAdminAuthMenu: true
 }
