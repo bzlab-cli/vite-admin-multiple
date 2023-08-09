@@ -45,5 +45,5 @@ export function getEnv(val) {
 
 export const layoutSettings: LayoutSettings = {
   // 后台是否显示权限路由菜单,默认false本地路由
-  showAdminAuthMenu: true
+  showAdminAuthMenu: false
 }
