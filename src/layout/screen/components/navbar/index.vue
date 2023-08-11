@@ -7,8 +7,8 @@
 <script>
 import { computed, reactive, toRefs, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { useAppStore } from '@/views/admin/store/modules/app'
-import { useUserStore } from '@/views/admin/store/modules/user'
+import { useAppStore } from '@/views/screen/store/modules/app'
+import { useUserStore } from '@/views/screen/store/modules/user'
 import { Settings } from '@/config/settings'
 
 export default {

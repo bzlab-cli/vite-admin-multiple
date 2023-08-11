@@ -3,7 +3,7 @@
  * @Description:
  * @Date: 2021/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2023/05/24 11:41:12
+ * @LastEditTime: 2023/08/11 11:10:23
  */
 import type { App, Plugin } from 'vue'
 interface TreeHelperConfig {
@@ -313,4 +313,27 @@ export function isMobile() {
 export function formatValue(callValue: any) {
   if (callValue === '') return '-'
   return callValue ?? '-'
+}
+
+/**
+ * 创建命名空间
+ * @param s
+ * @returns
+ */
+export function createNamespace(s) {
+  const getGlobal = () => {
+    return typeof window !== 'undefined' && window !== null
+      ? window
+      : typeof self !== 'undefined' && self !== null
+      ? self
+      : global
+  }
+  let ns = getGlobal()
+  const parts = s.split('.')
+  for (let i = 0; i < parts.length; ++i) {
+    ns[parts[i]] = ns[parts[i]] || {}
+    ns = ns[parts[i]]
+  }
+
+  return ns
 }

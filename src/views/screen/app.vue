@@ -8,16 +8,17 @@
 import { defineComponent } from 'vue'
 import { ElConfigProvider } from 'element-plus'
 import zhCn from 'element-plus/lib/locale/lang/zh-cn'
-import '@/utils/flexible'
-import { useStore } from '@/views/screen/store'
+import { useUserStore } from '@/views/screen/store/modules/user'
+import { createNamespace } from '@/utils'
 
 export default defineComponent({
   components: {
     ElConfigProvider
   },
   setup() {
-    const store = useStore()
-    ;(window as any).store = store
+    const store = useUserStore()
+    createNamespace(`bz.store`)
+    bz.store = store
 
     return {
       locale: zhCn

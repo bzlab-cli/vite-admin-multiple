@@ -15,6 +15,7 @@ export enum DeviceType {
   Desktop
 }
 export interface AppState {
+  pageType: string
   device: DeviceType
   sidebar: {
     opened: boolean
@@ -25,6 +26,7 @@ export interface AppState {
 
 export const useAppStore = defineStore('app', () => {
   const state = reactive<AppState>({
+    pageType: 'admin',
     device: DeviceType.Desktop,
     sidebar: {
       opened: getSidebarStatus() !== 'closed',

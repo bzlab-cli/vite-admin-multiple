@@ -3,7 +3,7 @@
  * @Description:
  * @Date: 2021/10/28 22:49:45
  * @LastEditors: jrucker
- * @LastEditTime: 2022/12/15 16:03:41
+ * @LastEditTime: 2023/08/11 11:16:15
  */
 
 declare interface IResponseModel<T> {
@@ -16,6 +16,7 @@ declare interface IObjModel {
 }
 
 declare type Recordable<T = any> = Record<string, T>
+declare const bz: any
 
 declare namespace Menu {
 	interface MenuOptions {
@@ -33,4 +34,6 @@ declare namespace Menu {
 		cache: boolean;
 	}
 }
+
+
 

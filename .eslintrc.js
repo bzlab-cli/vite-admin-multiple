@@ -3,7 +3,7 @@
  * @Description:
  * @Date: 2021/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2023/05/24 11:53:48
+ * @LastEditTime: 2023/08/11 11:16:49
  */
 
 module.exports = {
@@ -24,7 +24,8 @@ module.exports = {
     IObjModel: true,
     IResponseModel: true,
     Recordable: true,
-    withDefaults: true
+    withDefaults: true,
+    bz: true
   },
   extends: [
     'plugin:vue/vue3-essential',

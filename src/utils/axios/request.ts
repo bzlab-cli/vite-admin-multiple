@@ -3,13 +3,12 @@
  * @Description:
  * @Date: 2021/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2023/07/06 10:43:19
+ * @LastEditTime: 2023/08/11 11:38:46
  */
 
 import type { AxiosRequestConfig, AxiosInstance, AxiosResponse, AxiosError } from 'axios'
 import axios from 'axios'
 import { ElMessage } from 'element-plus'
-import { useUserStore } from '@/views/admin/store/modules/user'
 
 declare module 'axios' {
   export interface AxiosRequestConfig {
@@ -43,8 +42,8 @@ export class Request {
     // 请求拦截器配置处理
     this.axiosInstance.interceptors.request.use(
       (request: AxiosRequestConfig) => {
-        const userStore = useUserStore()
-        const token = userStore.token
+        const userStore = bz?.store ?? null
+        const token = userStore?.token ?? ''
         const hasReqToken = typeof request.token !== 'undefined'
         if (!hasReqToken) {
           if (token) request.headers['token'] = token
@@ -71,10 +70,10 @@ export class Request {
       },
       (e: AxiosError) => {
         const status = e?.response?.status
-        const userStore = useUserStore()
+        const userStore = bz?.store ?? null
         if (status === 500) {
           ElMessage.error('登录已失效，请重新登录')
-          userStore.resetToken().then(() => {
+          userStore?.resetToken().then(() => {
             window.location.href = '/'
           })
         }
