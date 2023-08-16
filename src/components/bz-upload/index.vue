@@ -11,7 +11,6 @@ import { defineComponent, h } from 'vue'
 import BzUpload from '@bz/bz-upload'
 import '@bz/bz-upload/lib/bz-upload.css'
 import { ElMessage } from 'element-plus'
-import { useUserStore } from '@/views/admin/store/modules/user'
 import { getToken } from '@/utils/auth'
 import { getEnv } from '@/config/settings'
 const env = getEnv(import.meta.env.VITE_APP_ENV)
@@ -122,11 +121,11 @@ export default defineComponent({
     }
   },
   render() {
-    const userStore = useUserStore()
+    const userStore = bz.store
     const onError = res => {
       if (res.status === 500) {
         ElMessage.error('登录已失效，请重新登录')
-        userStore.resetToken().then(() => {
+        userStore.user.resetToken().then(() => {
           location.reload()
         })
       }

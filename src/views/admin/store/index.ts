@@ -3,12 +3,23 @@
  * @Description:
  * @Date: 2021/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2022/11/22 15:42:28
+ * @LastEditTime: 2023/08/16 13:45:09
  */
 import { createPinia } from 'pinia'
+import { useAppStore } from './modules/app'
+import { usePermissionStore } from './modules/permission'
+import { useSettingsStore } from './modules/settings'
+import { useTagsStore } from './modules/tags'
+import { useUserStore } from './modules/user'
 
 export const store = createPinia()
 
 export function useStore() {
-  return store
+  return {
+    app: useAppStore(),
+    permission: usePermissionStore(),
+    settings: useSettingsStore(),
+    tags: useTagsStore(),
+    user: useUserStore()
+  }
 }

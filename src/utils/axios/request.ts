@@ -3,7 +3,7 @@
  * @Description:
  * @Date: 2021/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2023/08/11 11:38:46
+ * @LastEditTime: 2023/08/16 13:43:46
  */
 
 import type { AxiosRequestConfig, AxiosInstance, AxiosResponse, AxiosError } from 'axios'
@@ -42,8 +42,8 @@ export class Request {
     // 请求拦截器配置处理
     this.axiosInstance.interceptors.request.use(
       (request: AxiosRequestConfig) => {
-        const userStore = bz?.store ?? null
-        const token = userStore?.token ?? ''
+        const userStore = bz.store
+        const token = userStore.user.token
         const hasReqToken = typeof request.token !== 'undefined'
         if (!hasReqToken) {
           if (token) request.headers['token'] = token
@@ -70,10 +70,10 @@ export class Request {
       },
       (e: AxiosError) => {
         const status = e?.response?.status
-        const userStore = bz?.store ?? null
+        const userStore = bz.store
         if (status === 500) {
           ElMessage.error('登录已失效，请重新登录')
-          userStore?.resetToken().then(() => {
+          userStore.user.resetToken().then(() => {
             window.location.href = '/'
           })
         }
