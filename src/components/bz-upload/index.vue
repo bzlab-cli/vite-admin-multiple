@@ -3,7 +3,7 @@
  * @Description:
  * @Date: 2021/11/26 09:54:36
  * @LastEditors: jrucker
- * @LastEditTime: 2022/11/22 17:55:20
+ * @LastEditTime: 2023/08/17 11:28:54
 -->
 
 <script lang="ts">
@@ -28,15 +28,45 @@ export default defineComponent({
     },
     aliyun: {
       type: Boolean,
+      default: true
+    },
+    keepOrigin: {
+      type: Boolean,
+      default: true
+    },
+    ossPrefix: {
+      type: String,
+      default: ''
+    },
+    ftpPrefix: {
+      type: String,
+      default: ''
+    },
+    ossDataEnum: {
+      type: Object,
+      default: () => ({
+        md5: 'fileOssKey',
+        size: 'fileSize'
+      })
+    },
+    downloadDataEnum: {
+      type: Object,
+      default: () => ({
+        name: 'fileName',
+        key: 'ossKey'
+      })
+    },
+    directory: {
+      type: Boolean,
       default: false
     },
     action: {
       type: String,
-      default: import.meta.env.VITE_APP_FTP_API + `/ftp/uploadFile?path=${env}/$md5`
+      default: ''
     },
     download: {
       type: String,
-      default: import.meta.env.VITE_APP_FTP_STATIC_API
+      default: ''
     },
     headers: {
       type: Object,
@@ -118,6 +148,18 @@ export default defineComponent({
     limit: {
       type: Number,
       default: null
+    },
+    showTotal: {
+      type: Boolean,
+      default: true
+    },
+    fileWords: {
+      type: Number,
+      default: 200
+    },
+    directoryWords: {
+      type: Number,
+      default: 200
     }
   },
   render() {
@@ -135,7 +177,13 @@ export default defineComponent({
     }
     const uploadData = {
       aliyun: this.aliyun,
+      keepOrigin: this.keepOrigin,
+      ossPrefix: this.ossPrefix,
+      ftpPrefix: this.ftpPrefix,
+      ossDataEnum: this.ossDataEnum,
+      downloadDataEnum: this.downloadDataEnum,
       type: this.type,
+      directory: this.directory,
       drag: this.drag,
       action: this.action,
       download: this.download,
@@ -149,7 +197,10 @@ export default defineComponent({
       fileList: this.fileList,
       autoUpload: this.autoUpload,
       disabled: this.disabled,
+      fileWords: this.fileWords,
+      directoryWords: this.directoryWords,
       limit: this.limit,
+      showTotal: this.showTotal,
       'on-exceed': this.onExceed,
       'on-start': this.onStart,
       'on-progress': this.onProgress,
@@ -160,11 +211,17 @@ export default defineComponent({
     }
 
     if (!uploadData.aliyun) {
+      uploadData.action = import.meta.env.VITE_APP_FTP_API + `/ftp/uploadFile`
+      uploadData.download = import.meta.env.VITE_APP_FTP_STATIC_API + ``
       if (this.isBim) {
-        uploadData.action = import.meta.env.VITE_APP_FTP_API + `/ftp/uploadFile?path=${env}/bim_temp/$md5`
+        uploadData.ftpPrefix = `${env}/bim_temp`
       } else {
-        uploadData.action = import.meta.env.VITE_APP_FTP_API + `/ftp/uploadFile?path=${env}/file/$md5`
+        uploadData.ftpPrefix = `${env}/file`
       }
+    } else {
+      uploadData.action = import.meta.env.VITE_APP_BASE_API + `/oss/getFileUploadInfo`
+      uploadData.download = import.meta.env.VITE_APP_BASE_API + `/oss/getFileUrl`
+      uploadData.ossPrefix = `yc-revit/${env}`
     }
 
     const trigger = this.$slots.trigger || this.$slots.default

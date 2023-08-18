@@ -37,7 +37,7 @@ export function getEnv(val) {
   const obj = {
     development: 'mock-dev',
     deployment: 'mock-dev',
-    release: 'mock-test',
+    test: 'mock-test',
     production: 'mock-prod'
   }
   return obj[val]
