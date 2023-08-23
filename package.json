@@ -26,7 +26,6 @@
     "dayjs": "^1.10.7",
     "echarts": "^5.2.2",
     "element-plus": "^2.2.17",
-    "file-saver": "^2.0.5",
     "js-cookie": "^2.2.1",
     "lodash": "^4.17.20",
     "mitt": "^3.0.0",
@@ -43,7 +42,6 @@
   "devDependencies": {
     "@bzlab/bz-vite-mpa": "0.0.5",
     "@bzlab/bz-vue-proxy": "0.0.2",
-    "@types/file-saver": "^2.0.1",
     "@types/js-cookie": "^2.2.6",
     "@types/koa": "^2.11.6",
     "@types/koa-logger": "^3.1.1",
