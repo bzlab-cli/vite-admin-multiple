@@ -96,7 +96,7 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
         ext: '.gz'
       }),
       createSvgIconsPlugin({
-        iconDirs: [resolve('src/icons/svg')],
+        iconDirs: [resolve('src/assets/svg')],
         symbolId: 'icon-[name]'
       }),
       sentryPlugin()

@@ -8,15 +8,13 @@
 
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 const constantFiles = import.meta.globEager('./constant-modules/*.ts')
+const asyncFiles = import.meta.globEager('./async-modules/*.ts')
 let constantModules: Array<RouteRecordRaw> = []
+let permissionModules: Array<RouteRecordRaw> = []
 
 Object.keys(constantFiles).forEach(key => {
   constantModules = constantModules.concat(constantFiles[key].default)
 })
-
-const asyncFiles = import.meta.globEager('./async-modules/*.ts')
-
-let permissionModules: Array<RouteRecordRaw> = []
 
 Object.keys(asyncFiles).forEach(key => {
   permissionModules = permissionModules.concat(asyncFiles[key].default)
