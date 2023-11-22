@@ -26,7 +26,8 @@ export enum Settings {
   desc = '诚信卓越服务，创新超越自我',
   logo = '/images/logo/logo.png',
   footer = 'Technology provided by Frog Cloud Technology',
-  beian = '浙ICP备16007368号-3'
+  beian = '浙ICP备16007368号-3',
+  packageName = 'mock-admin'
 }
 
 export enum Vite {

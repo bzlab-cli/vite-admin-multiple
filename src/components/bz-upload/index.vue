@@ -3,7 +3,7 @@
  * @Description:
  * @Date: 2021/11/26 09:54:36
  * @LastEditors: jrucker
- * @LastEditTime: 2023/08/17 11:28:54
+ * @LastEditTime: 2023/11/22 11:35:02
 -->
 
 <script lang="ts">
@@ -12,7 +12,7 @@ import BzUpload from '@bz/bz-upload'
 import '@bz/bz-upload/lib/bz-upload.css'
 import { ElMessage } from 'element-plus'
 import { getToken } from '@/utils/auth'
-import { getEnv } from '@/config/settings'
+import { getEnv, Settings } from '@/config/settings'
 const env = getEnv(import.meta.env.VITE_APP_ENV)
 
 function NOOP() {}
@@ -153,6 +153,10 @@ export default defineComponent({
       type: Boolean,
       default: true
     },
+    showMd5: {
+      type: Boolean,
+      default: true
+    },
     fileWords: {
       type: Number,
       default: 200
@@ -201,6 +205,7 @@ export default defineComponent({
       directoryWords: this.directoryWords,
       limit: this.limit,
       showTotal: this.showTotal,
+      showMd5: this.showMd5,
       'on-exceed': this.onExceed,
       'on-start': this.onStart,
       'on-progress': this.onProgress,
@@ -221,7 +226,7 @@ export default defineComponent({
     } else {
       uploadData.action = import.meta.env.VITE_APP_BASE_API + `/oss/getFileUploadInfo`
       uploadData.download = import.meta.env.VITE_APP_BASE_API + `/oss/getFileUrl`
-      uploadData.ossPrefix = `yc-revit/${env}`
+      uploadData.ossPrefix = `${Settings.packageName}/${env}`
     }
 
     const trigger = this.$slots.trigger || this.$slots.default
