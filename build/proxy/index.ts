@@ -1,7 +1,7 @@
 /*
  * @Author: jrucker
  * @Date: 2022-09-20 10:08:37
- * @LastEditTime: 2022/10/20 10:39:08
+ * @LastEditTime: 2023/12/21 17:16:06
  * @Description: 动态代理配置
  */
 const chalk = require('chalk')
@@ -18,7 +18,7 @@ console.log(chalk.bold.green('当前环境', getConfig().env))
 
 module.exports = {
   proxy: {
-    '/wayun-epc': {
+    '/business-web': {
       target: getConfig().proxy || '',
       changeOrigin: true
     },
