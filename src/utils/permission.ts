@@ -3,8 +3,9 @@
  * @Description:
  * @Date: 2021/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2023/08/09 15:06:33
+ * @LastEditTime: 2024/01/09 16:50:14
  */
+import { ElMessageBox } from 'element-plus'
 import { deepClone } from '@bzlab/bz-core'
 
 /**
@@ -172,4 +173,30 @@ export function addRedirectRoute(mode, constantRoutes, asyncRoutes, router): any
   }
   router.addRoute(obj)
   return routes.concat(obj)
+}
+
+/**
+ * @description 监听系统更新
+ */
+export function routeListener() {
+  fetch(`/version.json?t=${Date.now()}`)
+    .then(res => res.json())
+    .then(res => {
+      try {
+        const data = res || {},
+          lastVersion = window.localStorage.getItem('buildVersion')
+        if (lastVersion == null) return window.localStorage.setItem('buildVersion', data.version)
+        if (data.version === lastVersion) return
+        window.localStorage.setItem('buildVersion', data.version)
+        ElMessageBox.confirm('系统已更新，请刷新页面后访问！', '提示', {
+          confirmButtonText: '确认',
+          showCancelButton: false,
+          type: 'warning'
+        }).then(() => {
+          location.reload()
+        })
+      } catch (e) {
+        console.error(e)
+      }
+    })
 }

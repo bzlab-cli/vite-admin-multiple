@@ -3,7 +3,7 @@
  * @Description: 权限
  * @Date: 2021/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2023/06/12 16:54:43
+ * @LastEditTime: 2024/01/09 16:50:11
  */
 
 import NProgress from 'nprogress'
@@ -14,6 +14,7 @@ import { ElMessage } from 'element-plus'
 import { whiteList, whiteNameList } from '@/config/whitelist'
 import { useUserStore } from './store/modules/user'
 import { usePermissionStore } from './store/modules/permission'
+import { routeListener } from '@/utils/permission'
 
 NProgress.configure({ showSpinner: false })
 
@@ -25,6 +26,7 @@ router.beforeEach(async (to: RouteLocationNormalized, _: RouteLocationNormalized
   if (whiteList.indexOf(to.path) !== -1 || whiteNameList.indexOf(to.name as string) !== -1) {
     return next()
   }
+  routeListener()
   if (userStore.token) {
     if (!userStore.loadUserInfo) {
       try {
