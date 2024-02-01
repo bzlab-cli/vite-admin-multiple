@@ -97,6 +97,7 @@ interface SearchColumnProps {
 | 4 | paginationParams | 分页参数 | - |
 | 5 | getTableList | 触发获取表格数据 | function() |
 | 6 | clearSelection | 清除选中 | function() |
+| 7 | getSelection | 获取选中数据 | function() |
 
 ### slot
 | 序号 | 名字 | 说明 |
@@ -109,11 +110,13 @@ interface SearchColumnProps {
 ```
 <bz-table
   ref="bzTableRef"
+  :initParam="initParam"
   :tabsColumns="tabsColumns"
   :tabsClick="handleTabsClick"
   :searchColumns="searchColumns"
   :columns="columns"
   :requestApi="getRoleList"
+  :resetClick="handleResetClick"
   :dataCallback="dataCallback"
 >
   <template #tableHeader>
@@ -130,11 +133,36 @@ import { getRoleList } from '@/api/auth/role'
 import { getRoleSelect2 } from '@/api/auth/role'
 import { majorList } from '@/constant/major'
 
+const request = reactive({
+  url: 'enterpriseInfo/enterpriseInfoSelect2',
+  params: { limitCnt: 10, pageNum: 1, pageSize: 10 },
+  methods: 'get',
+  key: 'enterpriseName',
+  requestKey: 'enterpriseName'
+})
+
+async function response(item) {
+  if (item) {
+    bzTableRef.value.searchParams.enterpriseId = item.item.id
+  } else {
+    bzTableRef.value.searchParams.enterpriseId = null
+  }
+}
+
+const initParam = ref<any>({
+  riskLevel: null
+})
+
 const dataCallback = (data: any) => {
   return {
     list: data.list,
     total: data.total
   }
+}
+
+const handleResetClick = () => {
+  initParam.value.riskLevel = null
+  bzTableRef.value.searchInitParams.riskLevel = null
 }
 
 const tabsColumns = [
@@ -174,13 +202,76 @@ const searchColumns = [
       }
     }
   },
+  {
+    label: '所属集团',
+    prop: 'enterpriseName',
+    search: {
+      el: 'dropdown',
+      props: {
+        request,
+        placeholder: '请选择所属集团'
+      },
+      event: {
+        response
+      }
+    }
+  },
+   {
+    label: '风险等级',
+    prop: 'riskLevel',
+    enum: riskList,
+    fieldNames: { label: 'label', value: 'value' },
+    search: {
+      el: 'el-select',
+      key: 'riskLevel',
+      defaultValue: initParam.value.riskLevel,
+      props: {
+        placeholder: '请选择',
+        clearable: true
+      },
+      event: {
+        clear: () => {
+          initParam.value.riskLevel = null
+        }
+      }
+    }
+  },
+  {
+    label: '检查日期',
+    prop: 'warningTime',
+    search: {
+      el: 'el-date-picker',
+      props: {
+        type: 'daterange',
+        'value-format': 'YYYY-MM-DD',
+        format: 'YYYY-MM-DD',
+        startPlaceholder: '开始时间',
+        endPlaceholder: '结束时间',
+        clearable: true
+      },
+      event: {
+        change: scope => {
+          if (scope?.length) {
+            bzTableRef.value.searchParams.beginDate = scope[0] + ' 00:00:00'
+            bzTableRef.value.searchParams.endDate = scope[1] + ' 23:59:59'
+          } else {
+            bzTableRef.value.searchParams.beginDate = null
+            bzTableRef.value.searchParams.endDate = null
+          }
+        }
+      }
+    }
+  },
 ]
 
 const columns: ColumnProps[] = [
-  { 
-    type: "selection", 
-    fixed: "left", 
-    width: 80 
+  {
+    type: 'selection'
+  },
+  {
+    type: "selection",
+    fixed: "left",
+    width: 80
   },
   {
     label: '角色名称',
@@ -197,8 +288,8 @@ const columns: ColumnProps[] = [
     prop: 'professional',
     enum: majorList,
     filterEnum: true,
-    fieldNames: { label: 'name', value: 'value' },
-    fieldRowNames: { name: 'name', value: 'value', rowKey: 'professional' }
+    fieldNames: { label: 'label', value: 'value' },
+    fieldRowNames: { name: 'label', value: 'value', rowKey: 'professional' }
   },
   {
     label: '操作',
@@ -207,4 +298,108 @@ const columns: ColumnProps[] = [
   }
 ]
 </script>
+```
+
+### 自定义复选框
+
+```
+<el-table :data="tableData" style="width: 100%" ref="tableRef" @select-all="selectAll">
+  <el-table-column size="small" type="selection" align="center">
+    <template #default="scope">
+      <el-checkbox v-model="scope.row.checked" @change="select" />
+    </template>
+  </el-table-column>
+  <el-table-column prop="date" label="Date" width="180" />
+  <el-table-column prop="name" label="Name" width="180" />
+  <el-table-column prop="address" label="Address" />
+</el-table>
+
+const tableRef = ref()
+const tableData = ref([
+  {
+    date: '2016-05-03',
+    name: 'Tom',
+    address: 'No. 189, Grove St, Los Angeles',
+    checked: true
+  },
+  {
+    date: '2016-05-02',
+    name: 'Tom',
+    address: 'No. 189, Grove St, Los Angeles',
+    checked: true
+  },
+  {
+    date: '2016-05-04',
+    name: 'Tom',
+    address: 'No. 189, Grove St, Los Angeles',
+    checked: true
+  }
+])
+
+const selectAll = row => {
+  tableData.value.forEach(item => {
+    item.checked = !!row[0]
+  })
+}
+const select = () => {
+  tableData.value.forEach(item => {
+    tableRef.value.toggleRowSelection(item, item.checked)
+  })
+}
+
+const onLoad = () => {
+  const allCheck = tableData.value.every(item => item.checked)
+  if (allCheck) tableRef.value.toggleAllSelection()
+}
+onLoad()
+```
+
+### 循环表单校验
+
+```
+<el-form ref="formRef" class="form-content" :inline="true" :rules="rules" :model="form">
+  <template v-for="(item, idx) in form.mineBoundaryList" :key="idx">
+    <el-form-item
+      label="经度:"
+      :prop="['mineBoundaryList', idx, 'longitude']"
+      :rules="rules.longitude"
+    >
+      <el-input v-model="item.longitude" class="ipt-box" maxlength="15" />
+    </el-form-item>
+    <el-form-item
+      label="纬度:"
+      :prop="['mineBoundaryList', idx, 'latitude']"
+      :rules="rules.latitude"
+    >
+      <el-input v-model="item.latitude" class="ipt-box" maxlength="15" />
+    </el-form-item>
+  </template>
+</el-form>
+
+import { ref, reactive, onMounted, toRefs } from 'vue'
+const formRef = ref()
+
+const checkPositionCode = /^\d{1,3}(?:\.\d{1,7})?$/ // 三位整数7位小数
+const validatePosition = (rule: any, value: string, callback: any) => {
+  if (!checkPositionCode.test(value)) {
+    callback(new Error(`请输入正确的纬度`))
+  } else if (!value) {
+    callback(new Error(`请输入纬度`))
+  } else {
+    callback()
+  }
+}
+
+const state = reactive({
+  form: {
+    mineBoundaryList: [],
+  }
+})
+
+const rules = ref({
+  longitude: [{ required: true, message: '请输入经度', trigger: 'blur' }],
+  latitude: [{ required: true, validator: validatePosition, trigger: 'blur' }]
+})
+
+const { form } = toRefs(state)
 ```
