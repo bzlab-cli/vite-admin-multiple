@@ -1,5 +1,5 @@
 <template>
-  <div :class="[isCollapse ? 'simple-mode' : 'full-mode', { 'first-level': isFirstLevel }]">
+  <div :class="[isCollapse ? 'simple-mode' : 'full-mode']">
     <el-sub-menu v-if="item.children && item.children.length > 0" :index="resolvePath(item.path)">
       <template #title>
         <el-icon v-if="item?.meta?.icon">
@@ -24,7 +24,7 @@
         <el-icon v-if="item?.meta?.icon">
           <component :is="item.meta.icon" />
         </el-icon>
-        <span v-if="isCollapse && item?.meta?.title">{{ item.meta.title }}</span>
+        <span v-if="item?.meta?.title">{{ item.meta.title }}</span>
       </el-menu-item>
     </sidebar-item-link>
   </div>
@@ -45,10 +45,6 @@ export default defineComponent({
     isCollapse: {
       type: Boolean,
       required: false
-    },
-    isFirstLevel: {
-      type: Boolean,
-      default: false
     },
     basePath: {
       type: String,
@@ -103,7 +99,7 @@ export default defineComponent({
   .el-menu-item {
     & > span {
       display: inline-block;
-      padding-left: 5px;
+      padding-left: 10px;
     }
   }
 }
