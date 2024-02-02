@@ -3,6 +3,7 @@ import { reactive, onMounted, toRefs, computed } from 'vue'
 import { paginationParams } from '@/constant/layout'
 
 export const useTable = (
+  tableRef,
   api: (params: any) => Promise<any>,
   propsLoading,
   loading,
@@ -47,6 +48,7 @@ export const useTable = (
       Object.keys(state.totalParam).forEach(key => {
         if (filterSearchFields.includes(key)) delete state.totalParam[key]
       })
+      tableRef.value!.clearSelection()
       searchDataCallback && (state.totalParam = searchDataCallback(state.totalParam))
       let { data } = await api(state.totalParam)
       dataCallback && (data = await dataCallback(data))

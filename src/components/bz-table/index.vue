@@ -177,6 +177,7 @@ const {
   handleSizeChange,
   handleCurrentChange
 } = useTable(
+  tableRef,
   props.requestApi,
   props.loading,
   loading,
