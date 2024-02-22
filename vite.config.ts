@@ -10,7 +10,6 @@ import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 import shell from 'shelljs'
 import mpa from '@bzlab/bz-vite-mpa'
 import { Vite } from './src/config/settings'
-import sentryVitePlugin from 'sentry-vite-plugin'
 
 const dynamicProxy = require('./build/proxy/index.ts')
 const resolve = (p: string) => path.resolve(__dirname, p)
@@ -34,20 +33,6 @@ function mpaPlugin(mode) {
       })
       shell.rm('-rf', resolve(`${dest}/public`))
     }
-  }
-}
-
-function sentryPlugin() {
-  const rawArgv = JSON.parse(process.env.npm_config_argv as string).original
-  const ignoreSentry = rawArgv.includes('--ignoreSentry')
-  if (process.env.VITE_APP_ENV === 'production' && !ignoreSentry) {
-    return sentryVitePlugin({
-      release: process.env.VITE_APP_ENV + '@0.0.1',
-      include: path.resolve(__dirname, './dist/static/js'),
-      ignore: ['node_modules', 'vite.config.ts'],
-      configFile: `${__dirname}/.sentryclirc`,
-      urlPrefix: '~/static/js/'
-    })
   }
 }
 
@@ -98,8 +83,7 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
       createSvgIconsPlugin({
         iconDirs: [resolve('src/assets/svg')],
         symbolId: 'icon-[name]'
-      }),
-      sentryPlugin()
+      })
     ],
     css: {
       preprocessorOptions: {
