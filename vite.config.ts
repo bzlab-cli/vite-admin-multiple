@@ -48,7 +48,7 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
       }
     },
     build: {
-      sourcemap: process.env.VITE_APP_ENV === 'production',
+      sourcemap: false,
       minify: 'terser',
       chunkSizeWarningLimit: 1500,
       terserOptions: {
