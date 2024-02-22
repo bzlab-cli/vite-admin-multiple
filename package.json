@@ -5,9 +5,9 @@
   "scripts": {
     "dev": "npm-run-all proxy:init --parallel mock serve:dev",
     "serve:dev": "cross-env NODE_ENV=development dotenv -e .env.develop vite serve",
-    "build:deploy": "cross-env NODE_ENV=production dotenv -e .env.deploy vite build && node build/sourcemap.js",
-    "build:test": "cross-env NODE_ENV=production dotenv -e .env.test vite build && node build/sourcemap.js",
-    "build": "cross-env NODE_ENV=production dotenv -e .env.prod vite build && node build/sourcemap.js",
+    "build:deploy": "cross-env NODE_ENV=production dotenv -e .env.deploy vite build",
+    "build:test": "cross-env NODE_ENV=production dotenv -e .env.test vite build",
+    "build": "cross-env NODE_ENV=production dotenv -e .env.prod vite build",
     "preview": "node build/index.js --preview",
     "lint:eslint": "eslint --cache --max-warnings 0 \"src/**/*.{vue,js,ts,tsx}\" --fix",
     "lint:prettier": "prettier --write  \"src/**/*.{js,ts,json,tsx,css,less,scss,vue,html,md}\"",
