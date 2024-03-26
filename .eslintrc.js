@@ -64,6 +64,7 @@ module.exports = {
     '@typescript-eslint/ban-ts-comment': ['off'],
     'vue/no-setup-props-destructure': ['off'],
     '@typescript-eslint/no-empty-function': ['off'],
+    '@typescript-eslint/no-unused-vars': 'error',
     'vue/html-self-closing': [
       'error',
       {
