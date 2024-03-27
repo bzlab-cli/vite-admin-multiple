@@ -71,8 +71,8 @@ export const usePreviewFullScale = (width, height, scaleDom, callback?) => {
     if (scaleDom) {
       scale.width = parseFloat((window.innerWidth / width).toFixed(5))
       scale.height = parseFloat((window.innerHeight / height).toFixed(5))
-      scaleDom.style.transform = `scale(${scale.width})`
-      scaleDom.setAttribute('data-scale', `${scale.width}`)
+      scaleDom.style.transform = `scale(${scale.width}, ${scale.height})`
+      scaleDom.setAttribute('data-scale', `${scale.width}, ${scale.height}`)
       if (callback) callback(scale)
     }
   }
