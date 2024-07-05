@@ -3,7 +3,7 @@
  * @Description:
  * @Date: 2021/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2023/08/11 11:16:49
+ * @LastEditTime: 2024/07/05 14:58:35
  */
 
 module.exports = {
@@ -65,6 +65,7 @@ module.exports = {
     'vue/no-setup-props-destructure': ['off'],
     '@typescript-eslint/no-empty-function': ['off'],
     '@typescript-eslint/no-unused-vars': 'error',
+    'prettier/prettier': 'error',
     'vue/html-self-closing': [
       'error',
       {

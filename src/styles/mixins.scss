@@ -1,10 +1,9 @@
-@mixin clearfix {
-  &::after {
-    content: '';
-    display: table;
-    clear: both;
-  }
-}
+@use "sass:math";
+
+// 默认设计稿的宽度
+$designWidth: 1920;
+// 默认设计稿的高度
+$designHeight: 1080;
 
 // Base color
 $blue: #324157;
@@ -36,4 +35,22 @@ $menuHover: #263445;
   menuBg: $menuBg;
   menuText: $menuText;
   menuActiveText: $menuActiveText;
+}
+
+@mixin clearfix {
+  &::after {
+    content: '';
+    display: table;
+    clear: both;
+  }
+}
+
+// px转为vw
+@function px2vw($px, $defaultWidth: $designWidth) {
+  @return math.div($px, $defaultWidth) * 100vw;
+}
+
+// px转为vh
+@function px2vh($px, $defaultHeight: $designHeight) {
+  @return math.div($px, $defaultHeight) * 100vh;
 }

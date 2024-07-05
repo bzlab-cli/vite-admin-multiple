@@ -3,7 +3,7 @@
  * @Description:
  * @Date: 2021/10/28 22:49:45
  * @LastEditors: jrucker
- * @LastEditTime: 2023/08/11 11:16:15
+ * @LastEditTime: 2024/07/05 11:51:19
  */
 
 declare interface IResponseModel<T> {
@@ -33,6 +33,13 @@ declare namespace Menu {
 		hidden: boolean;
 		cache: boolean;
 	}
+}
+
+declare interface IFitUtil {
+  px2vw: (px: number, defaultWidth?: number) => string
+  px2vh: (px: number, defaultHeight?: number) => string
+  px2font: (px: number, defaultWidth?: number) => string
+  px2ChartSize: (px: number, defaultWidth?: number) => number
 }
 
 

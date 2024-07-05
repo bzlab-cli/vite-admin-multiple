@@ -3,7 +3,7 @@
  * @Description:
  * @Date: 2021/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2022/12/19 15:33:44
+ * @LastEditTime: 2024/07/05 11:07:15
  */
 
 export * from './permission'
@@ -15,3 +15,4 @@ export * from './drag'
 export * from './resize'
 export * from './loading'
 export * from './empty'
+export * from './chart-resize'

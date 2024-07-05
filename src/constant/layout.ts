@@ -4,6 +4,11 @@ export const editCanvasConfig = {
   previewScaleType: 'full'
 }
 
+export const fitUtilConfig = {
+  width: 1920,
+  height: 1080
+}
+
 export const paginationParams = {
   pageNum: 1,
   pageSize: 10,

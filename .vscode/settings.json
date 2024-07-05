@@ -1,12 +1,8 @@
 {
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
+    "source.fixAll.eslint": "explicit"
   },
-  "stylelint.validate": [
-    "css",
-    "postcss",
-    "scss",
-    "vue",
-    "sass"
-  ]
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "stylelint.validate": ["css", "postcss", "scss", "vue", "sass"]
 }
