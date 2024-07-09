@@ -3,7 +3,7 @@
  * @Description:
  * @Date: 2021/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2024/07/05 14:58:35
+ * @LastEditTime: 2024/07/09 15:49:37
  */
 
 module.exports = {
@@ -83,6 +83,8 @@ module.exports = {
     '@typescript-eslint/no-var-requires': 0,
     '@typescript-eslint/no-non-null-assertion': 'off',
     '@typescript-eslint/no-namespace': 'off',
-    'max-depth': ['error', { max: 4 }]
+    'max-depth': ['error', { max: 4 }],
+    'vue/attributes-order': 'error',
+    'vue/require-explicit-emits': 'error'
   }
 }
