@@ -1,7 +1,7 @@
 :root {
   --el-color-primary: #0c67ff;
   --el-color-primary-light-3: #2e7fd1;
-  --el-component-size: 28px;
+  --el-component-size: 32px;
   --el-border-radius-base: 6px;
   --el-menu-item-height: 42px;
   --el-menu-sub-item-height: calc(var(--el-menu-item-height) - 6px);
@@ -16,7 +16,7 @@
   margin-left: 5px;
 }
 .el-button {
-  height: 28px;
+  height: 32px;
 }
 .el-button.is-circle {
   padding: 6px;
@@ -25,7 +25,9 @@
 .el-pagination {
   --el-pagination-button-width: 22px;
   --el-pagination-button-height: 22px;
-  &.is-background .btn-next, &.is-background .btn-prev, &.is-background .el-pager li {
+  &.is-background .btn-next,
+  &.is-background .btn-prev,
+  &.is-background .el-pager li {
     min-width: 24px !important;
   }
 }
