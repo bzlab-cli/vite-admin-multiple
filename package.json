@@ -32,7 +32,6 @@
     "path-to-regexp": "^6.2.0",
     "pinia": "^2.0.23",
     "reconnecting-websocket": "^4.4.0",
-    "screenfull": "^5.0.2",
     "vue": "^3.2.6",
     "vue-router": "4.0",
     "vuex": "^4.0.0-0"

@@ -1,8 +1,0 @@
-[auth]
-token=5ecf3c66c7e247639a144b87acedb4900186ade9d70c446297b48ca0141dbf92
-
-[defaults]
-url=http://vpn.qimiaowa.com:39000
-org=sentry
-project=internal
-
