@@ -3,7 +3,7 @@
  * @Description:
  * @Date: 2021/11/26 09:54:36
  * @LastEditors: jrucker
- * @LastEditTime: 2023/11/22 11:35:02
+ * @LastEditTime: 2024/08/27 14:31:07
 -->
 
 <script lang="ts">
@@ -12,14 +12,16 @@ import BzUpload from '@bz/bz-upload'
 import '@bz/bz-upload/lib/bz-upload.css'
 import { ElMessage } from 'element-plus'
 import { getToken } from '@/utils/auth'
-import { getEnv, Settings } from '@/config/settings'
+import { getEnv, Settings, getUploadEnv } from '@/config/settings'
 const env = getEnv(import.meta.env.VITE_APP_ENV)
+const uploadEnv = getUploadEnv(import.meta.env.VITE_APP_ENV)
+const BzUploadComponent = window['bz-upload'] ? window['bz-upload'].default : BzUpload
 
 function NOOP() {}
 export default defineComponent({
   name: 'BzUpload',
   components: {
-    BzUpload
+    BzUpload: BzUploadComponent
   },
   props: {
     isBim: {
@@ -28,7 +30,7 @@ export default defineComponent({
     },
     aliyun: {
       type: Boolean,
-      default: true
+      default: uploadEnv === 'aliyun'
     },
     keepOrigin: {
       type: Boolean,
@@ -179,6 +181,12 @@ export default defineComponent({
         ElMessage.error('服务器响应失败，请重试')
       }
     }
+    const onSuccess = (res, file, files, trees) => {
+      if (this.aliyun) {
+        res.url = res.url.replace(/.*aliyuncs.com/, '')
+      }
+      this.onSuccess(res, file, files, trees)
+    }
     const uploadData = {
       aliyun: this.aliyun,
       keepOrigin: this.keepOrigin,
@@ -209,7 +217,7 @@ export default defineComponent({
       'on-exceed': this.onExceed,
       'on-start': this.onStart,
       'on-progress': this.onProgress,
-      'on-success': this.onSuccess,
+      'on-success': onSuccess,
       'on-error': this.onError ? this.onError : onError,
       'on-remove': this.onRemove,
       ref: 'bzUploadRef'
@@ -230,7 +238,7 @@ export default defineComponent({
     }
 
     const trigger = this.$slots.trigger || this.$slots.default
-    const uploadComponent = h(BzUpload, uploadData, {
+    const uploadComponent = h(BzUploadComponent, uploadData, {
       default: () => trigger?.()
     })
     return h('div', [

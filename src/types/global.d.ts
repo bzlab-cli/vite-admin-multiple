@@ -42,5 +42,6 @@ declare interface IFitUtil {
   px2ChartSize: (px: number, defaultWidth?: number) => number
 }
 
+declare const __APP_INFO__: any
 
 

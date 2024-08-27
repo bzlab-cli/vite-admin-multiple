@@ -10,7 +10,10 @@ import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 import shell from 'shelljs'
 import mpa from '@bzlab/bz-vite-mpa'
 import { Vite } from './src/config/settings'
+import externalGlobals from 'rollup-plugin-external-globals'
+import { ViteEjsPlugin } from 'vite-plugin-ejs'
 
+const proxyJson = require('./build/proxy/proxy.json')
 const dynamicProxy = require('./build/proxy/index.ts')
 const resolve = (p: string) => path.resolve(__dirname, p)
 const mpaOptions = {
@@ -22,6 +25,9 @@ const mpaOptions = {
   defaultEntries: '',
   defaultPage: 'admin',
   filename: 'index.html'
+}
+const __APP_INFO__ = {
+  proxy: proxyJson
 }
 
 function mpaPlugin(mode) {
@@ -35,6 +41,15 @@ function mpaPlugin(mode) {
     }
   }
 }
+
+const cdnJsScript = [
+  '/lib/common/vue/vue.global.prod.js',
+  '/lib/common/vue-router/vue-router.global.prod.js',
+  '/lib/common/demi/index.iife.min.js',
+  '/lib/common/element/index.full.min.js',
+  '/lib/common/echarts/echarts.min.js',
+  '/lib/common/upload/bz-upload.umd.min.js'
+]
 
 export default ({ command, mode }: ConfigEnv): UserConfig => {
   // const env = loadEnv(mode, process.cwd())
@@ -58,6 +73,17 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
         }
       },
       rollupOptions: {
+        external: ['vue', 'vue-router', 'vue-demi', 'element-plus', 'echarts'],
+        plugins: [
+          externalGlobals({
+            vue: 'Vue',
+            'vue-router': 'VueRouter',
+            'vue-demi': 'VueDemi',
+            'element-plus': 'ElementPlus',
+            echarts: 'echarts',
+            '@bz/bz-upload': 'BzUpload'
+          })
+        ] as any,
         output: {
           chunkFileNames: 'static/js/[name]-[hash].js',
           entryFileNames: 'static/js/[name]-[hash].js',
@@ -67,6 +93,10 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
     },
     plugins: [
       vue(),
+      ViteEjsPlugin({
+        cdnCssScript: [],
+        cdnJsScript: process.env.NODE_ENV === 'production' ? cdnJsScript : []
+      }),
       vueJsx(),
       eslintPlugin({ cache: false }),
       VueSetupExtend(),
@@ -91,6 +121,9 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
           additionalData: `@import "./src/styles/mixins.scss";`
         }
       }
+    },
+    define: {
+      __APP_INFO__: JSON.stringify(__APP_INFO__)
     },
     server: {
       host: '0.0.0.0',
