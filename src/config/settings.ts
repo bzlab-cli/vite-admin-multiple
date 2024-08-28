@@ -3,7 +3,7 @@
  * @Description:
  * @Date: 2021/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2024/08/27 11:03:39
+ * @LastEditTime: 2024/08/28 16:14:59
  */
 interface LayoutSettings {
   // 后台是否显示权限路由菜单,默认false本地路由
@@ -41,7 +41,7 @@ export enum Vite {
  * @returns
  */
 export function getEnv(val) {
-  const envName = __APP_INFO__.proxy.env || null
+  const envName = __APP_INFO__?.proxy?.env ?? null
   let development = 'ks-sass-dev'
   if (envName === '生产') {
     development = 'ks-sass-prod'
@@ -63,7 +63,7 @@ export function getEnv(val) {
  */
 export function getUploadEnv(val) {
   const uploadType = 'aliyun'
-  const envName = __APP_INFO__.proxy.env || null
+  const envName = __APP_INFO__?.proxy?.env ?? null
   let development = 'ftp'
   if (envName === '生产') {
     development = uploadType
@@ -85,7 +85,7 @@ export function getUploadEnv(val) {
  */
 export function getOssFtpPrefix(val, url) {
   const aliyunPrefix = 'https://wayun.oss-cn-hangzhou.aliyuncs.com'
-  const envName = __APP_INFO__.proxy.env || null
+  const envName = __APP_INFO__?.proxy?.env ?? null
   let development = window.location.origin
   if (envName === '生产') {
     development = aliyunPrefix

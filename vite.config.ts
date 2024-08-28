@@ -13,7 +13,13 @@ import { Vite } from './src/config/settings'
 import externalGlobals from 'rollup-plugin-external-globals'
 import { ViteEjsPlugin } from 'vite-plugin-ejs'
 
-const proxyJson = require('./build/proxy/proxy.json')
+const proxyJson = () => {
+  try {
+    return require('./build/proxy/proxy.json')
+  } catch (e) {
+    return {}
+  }
+}
 const dynamicProxy = require('./build/proxy/index.ts')
 const resolve = (p: string) => path.resolve(__dirname, p)
 const mpaOptions = {
@@ -27,7 +33,7 @@ const mpaOptions = {
   filename: 'index.html'
 }
 const __APP_INFO__ = {
-  proxy: proxyJson
+  proxy: proxyJson()
 }
 
 function mpaPlugin(mode) {
