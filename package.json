@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "@bz/bz-upload": "^0.3.2",
-    "@bzlab/bz-core": "^0.1.6",
+    "@bzlab/bz-core": "^0.1.7",
     "@element-plus/icons-vue": "^1.1.4",
     "axios": "^0.21.1",
     "dayjs": "^1.10.7",

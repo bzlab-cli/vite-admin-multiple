@@ -20,6 +20,7 @@
 :toolButton="toolButton"
 :selectId="selectId"
 :searchCol="searchCol"
+:gridTemplateColumnsConfig="gridTemplateColumnsConfig"
 ```
 
 ## 文档
@@ -44,11 +45,11 @@ interface TabsColumnsProps {
 }
 ```
 
-| 序号 | 参数 | 说明 | 默认值 |
-| ---- | ---- | ---- | ---- |
-| 1 | tabsProps | 额外属性 | - |
-| 2 | tabsColumns | 列配置项 | [] |
-| 3 | tabsClick | 点击回调 | function(data) |
+| 序号 | 参数        | 说明     | 默认值         |
+| ---- | ----------- | -------- | -------------- |
+| 1    | tabsProps   | 额外属性 | -              |
+| 2    | tabsColumns | 列配置项 | []             |
+| 3    | tabsClick   | 点击回调 | function(data) |
 
 ### props 配置项
 
@@ -72,38 +73,41 @@ interface SearchColumnProps {
 }
 ```
 
-| 序号 | 参数 | 说明 | 默认值 |
-| ---- | ---- | ---- | ---- |
-| 1 | searchColumns | 搜索配置项 | SearchColumnProps[] |
-| 2 | filterSearchFields | 搜索项请求参数过滤 | [] |
-| 3 | columns | 列配置项 | [] |
-| 4 | requestApi | 请求数据接口 | - |
-| 5 | searchDataCallback | 请求参数二次处理 | function(data) |
-| 6 | dataCallback | 返回数据二次处理 | function(data) |
-| 7 | hideSearch | 隐藏搜索 | false |
-| 8 | pagination | 显示分页 | true |
-| 9 | initParam | 初始化请求参数 | {} |
-| 10 | border | 显示表格边框 | false |
-| 11 | toolButton | 显示功能按钮 | true |
-| 12 | selectId | 当表格数据多选时，指定的id | id |
-| 13 | searchCol | 表格搜索项配置 | () => ({ xs: 2, sm: 3, md: 4, lg: 5, xl: 6 }) |
+| 序号 | 参数                      | 说明                        | 默认值                                             |
+| ---- | ------------------------- | --------------------------- | -------------------------------------------------- |
+| 1    | searchColumns             | 搜索配置项                  | SearchColumnProps[]                                |
+| 2    | filterSearchFields        | 搜索项请求参数过滤          | []                                                 |
+| 3    | columns                   | 列配置项                    | []                                                 |
+| 4    | requestApi                | 请求数据接口                | -                                                  |
+| 5    | searchDataCallback        | 请求参数二次处理            | function(data)                                     |
+| 6    | dataCallback              | 返回数据二次处理            | function(data)                                     |
+| 7    | hideSearch                | 隐藏搜索                    | false                                              |
+| 8    | pagination                | 显示分页                    | true                                               |
+| 9    | initParam                 | 初始化请求参数              | {}                                                 |
+| 10   | border                    | 显示表格边框                | false                                              |
+| 11   | toolButton                | 显示功能按钮                | true                                               |
+| 12   | selectId                  | 当表格数据多选时，指定的 id | id                                                 |
+| 13   | searchCol                 | 表格搜索项配置              | () => ({ xs: 2, sm: 3, md: 4, lg: 5, xl: 6 })      |
+| 14   | gridTemplateColumnsConfig | 自定义搜索列宽度配置        | () => ({ xs: '', sm: '', md: '', lg: '', xl: '' }) |
 
 ### ref 事件
-| 序号 | 事件名 | 说明 | 回调参数 |
-| ---- | ---- | ---- | ---- |
-| 1 | tableRef | 表格Ref | - |
-| 2 | tableData | 表格数据 | - |
-| 3 | searchParams | 搜索参数 | - |
-| 4 | paginationParams | 分页参数 | - |
-| 5 | getTableList | 触发获取表格数据 | function() |
-| 6 | clearSelection | 清除选中 | function() |
-| 7 | getSelection | 获取选中数据 | function() |
+
+| 序号 | 事件名           | 说明             | 回调参数   |
+| ---- | ---------------- | ---------------- | ---------- |
+| 1    | tableRef         | 表格 Ref         | -          |
+| 2    | tableData        | 表格数据         | -          |
+| 3    | searchParams     | 搜索参数         | -          |
+| 4    | paginationParams | 分页参数         | -          |
+| 5    | getTableList     | 触发获取表格数据 | function() |
+| 6    | clearSelection   | 清除选中         | function() |
+| 7    | getSelection     | 获取选中数据     | function() |
 
 ### slot
-| 序号 | 名字 | 说明 |
-| ---- | ---- | ---- |
-| 1 | tableHeader | 表格头工具列 |
-| 2 | operation | 操作列 |
+
+| 序号 | 名字        | 说明         |
+| ---- | ----------- | ------------ |
+| 1    | tableHeader | 表格头工具列 |
+| 2    | operation   | 操作列       |
 
 ### 例子
 

@@ -6,6 +6,7 @@
     :handle-reset="handleReset"
     :searchParams="searchParams"
     :columns="flatSearchColumns"
+    :gridTemplateColumnsConfig="gridTemplateColumnsConfig"
     :colConfig="searchCol"
     v-show="!hideSearch"
   />
@@ -131,6 +132,7 @@ interface ProTableProps extends Partial<Omit<TableProps<any>, 'data'>> {
   toolButton?: boolean // 显示功能按钮
   selectId?: string // 当表格数据多选时，指定的id
   searchCol?: number | Record<BreakPoint, number> // 表格搜索项配置
+  gridTemplateColumnsConfig: string // 自定义搜索列宽度配置
 }
 
 // 默认配置

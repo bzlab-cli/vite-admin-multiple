@@ -1,5 +1,6 @@
 import {
   downloadAxiosBlobFile as downAxiosBlobFile,
+  downloadFetchBlobFile as downFetchBlobFile,
   downloadBlobFile as downBlobFile,
   downloadLinkFile as downLinkFile,
   isArray
@@ -21,6 +22,26 @@ export function downloadAxiosBlobFile(options) {
     } else {
       options.forEach(item => (item.headers = headers))
       const res = await downAxiosBlobFile(options)
+      resolve(res)
+    }
+  })
+}
+
+/**
+ * 通过访问fetch接口返回Blob下载文件，可指定文件名，多用于导出，下载模板
+ * downloadFetchBlobFile({ url, name, data: {}, type: 'application/vnd.ms-excel' }) // 下载单个
+ * downloadFetchBlobFile([{ url, name, data: {}, type: 'application/vnd.ms-excel' }]) // 下载多个
+ * @param options
+ */
+export function downloadFetchBlobFile(options) {
+  const headers = { token: getToken() }
+  return new Promise(async resolve => {
+    if (!isArray(options)) {
+      const res = await downFetchBlobFile({ ...options, headers })
+      resolve(res)
+    } else {
+      options.forEach(item => (item.headers = headers))
+      const res = await downFetchBlobFile(options)
       resolve(res)
     }
   })

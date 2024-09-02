@@ -25,13 +25,15 @@ type Props = {
   collapsed?: boolean
   collapsedRows?: number
   gap?: number | number[]
+  gridTemplateColumnsConfig?: Record<BreakPoint, string>
 }
 
 const props = withDefaults(defineProps<Props>(), {
   cols: () => ({ xs: 1, sm: 2, md: 2, lg: 3, xl: 4 }),
   collapsed: false,
   collapsedRows: 1,
-  gap: 0
+  gap: 0,
+  gridTemplateColumnsConfig: () => ({ xs: ``, sm: ``, md: ``, lg: ``, xl: `` })
 })
 
 onBeforeMount(() => props.collapsed && findIndex())
@@ -157,10 +159,12 @@ const gap = computed(() => {
 })
 
 const style = computed(() => {
+  let templateColumns = props.gridTemplateColumnsConfig[breakPoint.value]
+  let gridTemplateColumns = templateColumns || `repeat(${cols.value}, minmax(0, 1fr))`
   return {
     display: 'grid',
     gridGap: gap.value,
-    gridTemplateColumns: `repeat(${cols.value}, minmax(0, 1fr))`
+    gridTemplateColumns
   }
 })
 
