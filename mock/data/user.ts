@@ -1,9 +1,9 @@
 /*
  * @Author: jrucker
  * @Description: 数据
- * @Date: 2021/10/25 18:56:51
+ * @Date: 2024/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2022/11/22 16:04:04
+ * @LastEditTime: 2024/11/22 16:04:04
  */
 
 interface IUser {

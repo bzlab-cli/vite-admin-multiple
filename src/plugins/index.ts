@@ -1,9 +1,9 @@
 /*
  * @Author: jrucker
  * @Description: 加载插件文件
- * @Date: 2021/10/25 18:56:51
+ * @Date: 2024/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2022/08/24 18:11:49
+ * @LastEditTime: 2024/08/24 18:11:49
  */
 
 import { createApp } from 'vue'

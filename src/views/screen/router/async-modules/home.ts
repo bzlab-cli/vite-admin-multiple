@@ -3,7 +3,7 @@
  * @Author: jrucker
  * @Date: 2021-01-08 19:32:52
  * @LastEditors: jrucker
- * @LastEditTime: 2023/03/30 09:54:20
+ * @LastEditTime: 2024/03/30 09:54:20
  */
 
 import { RouteRecordRaw } from 'vue-router'

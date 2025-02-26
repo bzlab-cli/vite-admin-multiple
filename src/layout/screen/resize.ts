@@ -3,7 +3,7 @@
  * @Author: jrucker
  * @Date: 2020-12-17 15:37:56
  * @LastEditors: jrucker
- * @LastEditTime: 2022/11/22 16:58:54
+ * @LastEditTime: 2024/11/22 16:58:54
  */
 
 import { useAppStore, DeviceType } from '@/views/screen/store/modules/app'

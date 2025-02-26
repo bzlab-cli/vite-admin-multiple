@@ -1,9 +1,9 @@
 /*
  * @Author: jrucker
  * @Description: 数据
- * @Date: 2021/10/25 18:56:51
+ * @Date: 2024/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2022/12/17 22:21:19
+ * @LastEditTime: 2024/12/17 22:21:19
  */
 
 export const menuGrantByRole = [

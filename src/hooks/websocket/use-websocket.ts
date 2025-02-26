@@ -1,9 +1,9 @@
 /*
  * @Author: jrucker
  * @Description: websocket
- * @Date: 2023/04/10 15:16:38
+ * @Date: 2024/04/10 15:16:38
  * @LastEditors: jrucker
- * @LastEditTime: 2023/04/10 15:16:38
+ * @LastEditTime: 2024/04/10 15:16:38
  * @Examples:
  * ```
  * import useWebSocket from '@/hooks/websocket/use-websocket'

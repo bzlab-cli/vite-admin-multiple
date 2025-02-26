@@ -1,9 +1,9 @@
 /*
  * @Author: jrucker
  * @Description: 专业数据
- * @Date: 2021/11/11 10:04:13
+ * @Date: 2024/11/11 10:04:13
  * @LastEditors: jrucker
- * @LastEditTime: 2022/01/27 18:35:13
+ * @LastEditTime: 2024/01/27 18:35:13
  */
 
 export interface IMajorSchema {

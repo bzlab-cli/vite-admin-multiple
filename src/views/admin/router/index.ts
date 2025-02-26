@@ -1,9 +1,9 @@
 /*
  * @Description:
  * @Author: jrucker
- * @Date: 2021/10/21 14:13:07
+ * @Date: 2024/10/21 14:13:07
  * @LastEditors: jrucker
- * @LastEditTime: 2023/08/23 13:55:02
+ * @LastEditTime: 2024/08/23 13:55:02
  */
 
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'

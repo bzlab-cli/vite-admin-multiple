@@ -3,7 +3,7 @@
  * @Author: jrucker
  * @Date: 2020-12-28 10:39:21
  * @LastEditors: jrucker
- * @LastEditTime: 2023/08/16 13:42:37
+ * @LastEditTime: 2024/08/16 13:42:37
  * @examples:
  * 单权限验证 v-permission="'权限名称'"
  * 单个验证 v-permission="[flag, '权限名称']"

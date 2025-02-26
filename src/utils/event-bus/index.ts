@@ -1,9 +1,9 @@
 /*
  * @Author: jrucker
  * @Description: 全局状态管理
- * @Date: 2023/04/10 13:30:51
+ * @Date: 2024/04/10 13:30:51
  * @LastEditors: jrucker
- * @LastEditTime: 2023/04/10 13:52:47
+ * @LastEditTime: 2024/04/10 13:52:47
  * @example:
  * ```js
  * eventBus.on('test', (payload) => {}) // 监听

@@ -1,9 +1,9 @@
 /*
  * @Author: jrucker
  * @Description:
- * @Date: 2021/10/25 18:56:51
+ * @Date: 2024/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2023/08/16 13:43:46
+ * @LastEditTime: 2024/08/16 13:43:46
  */
 
 import type { AxiosRequestConfig, AxiosInstance, AxiosResponse, AxiosError } from 'axios'

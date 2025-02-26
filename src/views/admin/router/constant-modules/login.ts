@@ -3,7 +3,7 @@
  * @Author: jrucker
  * @Date: 2021-10-21 18:04:55
  * @LastEditors: jrucker
- * @LastEditTime: 2022/01/26 13:39:45
+ * @LastEditTime: 2024/01/26 13:39:45
  */
 import { RouteRecordRaw } from 'vue-router'
 const LoginRouter: Array<RouteRecordRaw> = [

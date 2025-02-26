@@ -1,9 +1,9 @@
 /*
  * @Author: jrucker
  * @Description: 全局loading
- * @Date: 2021/10/25 18:56:51
+ * @Date: 2024/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2021/11/01 16:22:56
+ * @LastEditTime: 2024/11/01 16:22:56
  */
 
 import { ElLoading } from 'element-plus'

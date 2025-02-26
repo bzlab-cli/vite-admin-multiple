@@ -2,9 +2,9 @@
  * @Author: jrucker
  * @Description: 验证浮点数小数位
  * v-input-float="2" 两位小数
- * @Date: 2021/10/28 17:17:06
+ * @Date: 2024/10/28 17:17:06
  * @LastEditors: jrucker
- * @LastEditTime: 2021/10/28 19:43:07
+ * @LastEditTime: 2024/10/28 19:43:07
  */
 
 const directives = {

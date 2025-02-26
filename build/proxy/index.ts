@@ -1,7 +1,7 @@
 /*
  * @Author: jrucker
  * @Date: 2022-09-20 10:08:37
- * @LastEditTime: 2023/12/21 17:16:06
+ * @LastEditTime: 2024/12/21 17:16:06
  * @Description: 动态代理配置
  */
 const chalk = require('chalk')
