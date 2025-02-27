@@ -178,7 +178,6 @@ const { form, rules, loading } = toRefs(state)
         align-items: center;
         justify-content: center;
         .logo-name {
-          // font-family: Microsoft YaHei;
           font-weight: bold;
           font-size: 44px;
           color: var(--el-color-primary);
@@ -193,7 +192,6 @@ const { form, rules, loading } = toRefs(state)
         opacity: 0.1;
       }
       .login-desc {
-        // font-family: Microsoft YaHei;
         font-weight: bold;
         font-size: 40px;
         color: var(--el-color-primary);
@@ -217,7 +215,6 @@ const { form, rules, loading } = toRefs(state)
         :deep(.el-button) {
           width: 100%;
           height: 54px;
-          // font-family: Microsoft YaHei;
           font-weight: bold;
           font-size: 26px;
           color: #ffffff;
@@ -283,6 +280,50 @@ const { form, rules, loading } = toRefs(state)
     }
     .beian {
       display: block;
+    }
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .container .title-content {
+    width: 100%;
+    background-image: url('/images/login/bg.svg');
+  }
+  .content {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    left: 50%;
+    margin-top: auto !important;
+    width: 90% !important;
+    .login-main {
+      width: 100%;
+      .input-box {
+        width: 70% !important;
+        min-width: 70% !important;
+      }
+      .login-btn {
+        width: 70% !important;
+        margin: 50px auto auto;
+      }
+      :deep(.el-form-item__content) {
+        justify-content: center;
+      }
+    }
+  }
+  .footer {
+    padding: 24px 0 !important;
+  }
+
+  @media (max-width: 768px) {
+    .content .login-main {
+      .input-box {
+        width: 100% !important;
+        min-width: 100% !important;
+      }
+      .login-btn {
+        width: 100% !important;
+      }
     }
   }
 }
