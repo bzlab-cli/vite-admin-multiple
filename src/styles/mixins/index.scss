@@ -1,0 +1,20 @@
+@use 'sass:math';
+@import './variables.module.scss';
+
+@mixin clearfix {
+  &::after {
+    content: '';
+    display: table;
+    clear: both;
+  }
+}
+
+// px转为vw
+@function px2vw($px, $defaultWidth: $designWidth) {
+  @return math.div($px, $defaultWidth) * 100vw;
+}
+
+// px转为vh
+@function px2vh($px, $defaultHeight: $designHeight) {
+  @return math.div($px, $defaultHeight) * 100vh;
+}

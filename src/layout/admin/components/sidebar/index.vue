@@ -23,10 +23,9 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, watch, ref } from 'vue'
+import { computed, defineComponent, watch, ref, reactive } from 'vue'
 import SidebarItem from './sidebar-item.vue'
 import SidebarLogo from './sidebar-logo.vue'
-import variables from '@/styles/variables.module.scss'
 import { useAppStore } from '@/views/admin/store/modules/app'
 import { usePermissionStore } from '@/views/admin/store/modules/permission'
 import { useSettingsStore } from '@/views/admin/store/modules/settings'
@@ -39,6 +38,7 @@ export default defineComponent({
     SidebarLogo
   },
   setup() {
+    const variables = reactive(__SCSS_VARS__)
     const appStore = useAppStore()
     const permissionStore = usePermissionStore() as any
     const settingsStore = useSettingsStore()

@@ -3,7 +3,7 @@
  * @Description:
  * @Date: 2024/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2024/08/28 16:14:59
+ * @LastEditTime: 2025/02/27 11:34:09
  */
 interface LayoutSettings {
   // 后台是否显示权限路由菜单,默认false本地路由
@@ -22,9 +22,10 @@ export class Keys {
 }
 
 export enum Settings {
-  title = '管理系统',
-  desc = '诚信卓越服务，创新超越自我',
-  logo = '/images/logo/logo.png',
+  companyName = '蛙云科技',
+  welcomeName = '欢迎登录',
+  systemTitle = '协同管理平台',
+  logo = '/images/logo/wy-logo.png',
   footer = 'Technology provided by Frog Cloud Technology',
   beian = '浙ICP备16007368号-3',
   packageName = 'ks-sass-admin'

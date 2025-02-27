@@ -1,4 +1,7 @@
-/* Variables */
+// 默认设计稿的宽度
+$designWidth: 1920;
+// 默认设计稿的高度
+$designHeight: 1080;
 
 // Base color
 $blue: #324157;
@@ -9,6 +12,12 @@ $green: #30b08f;
 $tiffany: #4ab7bd;
 $yellow: #fec171;
 $panGreen: #30b08f;
+
+// bg
+$bgColor: #f0f2f5;
+
+// navigation
+$navigationHeight: 50px;
 
 // sidebar
 $sideBarWidth: 210px;

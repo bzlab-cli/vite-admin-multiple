@@ -3,11 +3,10 @@
  * @Description:
  * @Date: 2024/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2024/12/01 11:44:37
+ * @LastEditTime: 2025/02/27 17:42:16
  */
 import { reactive, toRefs } from 'vue'
 import { defineStore } from 'pinia'
-import elementVariables from '@/styles/variables.module.scss'
 import layoutSettings from '@/config/layout'
 import { store } from '@/views/admin/store'
 
@@ -21,7 +20,7 @@ export interface SettingsState {
 
 export const useSettingsStore = defineStore('settings', () => {
   const state = reactive<SettingsState>({
-    theme: elementVariables.theme,
+    theme: __SCSS_VARS__.theme,
     fixedHeader: layoutSettings.fixedHeader,
     showTagsView: layoutSettings.showTagsView,
     showSidebarLogo: layoutSettings.showSidebarLogo,

@@ -25,7 +25,8 @@ module.exports = {
     IResponseModel: true,
     Recordable: true,
     withDefaults: true,
-    bz: true
+    bz: true,
+    __SCSS_VARS__: true
   },
   extends: [
     'plugin:vue/vue3-essential',

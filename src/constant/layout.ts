@@ -10,6 +10,7 @@ export const fitUtilConfig = {
 }
 
 export const paginationParams = {
+  size: 'default',
   pageNum: 1,
   pageSize: 10,
   total: 0,

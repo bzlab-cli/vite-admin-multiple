@@ -1,0 +1,14 @@
+@import './pagination.scss';
+@import './table.scss';
+@import './button.scss';
+@import './menu.scss';
+
+:root {
+  --el-color-primary: #0c67ff;
+  --el-color-primary-light-3: #2e7fd1;
+  --el-component-size: 32px;
+  --el-border-radius-base: 6px;
+  --el-menu-item-height: 42px;
+  --el-menu-sub-item-height: calc(var(--el-menu-item-height) - 6px);
+  --el-menu-base-level-padding: 15px;
+}

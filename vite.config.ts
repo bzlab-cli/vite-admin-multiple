@@ -12,6 +12,25 @@ import mpa from '@bzlab/bz-vite-mpa'
 import { Vite } from './src/config/settings'
 import externalGlobals from 'rollup-plugin-external-globals'
 import { ViteEjsPlugin } from 'vite-plugin-ejs'
+import { readFileSync } from 'fs'
+import sass from 'sass'
+
+const resolve = (p: string) => path.resolve(__dirname, p)
+
+const parseScssVariables = (filePath: string) => {
+  const content = readFileSync(resolve(filePath), 'utf-8')
+  const compiled = sass.compileString(content, {
+    style: 'compressed',
+    loadPaths: [resolve('./src/styles')]
+  }).css
+
+  const exportBlock = compiled.match(/:export\s*{([\s\S]*?)}/)?.[1] || ''
+  return exportBlock.split(';').reduce((obj: Record<string, string>, line) => {
+    const [key, val] = line.split(':').map(s => s.trim().replace(/['"]/g, ''))
+    if (key && val) obj[key] = val
+    return obj
+  }, {})
+}
 
 const proxyJson = () => {
   try {
@@ -21,7 +40,6 @@ const proxyJson = () => {
   }
 }
 const dynamicProxy = require('./build/proxy/index.ts')
-const resolve = (p: string) => path.resolve(__dirname, p)
 const mpaOptions = {
   open: false,
   openFirstPage: '/',
@@ -34,6 +52,10 @@ const mpaOptions = {
 }
 const __APP_INFO__ = {
   proxy: proxyJson()
+}
+
+const __SCSS_VARS__ = {
+  ...parseScssVariables('./src/styles/mixins/variables.module.scss')
 }
 
 function mpaPlugin(mode) {
@@ -124,12 +146,13 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
     css: {
       preprocessorOptions: {
         scss: {
-          additionalData: `@import "./src/styles/mixins.scss";`
+          additionalData: `@import "./src/styles/mixins/index.scss";`
         }
       }
     },
     define: {
-      __APP_INFO__: JSON.stringify(__APP_INFO__)
+      __APP_INFO__: JSON.stringify(__APP_INFO__),
+      __SCSS_VARS__: JSON.stringify(__SCSS_VARS__)
     },
     server: {
       host: '0.0.0.0',

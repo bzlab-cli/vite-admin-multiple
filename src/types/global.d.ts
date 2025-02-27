@@ -43,5 +43,6 @@ declare interface IFitUtil {
 }
 
 declare const __APP_INFO__: any
+declare const __SCSS_VARS__: any
 
 

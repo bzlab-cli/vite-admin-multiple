@@ -130,6 +130,7 @@ export interface SearchColumnProps {
 
 export namespace Table {
   export interface PaginationParams {
+    size: string
     pageNum: number
     pageSize: number
     total: number

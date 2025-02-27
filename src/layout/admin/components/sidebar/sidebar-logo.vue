@@ -24,7 +24,7 @@ export default defineComponent({
     }
   },
   setup() {
-    const title = Settings.title
+    const title = Settings.systemTitle
     const logo = Settings.logo
     function goHome() {
       window.location.href = '/'
@@ -64,7 +64,7 @@ export default defineComponent({
     justify-content: center;
 
     & .sidebar-logo {
-      width: 32px;
+      width: 36px;
       height: 32px;
       vertical-align: middle;
       border-radius: 6px;
@@ -76,7 +76,7 @@ export default defineComponent({
       color: #fff;
       font-weight: 600;
       line-height: 50px;
-      font-size: 14px;
+      font-size: 16px;
       vertical-align: middle;
     }
   }

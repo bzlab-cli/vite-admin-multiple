@@ -1,5 +1,6 @@
 <template>
   <el-pagination
+    :size="paginationParams.size"
     :current-page="paginationParams.pageNum"
     :page-size="paginationParams.pageSize"
     :page-sizes="paginationParams.pageSizes"

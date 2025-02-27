@@ -300,6 +300,12 @@ defineExpose({
     justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;
+    .header-button-ri {
+      :deep(.el-button) {
+        width: 32px;
+        height: 32px;
+      }
+    }
   }
   .pagination {
     display: flex;
