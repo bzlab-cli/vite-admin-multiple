@@ -3,7 +3,7 @@
  * @Description:
  * @Date: 2024/11/09 11:52:54
  * @LastEditors: jrucker
- * @LastEditTime: 2024/01/28 14:17:07
+ * @LastEditTime: 2025/03/05 17:39:26
  */
 
 import axios from '@/utils/axios'
@@ -20,7 +20,7 @@ export const addRole = (data: ICreateRole) => {
     baseURL: import.meta.env.VITE_APP_MOCK_API,
     url: 'role/createRole',
     method: 'post',
-    data: data
+    data
   })
 }
 
@@ -38,7 +38,17 @@ export const getMenuGrantByRoleId = (data: any) => {
 export const getRoleDetail = (data: any) => {
   return axios.request<IResponseModel<any>>({
     baseURL: import.meta.env.VITE_APP_MOCK_API,
-    url: 'role/getRoleDetail',
+    url: 'role/roleDetail',
+    method: 'get',
+    params: data
+  })
+}
+
+// 查看角色权限详情
+export const getRoleAuthDetail = (data: any) => {
+  return axios.request<IResponseModel<any>>({
+    baseURL: import.meta.env.VITE_APP_MOCK_API,
+    url: 'role/roleMenuDetail',
     method: 'get',
     params: data
   })
@@ -70,7 +80,7 @@ export const roleMenuGrant = (data: any) => {
     baseURL: import.meta.env.VITE_APP_MOCK_API,
     url: 'role/roleMenuGrant',
     method: 'put',
-    data: data
+    data
   })
 }
 
@@ -80,6 +90,25 @@ export const updateRole = (data: any) => {
     baseURL: import.meta.env.VITE_APP_MOCK_API,
     url: 'role/updateRole',
     method: 'put',
-    data: data
+    data
+  })
+}
+
+// 角色启用禁用状态修改
+export const changeRoleStatus = (data: any) => {
+  return axios.request<IResponseModel<any>>({
+    // baseURL: import.meta.env.VITE_APP_MOCK_API,
+    url: 'role/switchStatus',
+    method: 'put',
+    data
+  })
+}
+
+// 删除角色
+export const deleteRole = (data: any) => {
+  return axios.request<IResponseModel<any>>({
+    url: 'role/deleteRole',
+    method: 'delete',
+    data
   })
 }

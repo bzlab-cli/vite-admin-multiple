@@ -12,18 +12,21 @@
       <template #tableHeader>
         <el-button type="primary" @click="handleAddUser('新增用户')">新增用户</el-button>
       </template>
+      <template #forbiddenStatus="scope">
+        <el-switch
+          :class="scope.row.forbiddenStatus ? 'el-switch__active' : 'el-switch__inactive'"
+          :inactive-text="scope.row.forbiddenStatus ? '启用' : '禁用'"
+          @change="handleSwitch(scope.row)"
+          :active-value="1"
+          :inactive-value="0"
+          inactive-color="#ff4949"
+          v-model="scope.row.forbiddenStatus"
+        />
+      </template>
       <template #operation="scope">
         <el-button size="small" type="primary" link @click="handleAddUser('修改用户', scope.row)">修改</el-button>
-        <el-button
-          size="small"
-          type="primary"
-          link
-          @click="handleEnableChange(scope.row, scope.row.forbiddenStatus == 1 ? 0 : 1)"
-        >
-          {{ scope.row.forbiddenStatus == 1 ? '禁用' : '启用' }}
-        </el-button>
         <el-button size="small" type="primary" link @click="handleResetPwd(scope.row)">重置密码</el-button>
-        <el-button size="small" type="primary" link @click="handleDelete(scope.row)">删除</el-button>
+        <el-button size="small" type="danger" link @click="handleDelete(scope.row)">删除</el-button>
       </template>
     </bz-table>
   </div>
@@ -34,17 +37,14 @@ import { ref, reactive } from 'vue'
 import { ElMessage } from 'element-plus'
 import { ColumnProps } from '@/interface/table'
 import { useConfirm } from '@/hooks/handle/use-handle'
-import { majorList } from '@/constant/major'
 import { getUserList, resetPassword, deleteUser, updateUserForbiddenStatus } from '@/api/auth/user'
 import { getRoleSelect2 } from '@/api/auth/role'
-import { getOrgList } from '@/api/auth/org'
+import { getOrgSelect2 } from '@/api/auth/org'
 import { statusList } from '@/constant/user'
 import addUser from './components/add-user.vue'
 import { dynamic } from '@bzlab/bz-core'
 
 const bzTableRef = ref()
-;(window as any).bzTableRef = bzTableRef
-
 const initParam = reactive({})
 const filterSearchFields = ['orgName']
 
@@ -63,16 +63,18 @@ const handleAddUser = (title, rowData) => {
   dynamic.show(params)
 }
 
-const handleEnableChange = async (row, flag) => {
-  const message = `确认${flag === 0 ? '禁用' : '启用'}?`
-  await useConfirm(updateUserForbiddenStatus, { userId: row.userId, forbiddenStatus: flag }, message)
+const handleResetPwd = async row => {
+  const message = `确认重置密码?`
+  await useConfirm(resetPassword, { userId: row.userId }, message)
   bzTableRef.value.getTableList()
 }
 
-const handleResetPwd = async row => {
-  let { retCode, retMsg } = await resetPassword({ userId: row.userId })
+const handleSwitch = async row => {
+  if (!row.userId) return
+  const { retCode, retMsg } = await updateUserForbiddenStatus({ userId: row.userId })
   if (retCode !== 200) return ElMessage.warning(retMsg)
-  ElMessage.success('重置成功')
+  ElMessage.success('操作成功')
+  bzTableRef.value.getTableList()
 }
 
 const handleDelete = async row => {
@@ -90,12 +92,12 @@ const dataCallback = (data: any) => {
 
 const searchColumns = [
   {
-    label: '用户名',
+    label: '姓名',
     prop: 'userName',
     search: {
       el: 'el-input',
       props: {
-        placeholder: '请输入用户名',
+        placeholder: '请输入姓名',
         clearable: true
       }
     }
@@ -127,12 +129,12 @@ const searchColumns = [
   },
   {
     label: '组织',
-    prop: 'orgName',
-    enum: getOrgList,
-    fieldNames: { label: 'orgName', value: 'id', children: 'childTreeList' },
+    prop: 'orgId',
+    enum: getOrgSelect2,
+    fieldNames: { label: 'value', value: 'key' },
     search: {
-      el: 'el-tree-select',
-      key: 'eqOrgId',
+      el: 'el-select',
+      key: 'orgId',
       props: {
         placeholder: '请选择组织',
         clearable: true
@@ -157,7 +159,7 @@ const searchColumns = [
 
 const columns: ColumnProps[] = [
   {
-    label: '用户名',
+    label: '姓名',
     prop: 'userName'
   },
 
@@ -166,42 +168,16 @@ const columns: ColumnProps[] = [
     prop: 'phone'
   },
   {
-    label: '邮箱',
-    prop: 'email'
-  },
-  {
-    label: '创建时间',
-    prop: 'createTime'
-  },
-  {
     label: '角色',
-    prop: 'roleName',
-    filterEnum: true,
-    fieldRowNames: { name: 'roleName', value: 'id', rowKey: 'roleId' }
+    prop: 'role'
   },
   {
     label: '组织',
-    prop: 'orgName',
-    render: ({ row }) => {
-      return <span>{row.roleId === 'ad' ? '-' : row.orgName}</span>
-    }
-  },
-  {
-    label: '专业',
-    prop: 'professional',
-    enum: majorList,
-    filterEnum: true,
-    fieldNames: { label: 'name', value: 'value' },
-    fieldRowNames: { name: 'name', value: 'value', rowKey: 'professional' }
+    prop: 'org'
   },
   {
     label: '状态',
-    prop: 'forbiddenStatus',
-    render: ({ row }) => {
-      return (
-        <el-tag type={row.forbiddenStatus == 1 ? '' : 'danger'}>{row.forbiddenStatus == 1 ? '启用' : '禁用'}</el-tag>
-      )
-    }
+    prop: 'forbiddenStatus'
   },
   {
     label: '备注',

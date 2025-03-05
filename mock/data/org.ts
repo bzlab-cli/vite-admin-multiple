@@ -3,38 +3,69 @@
  * @Description: 数据
  * @Date: 2024/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2024/01/29 16:03:15
+ * @LastEditTime: 2025/03/05 17:53:40
  */
 
-export const getOrgList = [
+export const getOrgList = {
+    "total": 1,
+    "list": [
+      {
+        "id": "d070d5b6-d019-4856-a50e-f011eceb7051",
+        "parentId": "0",
+        "parentOrgName": "-",
+        "orgName": "某某有限公司",
+        "orgSort": 0,
+        "userCount": 1,
+        "updateTime": "2025-01-20 11:26:53",
+        "list": [],
+        "remarks": ""
+      }
+    ],
+    "pageNum": 1,
+    "pageSize": 15,
+    "size": 1,
+    "startRow": 1,
+    "endRow": 1,
+    "pages": 1,
+    "prePage": 0,
+    "nextPage": 0,
+    "isFirstPage": true,
+    "isLastPage": true,
+    "hasPreviousPage": false,
+    "hasNextPage": false,
+    "navigatePages": 8,
+    "navigatepageNums": [
+        1
+    ],
+    "navigateFirstPage": 1,
+    "navigateLastPage": 1
+} as any
+
+export const getOrgTree = [
   {
-    id: 1001,
-    parentId: 0,
-    orgName: '华东区',
-    orgSort: 1,
-    remarks: '',
-    editFlag: 0,
-    status: 0,
-    createUser: '',
-    createTime: '2021-11-05 14:38:08',
-    updateUser: '',
-    updateTime: '2021-11-05 14:38:08',
-    hasChild: false,
-    childTreeList: [] as any
-  },
-  {
-    id: 1003,
-    parentId: 0,
-    orgName: '江南大区',
-    orgSort: 1,
-    remarks: '1',
-    editFlag: 1,
-    status: 0,
-    createUser: '1',
-    createTime: '2021-11-12 10:29:49',
-    updateUser: '85df4b6d-9ffb-469a-b366-37cdcfe6e656',
-    updateTime: '2021-11-18 11:02:09',
-    hasChild: false,
-    childTreeList: []
+      "id": "d070d5b6-d019-4856-a50e-f011eceb7051",
+      "orgName": "某某有限公司",
+      "userCount": 10,
+      "list": [
+          {
+              "id": "cb1b3179-2f18-4212-ada5-dec89050cf38",
+              "orgName": "项目部",
+              "userCount": 8,
+              "list": []
+          },
+          {
+              "id": "4f28a30c-874a-47c2-9eaa-4dd7774e8318",
+              "orgName": "工程部",
+              "userCount": 1,
+              "list": [
+                {
+                  "id": "4f274e73-921f-4cb7-ab22-6604efe8bcb1",
+                  "orgName": "通风科",
+                  "userCount": 0,
+                  "list": [] as any
+                }
+              ]
+          }
+      ]
   }
 ]

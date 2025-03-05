@@ -3,7 +3,7 @@
  * @Description:
  * @Date: 2024/11/09 12:01:44
  * @LastEditors: jrucker
- * @LastEditTime: 2024/01/29 16:06:20
+ * @LastEditTime: 2025/03/05 15:51:45
  */
 
 import axios from '@/utils/axios'
@@ -11,9 +11,9 @@ import axios from '@/utils/axios'
 // 创建组织
 export const addOrg = (data: any) => {
   return axios.request<IResponseModel<any>>({
-    url: 'org/createOrg',
+    url: 'org/addOrg',
     method: 'post',
-    data: data
+    data
   })
 }
 
@@ -40,7 +40,18 @@ export const getOrgList = (data: any) => {
 // 系统组织下拉搜索
 export const getOrgSelect2 = (data: any) => {
   return axios.request<IResponseModel<any>>({
+    baseURL: import.meta.env.VITE_APP_MOCK_API,
     url: 'org/getOrgSelect2',
+    method: 'get',
+    params: data
+  })
+}
+
+// 获取组织树
+export const getOrgTree = (data: any) => {
+  return axios.request<IResponseModel<any>>({
+    baseURL: import.meta.env.VITE_APP_MOCK_API,
+    url: 'org/getOrgTree',
     method: 'get',
     params: data
   })
@@ -51,6 +62,14 @@ export const updateOrg = (data: any) => {
   return axios.request<IResponseModel<any>>({
     url: 'org/updateOrg',
     method: 'put',
-    data: data
+    data
+  })
+}
+
+// 删除组织
+export const deleteOrg = (data: any) => {
+  return axios.request<IResponseModel<any>>({
+    url: `org/deleteOrg/${data.id}`,
+    method: 'post'
   })
 }

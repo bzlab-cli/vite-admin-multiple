@@ -35,7 +35,19 @@ const permissionRouter: Array<RouteRecordRaw> = [
         meta: {
           title: '角色管理',
           icon: 'Menu'
-        }
+        },
+        children: [
+          {
+            path: '/system/role/auth',
+            component: () => import('@/views/admin/system/role/role-edit.vue'),
+            name: 'system-role-auth',
+            meta: {
+              title: '权限编辑',
+              icon: 'Menu',
+              hidden: true
+            }
+          }
+        ]
       },
       {
         path: '/system/menu',

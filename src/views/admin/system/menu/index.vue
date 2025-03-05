@@ -16,6 +16,7 @@
       </template>
       <template #operation="scope">
         <el-button size="small" type="primary" link @click="handleAddMenu('修改菜单', scope.row)">修改</el-button>
+        <el-button size="small" type="danger" link @click="handleDeleteMenu(scope.row)">删除</el-button>
       </template>
     </bz-table>
   </div>
@@ -24,14 +25,13 @@
 <script lang="tsx" setup>
 import { ref, reactive } from 'vue'
 import addMenu from './components/add-menu.vue'
-import { getMenuList } from '@/api/auth/menu'
+import { getMenuList, deleteMenu } from '@/api/auth/menu'
 import { dynamic } from '@bzlab/bz-core'
 import { ColumnProps } from '@/interface/table'
 import Icon from '@/components/icon/index.vue'
+import { useConfirm } from '@/hooks/handle/use-handle'
 
 const bzTableRef = ref()
-;(window as any).bzTableRef = bzTableRef
-
 const initParam = reactive({})
 
 const handleAddMenu = (title: string, rowData?) => {
@@ -48,6 +48,12 @@ const handleAddMenu = (title: string, rowData?) => {
     render: addMenu
   }
   dynamic.show(params)
+}
+
+async function handleDeleteMenu(row) {
+  const message = `确认删除此菜单?`
+  await useConfirm(deleteMenu, { menuId: row.id }, message)
+  bzTableRef.value.getTableList()
 }
 
 const dataCallback = (data: any) => {

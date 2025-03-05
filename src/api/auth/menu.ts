@@ -3,7 +3,7 @@
  * @Description:
  * @Date: 2024/11/09 12:01:50
  * @LastEditors: jrucker
- * @LastEditTime: 2024/01/29 16:05:41
+ * @LastEditTime: 2025/03/05 13:42:52
  */
 
 import axios from '@/utils/axios'
@@ -13,7 +13,7 @@ export const addMenu = (data: any) => {
   return axios.request<IResponseModel<any>>({
     url: 'menu/createMenu',
     method: 'post',
-    data: data
+    data
   })
 }
 
@@ -41,6 +41,15 @@ export const updateMenu = (data: any) => {
   return axios.request<IResponseModel<any>>({
     url: 'menu/updateMenu',
     method: 'put',
-    data: data
+    data
+  })
+}
+
+// 删除菜单
+export const deleteMenu = (data: any) => {
+  return axios.request<IResponseModel<any>>({
+    url: 'menu/deleteMenu',
+    method: 'delete',
+    params: data
   })
 }

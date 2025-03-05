@@ -3,11 +3,11 @@
  * @Description:
  * @Date: 2024/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2024/12/08 11:43:28
+ * @LastEditTime: 2025/03/05 17:25:46
  */
 
 import { Random } from 'mockjs'
-import { post, prefix, get } from '../decorator/request'
+import { post, prefix, get, put, del } from '../decorator/request'
 import user from '../data/user'
 import { randomImage } from '../utils'
 
@@ -103,130 +103,80 @@ export default class User {
     return user
   }
 
-  @get('/user/user')
+  @get('/user/getUserList')
   async getUserList() {
     return {
-      total: 2,
-      list: [
-        {
-          userId: '1ee3d49b-aa78-4846-a1b7-76044d097c8e',
-          userName: 'admin',
-          roleId: 'ad',
-          roleName: '系统管理员',
-          orgId: 0,
-          orgName: '组织',
-          headUrl: null,
-          phone: '13575356945',
-          account: null,
-          email: '',
-          state: null,
-          userType: null,
-          rtcAttributes: null,
-          jobNumber: null,
-          entryDate: null,
-          professional: 1,
-          dateOfBirth: null,
-          education: null,
-          createTime: '2021-11-18 10:24:05',
-          remarks: '',
-          competenceIds: null,
-          forbiddenStatus: 1
-        },
-        {
-          userId: '1ee3d49b-aa78-4846-a1b7-76044d097c8e',
-          userName: 'admin2',
-          roleId: 'sub_ad',
-          roleName: '子管理员',
-          orgId: 0,
-          orgName: '组织2',
-          headUrl: null,
-          phone: '13575356945',
-          account: null,
-          email: '',
-          state: null,
-          userType: null,
-          rtcAttributes: null,
-          jobNumber: null,
-          entryDate: null,
-          professional: '',
-          dateOfBirth: null,
-          education: null,
-          createTime: '2021-11-18 10:24:05',
-          remarks: '',
-          competenceIds: null,
-          forbiddenStatus: 1
-        },
-      ] as any,
-      pageNum: 1,
-      pageSize: 10,
-      size: 10,
-      startRow: 0,
-      endRow: 9,
-      pages: 1,
-      prePage: 0,
-      nextPage: 0,
-      isFirstPage: true,
-      isLastPage: true,
-      hasPreviousPage: false,
-      hasNextPage: false,
-      navigatePages: 8,
-      navigatepageNums: [1],
-      navigateFirstPage: 1,
-      navigateLastPage: 1
+      "total": 2,
+      "list": [
+          {
+              "userId": "a138a1c5-6bdc-420c-b1f7-784e51429998",
+              "userName": "管理员1",
+              "phone": "15012345678",
+              "orgId": "cb1b3179-2f18-4212-ada5-dec89050cf38",
+              "org": "项目部",
+              "postStation": "1",
+              "role": "管理员",
+              "forbiddenStatus": 1,
+              "headUrl": "",
+              "idCard": ""
+          },
+          {
+              "userId": "eff85def-f1c0-4435-9479-885451faa57a",
+              "userName": "管理员2",
+              "phone": "18888888883",
+              "orgId": "4f28a30c-874a-47c2-9eaa-4dd7774e8318",
+              "org": "工程部",
+              "postStation": "管理人员",
+              "role": "管理员",
+              "forbiddenStatus": 1,
+              "headUrl": "",
+              "idCard": ""
+          }
+      ],
+      "pageNum": 1,
+      "pageSize": 10,
+      "size": 10,
+      "startRow": 1,
+      "endRow": 10,
+      "pages": 2,
+      "prePage": 0,
+      "nextPage": 2,
+      "isFirstPage": true,
+      "isLastPage": false,
+      "hasPreviousPage": false,
+      "hasNextPage": true,
+      "navigatePages": 8,
+      "navigatepageNums": [
+          1,
+          2
+      ],
+      "navigateFirstPage": 1,
+      "navigateLastPage": 2
     }
-  }
-
-  @get('/competence')
-  competence() {
-    return [
-      {
-          "id": 1,
-          "competenceName": "绩效评审组长",
-          "competenceCode": "202",
-          "describe": null
-      },
-      {
-          "id": 2,
-          "competenceName": "绩效主席",
-          "competenceCode": null,
-          "describe": null
-      },
-      {
-          "id": 3,
-          "competenceName": "绩效评审组员",
-          "competenceCode": null,
-          "describe": null
-      }
-    ] as any
   }
 
   @get('/user/getUser')
   getUser() {
     return {
-      "userId": "01b322e7-130d-403f-b010-74bde37a0290",
-      "userName": "admin",
-      "roleId": "ad",
-      "roleName": "系统管理员",
-      "orgId": 0,
-      "orgName": null,
-      "headUrl": "",
+      "userId": "a138a1c5-6bdc-420c-b1f7-784e51429998",
+      "userName": "管理员1",
+      "roleId": "a67a454f-4d1a-49ca-99fa-8c2c351e0ff6",
+      "roleName": "管理员",
+      "orgId": "d070d5b6-d019-4856-a50e-f011eceb7051",
+      "orgName": "某某有限公司",
       "phone": "13575356945",
-      "regId": "",
-      "account": "13575356945",
-      "email": "",
-      "state": null,
-      "userType": 0,
-      "rtcAttributes": null,
-      "jobNumber": null,
-      "entryDate": null,
-      "professional": null,
-      "dateOfBirth": null,
-      "education": null,
-      "createTime": "2022-09-26 16:49:21",
-      "remarks": "",
-      "competenceIds": null,
-      "forbiddenStatus": 1
+      "remarks": ""
     } as any
+  }
+
+  @put('/user/resetPassword/:id')
+  resetPassword() {
+    return null as any
+  }
+
+  @del('/user/deleteUser')
+  deleteUser() {
+    return null as any
   }
 
   @get('/user/getTreeList')

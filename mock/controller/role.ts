@@ -3,7 +3,7 @@
  * @Description:
  * @Date: 2024/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2024/11/28 18:29:56
+ * @LastEditTime: 2025/03/05 17:42:52
  */
 
 import { prefix, get } from '../decorator/request'
@@ -14,78 +14,100 @@ export default class User {
   @get('/role/getRoleSelect2')
   async getRoleSelect2() {
     return [
-      { id: 'ad', roleName: '系统管理员', roleType: 1 },
-      { id: 'sub_ad', roleName: '子管理员', roleType: 2 },
-      { id: 'daf879df-230c-476d-8179-62bca11870cc', roleName: '测试员', roleType: 3 }
+      {
+        "id": "a67a454f-4d1a-49ca-99fa-8c2c351e0ff6",
+        "roleName": "管理员",
+        "roleType": 6
+      },
+      {
+          "id": "376e7028-7515-4469-a7e8-3ec6436e7d72",
+          "roleName": "用户",
+          "roleType": 6
+      },
+      {
+          "id": "d4095624-1ea4-4a48-871a-e0ec85e1e08c",
+          "roleName": "测试",
+          "roleType": 6
+      }
     ]
   }
 
   @get('/role/getRoleList')
   getRoleList() {
     return {
-      total: 3,
-      list: [
-        {
-          id: 'ad',
-          roleName: '系统管理员',
-          orgId: 0,
-          orgName: null,
-          remarks: '系统管理员',
-          editFlag: 0,
-          status: 0,
-          createUser: '',
-          createTime: '2021-11-05 15:56:05',
-          updateUser: '',
-          updateTime: '2021-11-05 15:56:22'
-        },
-        {
-          id: 'sub_ad',
-          roleName: '大区管理员',
-          orgId: 0,
-          orgName: null,
-          remarks: '大区管理员',
-          editFlag: 0,
-          status: 0,
-          createUser: '',
-          createTime: '2021-11-05 15:56:05',
-          updateUser: '',
-          updateTime: '2021-11-17 15:30:30'
-        },
-        {
-          id: 'daf879df-230c-476d-8179-62bca11870cc',
-          roleName: '测试员',
-          orgId: 0,
-          orgName: null,
-          remarks: '',
-          editFlag: 1,
-          status: 0,
-          createUser: '1ee3d49b-aa78-4846-a1b7-76044d097c8e',
-          createTime: '2021-12-13 15:06:48',
-          updateUser: '1ee3d49b-aa78-4846-a1b7-76044d097c8e',
-          updateTime: '2021-12-13 15:06:48'
-        }
-      ] as any,
-      pageNum: 1,
-      pageSize: 10,
-      size: 3,
-      startRow: 1,
-      endRow: 3,
-      pages: 1,
-      prePage: 0,
-      nextPage: 0,
-      isFirstPage: true,
-      isLastPage: true,
-      hasPreviousPage: false,
-      hasNextPage: false,
-      navigatePages: 8,
-      navigatepageNums: [1],
-      navigateFirstPage: 1,
-      navigateLastPage: 1
+      "total": 4,
+      "list": [
+          {
+              "roleId": "0ff84a5b-a989-4ba8-b200-accb37439c5b",
+              "roleType": 6,
+              "roleName": "test",
+              "remarks": "",
+              "memberNum": 0,
+              "forbiddenStatus": 1
+          },
+          {
+              "roleId": "d4095624-1ea4-4a48-871a-e0ec85e1e08c",
+              "roleType": 6,
+              "roleName": "测试",
+              "remarks": "",
+              "memberNum": 6,
+              "forbiddenStatus": 1
+          },
+          {
+              "roleId": "376e7028-7515-4469-a7e8-3ec6436e7d72",
+              "roleType": 6,
+              "roleName": "用户",
+              "remarks": "",
+              "memberNum": 21,
+              "forbiddenStatus": 1
+          },
+          {
+              "roleId": "a67a454f-4d1a-49ca-99fa-8c2c351e0ff6",
+              "roleType": 6,
+              "roleName": "管理员",
+              "remarks": "管理员角色-勿动",
+              "memberNum": 31,
+              "forbiddenStatus": 1
+          }
+      ],
+      "pageNum": 1,
+      "pageSize": 4,
+      "size": 4,
+      "startRow": 0,
+      "endRow": 3,
+      "pages": 1,
+      "prePage": 0,
+      "nextPage": 0,
+      "isFirstPage": true,
+      "isLastPage": true,
+      "hasPreviousPage": false,
+      "hasNextPage": false,
+      "navigatePages": 8,
+      "navigatepageNums": [
+          1
+      ],
+      "navigateFirstPage": 1,
+      "navigateLastPage": 1
     }
   }
 
   @get('/role/getMenuGrantByRoleId')
   getMenuGrantByRoleId() {
     return menuGrantByRole
+  }
+
+  @get('/role/roleMenuDetail')
+  roleMenuDetail() {
+    return menuGrantByRole
+  }
+
+  @get('/role/roleDetail')
+  roleDetail() {
+    return {
+      "roleName": "test",
+      "roleType": 6,
+      "remarks": "",
+      "memberNum": 0
+    }
   }
 }

@@ -234,31 +234,29 @@ const handleTreeSelect = data => {
 }
 
 const handleSubmit = async () => {
-  formRef.value.validate(async valid => {
-    if (!valid) return
-    const reqBody = {
-      id: isAdd ? undefined : rowData.id,
-      createDefaultButton: false,
-      menuType: form.menuType,
-      menuName: form.menuName,
-      parentId: form.parentId,
-      menuCode: form.menuCode,
-      menuSort: form.menuSort,
-      menuIcon: form.menuIcon,
-      menuRoute: form.menuRoute,
-      menuUrl: form.menuUrl,
-      hiddenFlag: form.hiddenFlag,
-      status: form.status,
-      menuComponents: form.menuComponents,
-      remarks: form.remarks,
-      cache: form.cache
-    }
+  await formRef.value.validate()
+  const reqBody = {
+    id: isAdd ? undefined : rowData.id,
+    createDefaultButton: false,
+    menuType: form.menuType,
+    menuName: form.menuName,
+    parentId: form.parentId,
+    menuCode: form.menuCode,
+    menuSort: form.menuSort,
+    menuIcon: form.menuIcon,
+    menuRoute: form.menuRoute,
+    menuUrl: form.menuUrl,
+    hiddenFlag: form.hiddenFlag,
+    status: form.status,
+    menuComponents: form.menuComponents,
+    remarks: form.remarks,
+    cache: form.cache
+  }
 
-    const { retCode, retMsg } = isAdd ? await addMenu(reqBody) : await updateMenu(reqBody)
-    if (retCode !== 200) return ElMessage.warning(retMsg)
-    dialogVisible.value = false
-    callback!()
-  })
+  const { retCode, retMsg } = isAdd ? await addMenu(reqBody) : await updateMenu(reqBody)
+  if (retCode !== 200) return ElMessage.warning(retMsg)
+  dialogVisible.value = false
+  callback!()
 }
 </script>
 

@@ -10,9 +10,21 @@
       <template #tableHeader>
         <el-button type="primary" @click="handleAddRole('新增角色')">新增角色</el-button>
       </template>
+      <template #forbiddenStatus="scope">
+        <el-switch
+          :class="scope.row.forbiddenStatus ? 'el-switch__active' : 'el-switch__inactive'"
+          :inactive-text="scope.row.forbiddenStatus ? '启用' : '禁用'"
+          @change="handleSwitch(scope.row, $event)"
+          :active-value="1"
+          :inactive-value="0"
+          inactive-color="#ff4949"
+          v-model="scope.row.forbiddenStatus"
+        />
+      </template>
       <template #operation="scope">
-        <el-button size="small" type="primary" link @click="handleAddAuth('授权', scope.row)">授权</el-button>
         <el-button size="small" type="primary" link @click="handleAddRole('修改角色', scope.row)">修改</el-button>
+        <el-button size="small" type="primary" link @click="handleAddAuth(scope.row)">权限编辑</el-button>
+        <el-button size="small" type="danger" link @click="handleDelete(scope.row)">删除</el-button>
       </template>
     </bz-table>
   </div>
@@ -21,17 +33,17 @@
 <script lang="tsx" setup>
 import { ref } from 'vue'
 import addRole from './components/add-role.vue'
-import addAuthorize from './components/add-authorize.vue'
-import { getRoleList } from '@/api/auth/role'
+import { getRoleList, deleteRole, changeRoleStatus } from '@/api/auth/role'
 import { ColumnProps } from '@/interface/table'
 import { dynamic } from '@bzlab/bz-core'
+import { useConfirm } from '@/hooks/handle/use-handle'
+import { ElMessage } from 'element-plus'
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
 const bzTableRef = ref()
-;(window as any).bzTableRef = bzTableRef
 
 const handleAddRole = (title: string, rowData?) => {
-  console.log('rowData', rowData)
-
   const params = {
     id: 'addRole', // 组件id
     el: '#app', // 挂载节点
@@ -46,18 +58,28 @@ const handleAddRole = (title: string, rowData?) => {
   dynamic.show(params)
 }
 
-const handleAddAuth = (title: string, rowData?) => {
-  const params = {
-    id: 'addAuthorize', // 组件id
-    el: '#app', // 挂载节点
-    data: {
-      title,
-      rowData,
-      callback: () => bzTableRef.value.getTableList()
-    },
-    render: addAuthorize
-  }
-  dynamic.show(params)
+const handleAddAuth = row => {
+  router.push({
+    path: '/system/role/auth',
+    query: {
+      roleId: row.roleId
+    }
+  })
+}
+
+async function handleDelete(row) {
+  const message = `确认删除此角色?`
+  await useConfirm(deleteRole, { roleId: row.roleId }, message)
+  bzTableRef.value.getTableList()
+}
+
+async function handleSwitch(row, status?) {
+  status
+  if (!row.roleId) return
+  let { retCode, retMsg } = await changeRoleStatus({ roleId: row.roleId })
+  if (retCode !== 200) return ElMessage.warning(retMsg)
+  ElMessage.success('操作成功')
+  bzTableRef.value.getTableList()
 }
 
 const dataCallback = (data: any) => {
@@ -82,28 +104,21 @@ const searchColumns = [
 ]
 
 const columns: ColumnProps[] = [
-  { type: 'selection', fixed: 'left', width: 80 },
   {
     label: '角色名称',
     prop: 'roleName'
   },
   {
+    label: '用户数',
+    prop: 'memberNum'
+  },
+  {
+    label: '备注',
+    prop: 'remarks'
+  },
+  {
     label: '状态',
-    prop: 'status',
-    render: ({ row }) => {
-      return <el-tag type={row.status == 0 ? '' : 'danger'}>{row.status == 0 ? '启用' : '禁用'}</el-tag>
-    }
-  },
-  {
-    label: '组织',
-    prop: 'orgName',
-    render: ({ row }) => {
-      return <>{<span>{row.orgId === 0 ? '全部' : row.orgName}</span>}</>
-    }
-  },
-  {
-    label: '创建时间',
-    prop: 'createTime'
+    prop: 'forbiddenStatus'
   },
   {
     label: '操作',

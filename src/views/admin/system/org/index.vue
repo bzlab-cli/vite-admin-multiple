@@ -12,6 +12,7 @@
       </template>
       <template #operation="scope">
         <el-button size="small" type="primary" link @click="handleAddOrg('修改组织', scope.row)">修改</el-button>
+        <el-button size="small" type="danger" link @click="handleDeleteOrg(scope.row)">删除</el-button>
       </template>
     </bz-table>
   </div>
@@ -20,12 +21,12 @@
 <script lang="tsx" setup>
 import { ref } from 'vue'
 import addOrg from './components/add-org.vue'
-import { getOrgList } from '@/api/auth/org'
+import { getOrgList, deleteOrg } from '@/api/auth/org'
 import { ColumnProps } from '@/interface/table'
 import { dynamic } from '@bzlab/bz-core'
+import { useConfirm } from '@/hooks/handle/use-handle'
 
 const bzTableRef = ref()
-;(window as any).bzTableRef = bzTableRef
 
 const handleAddOrg = (title: string, rowData?) => {
   const params = {
@@ -42,9 +43,15 @@ const handleAddOrg = (title: string, rowData?) => {
   dynamic.show(params)
 }
 
+const handleDeleteOrg = async row => {
+  const message = `确认删除此组织?`
+  await useConfirm(deleteOrg, { id: row.id }, message)
+  bzTableRef.value.getTableList()
+}
+
 const dataCallback = (data: any) => {
   return {
-    list: data,
+    list: data.list,
     total: data.total
   }
 }
@@ -69,19 +76,16 @@ const columns: ColumnProps[] = [
     prop: 'orgName'
   },
   {
+    label: '用户数',
+    prop: 'userCount'
+  },
+  {
     label: '排序',
     prop: 'orgSort'
   },
   {
-    label: '状态',
-    prop: 'status',
-    render: ({ row }) => {
-      return <el-tag type={row.status == 0 ? '' : 'danger'}>{row.status == 0 ? '启用' : '禁用'}</el-tag>
-    }
-  },
-  {
     label: '创建时间',
-    prop: 'createTime'
+    prop: 'updateTime'
   },
   {
     label: '备注',
