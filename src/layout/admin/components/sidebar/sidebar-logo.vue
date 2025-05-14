@@ -62,6 +62,7 @@ export default defineComponent({
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 0 10px;
 
     & .sidebar-logo {
       width: 36px;
@@ -71,13 +72,14 @@ export default defineComponent({
     }
 
     & .sidebar-title {
-      display: inline-block;
       margin: 0;
       color: #fff;
       font-weight: 600;
       line-height: 50px;
       font-size: 16px;
       vertical-align: middle;
+      flex: 1;
+      line-height: normal;
     }
   }
 
